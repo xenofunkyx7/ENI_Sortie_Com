@@ -3,7 +3,7 @@ package bean;
 public class Lieu { 
 	 
 	// Attributs 
-	 
+	
 	private int id; 
 	private String nom; 
 	private String rue; 
