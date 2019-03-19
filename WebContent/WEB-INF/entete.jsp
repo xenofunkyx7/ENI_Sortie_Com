@@ -21,16 +21,19 @@
 		    <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
 		        <ul class="navbar-nav text-right">
 		        
-		        	<jsp:include page="/WEB-INF/admin/enteteAdmin.jsp"></jsp:include>
+		        	<c:if test="true">
+		        		<jsp:include page="/WEB-INF/admin/enteteAdmin.jsp"></jsp:include>
+		        	</c:if>
+		        	
 		        
 		        	<li class="nav-item active">
-		                <a class="nav-link" href="membre/accueil">Acceuil</a>
+		                <a class="nav-link btn btn-outline-info" href="membre/accueil">Acceuil</a>
 		            </li>
 		            <li class="nav-item active">
-		                <a class="nav-link" href="membre/monProfil">Mon profil</a>
+		                <a class="nav-link btn btn-outline-info" href="membre/monProfil">Mon profil</a>
 		            </li>
 		            <li class="nav-item active">
-		                <a class="nav-link" href="deconnexion">Se déconnecter</a>
+		                <a class="nav-link btn btn-outline-info" href="deconnexion">Se déconnecter</a>
 		            </li>
 		        </ul>
 		    </div>

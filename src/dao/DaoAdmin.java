@@ -15,17 +15,22 @@ import bean.Ville;
 public class DaoAdmin {
 	// constantes de requetes sql
 	
-	private static  final String ADD_VILLE = 
+	private static final String ADD_VILLE = 
 			"INSERT INTO VILLES "
 			+ "( nom_ville, code_postal ) "
 			+ "VALUES ( ?,? )";
 	
-	private static  final String ADD_LIEU = 
+	private static final String ADD_SITE = 
+			"INSERT INTO SITES "
+			+ "( nom_site ) "
+			+ "VALUES ( ? )";
+	
+	private static final String ADD_LIEU = 
 			"INSERT INTO LIEUX "
 			+ "( nom_lieu, rue, latitude, longitude, villes_no_ville ) "
 			+ "VALUES ( ?,? , ?,?,? )";
 	
-	private static  final String ADD_PARTICIPANT = 
+	private static final String ADD_PARTICIPANT = 
 			"INSERT INTO PARTICIPANTS "
 			+ "( pseudo, nom, prenom, telephone, mail,"
 			+ " mot_de_passe, actif, sites_no_site ) "
@@ -37,6 +42,11 @@ public class DaoAdmin {
 			"UPDATE VILLES " + 
 			"SET nom_ville = ?, code_postal = ? " + 
 			"WHERE no_ville = ?";
+	
+	private static final String MODIFY_SITE = 
+			"UPDATE SITES " + 
+			"SET nom_site = ?" +
+			"WHERE no_site = ?";
 	
 	private static final String MODIFY_LIEU = 
 			"UPDATE LIEUX " + 
@@ -54,6 +64,9 @@ public class DaoAdmin {
 	private static final String DELETE_VILLE  = "DELETE FROM VILLES " + 
 				"WHERE no_ville = ?";
 	
+	private static final String DELETE_SITE  = "DELETE FROM SITES " + 
+			"WHERE no_site = ?";
+	
 	private static final String DELETE_LIEU = "DELETE FROM LIEUX " + 
 			"WHERE no_lieu = ?";
 	
@@ -63,6 +76,9 @@ public class DaoAdmin {
 	private static final String GET_VILLE = "select * FROM VILLES "
 					+ " where nom_ville like ?";
 
+	private static final String GET_SITE = "select * FROM SITES "
+			+ " where nom_site like ?";
+	
 	private static final String GET_LIEU = "select * FROM LIEUX"
 				+ " inner join VILLES on villes_no_ville = no_ville "
 				+ " where nom_ville like ?";
@@ -97,6 +113,22 @@ public class DaoAdmin {
 				
 			pStat.setString(1, ville.getNom() );
 			pStat.setString(2, ville.getCodePostal() );
+			
+			pStat.executeUpdate() ;
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public static void addSite (Site site) {
+		
+		String sql = ADD_SITE;
+		
+		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+				
+			pStat.setString(1, site.getNom() );
 			
 			pStat.executeUpdate() ;
 				
@@ -181,6 +213,23 @@ public class DaoAdmin {
 		
 	}
 	
+	
+	public static void modifySite(Site site) {
+		String sql = MODIFY_SITE;
+		
+		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+				
+			pStat.setString(1, site.getNom() );
+			pStat.setInt(2, site.getIdSite() );
+			
+			pStat.executeUpdate() ;
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	/** 
 	 * Méthode permettant de modifier un article via un objet article en paramétre. 
 	 * @param article 
@@ -250,6 +299,20 @@ public class DaoAdmin {
 		}
 	}
 
+	
+	public static void deleteSite(Site site) {
+		String sql = DELETE_SITE;
+		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			pStat.setInt(1, site.getIdSite() );
+			
+			pStat.executeUpdate() ;
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Méthode permettant de supprimer un Lieu via un objet Lieu en paramétre.
 	 * @param lieu
@@ -273,14 +336,14 @@ public class DaoAdmin {
 	 * @param participant
 	 */
 	public static void deleteParticipant(Participant participant) {
-		delete(participant.getIdParticipant());
+		deleteParticipant(participant.getIdParticipant());
 	}
 	
 	/**
 	 * Surcharge de méthode permettant de supprimer un Participant via l'id du Participant en paramétre.
 	 * @param idParticipant
 	 */
-	public static void delete(int idParticipant) {
+	public static void deleteParticipant(int idParticipant) {
 		String sql = DELETE_PARTICIPANT;
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
@@ -342,6 +405,46 @@ public class DaoAdmin {
 		return villes;
 	}
 	
+	
+	public static List<Site> getSites (String nom) throws SQLException {
+		
+		ResultSet rs = null;
+		
+		List<Site> sites = new ArrayList<>();
+		
+		String sql = GET_SITE;
+		
+		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			pStat.setString(1, "%"+nom+"%" );
+			
+			rs = pStat.executeQuery();
+				
+			if (rs != null) {
+				
+				boolean bool = true;
+				while (bool) {
+					Site site = mappageSite(rs);
+					
+					if (site == null) { // = null si il n'y a plus de ligne dans le rs, on ne peut pas test rs.next() car il y en a un aussi dans le mappage et on sauterai donc une ligne sur 2
+						bool = false;
+					} else {
+						sites.add(site);
+					}
+				}
+				
+			}
+			
+		}catch ( Exception exception )  {
+			throw new RuntimeException( exception );
+		}
+		
+		
+		return sites;
+	}
+	
+	
+
 	/**
 	 * Méthode permettant de faire des recherches en fonction du nom rentré dans la barre de recherche
 	 * @param nom
@@ -460,6 +563,26 @@ public class DaoAdmin {
 		}
 		
 		return ville;
+	}
+	
+	
+	private static Site mappageSite(ResultSet rs) {
+		Site site = null;
+		
+		try {
+			if (rs.next()) {
+
+				int id = rs.getInt("no_site");
+				String nom = rs.getString("nom_site");
+				
+				site = new Site(id, nom);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return site;
 	}
 	
 	/**
