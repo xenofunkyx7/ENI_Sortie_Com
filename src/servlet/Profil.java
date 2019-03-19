@@ -7,8 +7,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bean.Participant;
+import bean.Site;
+
 /**
  * Servlet implementation class Profil
+ * membre/profil?pseudo=XXXX
  */
 @WebServlet("/membre/profil")
 public class Profil extends HttpServlet {
@@ -27,10 +31,15 @@ public class Profil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		//
+		String pseudo =  request.getParameter("pseudo");
 		//dao pour récupérer le profil
-		
+		System.out.println(pseudo);
+		Site site = new Site("Le Mans");
+		Participant participant = new Participant("vins", "Vincent","DOBREMEL","0606060606","vincent@vincent.com",true,true, site ,"Le Mans"); 
 		//mise en attribut  du 	profil. 	
-//		request.setAttribute(name, o);
+		
+		request.setAttribute("membre",participant);
 		
 		//Envoi vers la JSP
 		request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);

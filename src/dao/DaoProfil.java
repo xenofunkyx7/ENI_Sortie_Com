@@ -7,18 +7,29 @@ import bean.Participant;
 import bean.Sortie;
 
 public class DaoProfil {
+	
+	 private static final String ADD_PARTICIPANT = "";
+	 private static final String MODIFY_PARTICIPANT = "";
+	 private static final String MODIFY_PARTICIPANTMDP = "";
+	 private static final String DELETE_PARTICIPANT = "";
+	 private static final String GET_PARTICIPANT = "";
+	 private static final String GET_ALL_PARTICIPANT = "";
+	
+	
 	// Singkleton !
 	
 	 private DaoProfil() {} 
 	 
 	 private static DaoProfil INSTANCE = new DaoProfil();
 	 
+
+	 
 	 public static DaoProfil getInstance() {   
-		 return INSTANCE;
+		 return INSTANCE; 
      }
 		 
 	 /**
-	 * Méthode permettant de rajouter un Participant via un objet Participant en paramètre.
+	 * Mï¿½thode permettant de rajouter un Participant via un objet Participant en paramï¿½tre.
 	 * @param participant
 	 */
 	 public static void addParticipant (Participant participant) {
@@ -27,7 +38,7 @@ public class DaoProfil {
 	 }
 	 
 	 /**
-	 * Méthode permettant de modifier un participant via un objet participant en paramètre.
+	 * Mï¿½thode permettant de modifier un participant via un objet participant en paramï¿½tre.
 	 * @param participant
 	 */
 	 public static void modifyParticipant(Participant participant) {
@@ -36,7 +47,7 @@ public class DaoProfil {
 	 }
 	 
 	 /**
-	 * Méthode permettant de modifier le mot de passe d'un participant via un objet participant et une string en paramètre.
+	 * Mï¿½thode permettant de modifier le mot de passe d'un participant via un objet participant et une string en paramï¿½tre.
 	 * @param participant
 	 * @param motDePasse
 	 */
@@ -46,7 +57,7 @@ public class DaoProfil {
 	 }
 
 	 /**
-	 * Méthode permettant de supprimer un participant via un objet participant en paramètre.
+	 * Mï¿½thode permettant de supprimer un participant via un objet participant en paramï¿½tre.
 	 * @param participant
 	 */
 	 public static void deleteParticipant(Participant participant) {
@@ -55,7 +66,7 @@ public class DaoProfil {
 	 }
 	 
 	/**
-	* Méthode permettant de faire des recherches en fonction du pseudo
+	* Mï¿½thode permettant de faire des recherches en fonction du pseudo
 	* @param pseudo
 	* @return Participant
 	* @throws SQLException
@@ -69,7 +80,7 @@ public class DaoProfil {
 	}
 	
 	 /**
-	 * Méthode permettant de faire des recherches en fonction d'une sortie
+	 * Mï¿½thode permettant de faire des recherches en fonction d'une sortie
 	 * @param sortie
 	 * @return liste de Participant
 	 * @throws SQLException
@@ -79,7 +90,7 @@ public class DaoProfil {
 	}
 	 
 	/**
-	* Méthode permettant de faire des recherches en fonction d'un id de sortie
+	* Mï¿½thode permettant de faire des recherches en fonction d'un id de sortie
 	* @param idSortie
 	* @return liste de Participant
 	* @throws SQLException
