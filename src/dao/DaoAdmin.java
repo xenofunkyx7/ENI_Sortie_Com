@@ -181,6 +181,30 @@ public class DaoAdmin {
 		
 	}
 	
+	/** 
+	 * Méthode permettant de modifier un article via un objet article en paramétre. 
+	 * @param article 
+	 */ 
+	public static void modifyLieu(Lieu lieu) { 
+		 
+		String sql = MODIFY_LIEU;
+		 
+		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){ 
+			 
+			pStat.setString(1, lieu.getNom() ); 
+			pStat.setString(2, lieu.getRue() ); 
+			pStat.setFloat(3, lieu.getLatitude() ); 
+			pStat.setFloat(4, lieu.getLongitude() ); 
+			pStat.setInt(5, lieu.getVille().getIdVille() ); 
+			pStat.setInt(6, lieu.getId() ); 
+			 
+			pStat.executeUpdate() ; 
+				 
+		} catch (SQLException e) { 
+			e.printStackTrace(); 
+		} 
+	} 
+	
 	/**
 	 * Méthode permettant de modifier l'état admin d'un participant avec un boolean en paramétre.
 	 * @param participant
