@@ -15,10 +15,7 @@
 				</div>
 				<div class="col-3">
 					<input type="text" id="" class="form-control" required >
-					<div class="input-append date form_datetime">
-    					<input size="16" type="text" value="" readonly>
-    					<span class="add-on"><i class="icon-th"></i></span>
-					</div>          
+					<input class="date form-control" name="" required>        
 					//date2
 					<input type="text" id="" class="form-control" required >
 					<input type="number" step="1">
@@ -39,10 +36,9 @@
 		</div>
 	</form>
 	<script type="text/javascript">
-		$(".form_datetime").datetimepicker({
-   			format: "dd MM yyyy - hh:ii"
-		
-		});
-	</script>  
+	    $('.date').datepicker({
+	       format: 'yyyy-mm-dd'
+	     });
+	</script>
 </body>
 </html>
