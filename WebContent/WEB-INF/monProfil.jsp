@@ -20,7 +20,7 @@
             <div class="col-8">
                 <div class="form-group">
                     <label for="pseudo">Pseudo :</label>
-                    <input type="text" class="form-control" id="pseudo" value="${ membre.pseudo }" name="pseudo" required>
+                    <input type="text" class="form-control" id="pseudo" value="${membre.pseudo}" name="pseudo" required>
                     <div class="valid-feedback">Pseudo valide</div>
                     <div class="invalid-feedback">Veuillez saisir votre pseudo</div>
                 </div>
