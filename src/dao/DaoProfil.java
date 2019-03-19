@@ -58,18 +58,19 @@ public class DaoProfil {
 		return null;
 	}
 	
-	/**
-	* Méthode permettant de faire des recherches en fonction d'une sortie
-	* @return liste de Participant
-	* @throws SQLException
-	*/
-	
+	 /**
+	 * Méthode permettant de faire des recherches en fonction d'une sortie
+	 * @param sortie
+	 * @return liste de Participant
+	 * @throws SQLException
+	 */
 	public static List<Participant> getParticipants (Sortie sortie) throws SQLException {
 		return getParticipants(sortie.getId() );
 	}
 	 
 	/**
 	* Méthode permettant de faire des recherches en fonction d'un id de sortie
+	* @param idSortie
 	* @return liste de Participant
 	* @throws SQLException
 	*/
