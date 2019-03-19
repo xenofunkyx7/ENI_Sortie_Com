@@ -8,13 +8,17 @@ public class Site {
 	
 	
 	//Constructeurs
+	
+	public Site() {}
+	
 	public Site(String nom) {
 		this.nom = nom;
 	}
-
-	public Site() {
-	}
 	
+	public Site(int idSite, String nom) {
+		this.idSite = idSite;
+		this.nom = nom;
+	}
 	
 	//Ascesseur, Mutateurs
 	public String getNom() {

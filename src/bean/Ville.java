@@ -5,17 +5,24 @@ public class Ville {
 	//attributs
 	private int idVille;
 	private String nom;
-	private int codePostal;
+	private String codePostal;
 	
 	
 	
 	//Constructeurs
 	public Ville() {
-
+ 
 	}
 
-	public Ville(String nom, int codePostal) {
+	public Ville(String nom, String codePostal) {
 
+		this.nom = nom;
+		this.codePostal = codePostal;
+	}
+
+	public Ville(int idVille, String nom, String codePostal) {
+
+		this.idVille = idVille;
 		this.nom = nom;
 		this.codePostal = codePostal;
 	}
@@ -27,10 +34,10 @@ public class Ville {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	public int getCodePostal() {
+	public String getCodePostal() {
 		return codePostal;
 	}
-	public void setCodePostal(int codePostal) {
+	public void setCodePostal(String codePostal) {
 		this.codePostal = codePostal;
 	}
 	public int getIdVille() {

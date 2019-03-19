@@ -13,6 +13,27 @@ public class Lieu {
 	private float latitude; 
 	private float longitude; 
 	 
+	// constructeur
+	
+	public Lieu () {}
+	
+	public Lieu (String nom, String rue, Ville ville, float latitude, float longitude) {
+		this.nom = nom;
+		this.rue = rue;
+		this.ville = ville;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+	
+	public Lieu (int id, String nom, String rue, Ville ville, float latitude, float longitude) {
+		this.id = id;
+		this.nom = nom;
+		this.rue = rue;
+		this.ville = ville;
+		this.latitude = latitude;
+		this.longitude = longitude;
+	}
+	
 	// Get Set radio 
 	 
 	public int getId() { 

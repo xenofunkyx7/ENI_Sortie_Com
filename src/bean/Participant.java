@@ -2,7 +2,7 @@ package bean;
 
 public class Participant {
 	
-	
+	// attributs
 	private int idParticipant;
 	private String pseudo;
 	private String nom;
@@ -16,13 +16,11 @@ public class Participant {
 	
 	
 	
-	//empty constructor
-	public Participant() {
-	}
+	// constructeur
+	public Participant() { }
 
 	public Participant(String pseudo, String nom, String prenom, String telephone, String mail, boolean administrateur,
 			boolean actif, Site site, String image) {
-		super();
 		this.pseudo = pseudo;
 		this.nom = nom;
 		this.prenom = prenom;
@@ -33,6 +31,22 @@ public class Participant {
 		this.site = site;
 		this.image = image;
 	}
+	
+	public Participant(int id, String pseudo, String nom, String prenom, String telephone, String mail, boolean administrateur,
+			boolean actif, Site site, String image) {
+		this.idParticipant = id;
+		this.pseudo = pseudo;
+		this.nom = nom;
+		this.prenom = prenom;
+		this.telephone = telephone;
+		this.mail = mail;
+		this.administrateur = administrateur;
+		this.actif = actif;
+		this.site = site;
+		this.image = image;
+	}
+	
+	// Get Set Radio
 	
 	public String getPseudo() {
 		return pseudo;

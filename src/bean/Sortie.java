@@ -24,6 +24,47 @@ public class Sortie {
 	 
 	private String image; 
 	 
+	// constructeur
+	
+	public Sortie () {}
+	
+	public Sortie (String nom, Date dateHeureDebut, int duree, Date dateLimiteInscription
+					, int nbInscriptionMax, String infoSortie, Etats etat,
+					Participant organisateur, List<Participant> participants, Lieu lieu,
+					Site site, String image) {
+		this.nom = nom; 
+		this.dateHeureDebut = dateHeureDebut; 
+		this.duree = duree; 
+		this.dateLimiteInscription = dateLimiteInscription; 
+		this.nbInscriptionMax = nbInscriptionMax; 
+		this.infoSortie = infoSortie; 
+		this.etat = etat; 
+		this.organisateur = organisateur; 
+		this.participants = participants; 
+		this.lieu = lieu; 
+		this.site = site; 
+		this.image = image; 
+	}
+	
+	public Sortie (int id, String nom, Date dateHeureDebut, int duree, Date dateLimiteInscription
+				, int nbInscriptionMax, String infoSortie, Etats etat,
+				Participant organisateur, List<Participant> participants, Lieu lieu,
+				Site site, String image) {
+		this.id = id;
+		this.nom = nom; 
+		this.dateHeureDebut = dateHeureDebut; 
+		this.duree = duree; 
+		this.dateLimiteInscription = dateLimiteInscription; 
+		this.nbInscriptionMax = nbInscriptionMax; 
+		this.infoSortie = infoSortie; 
+		this.etat = etat; 
+		this.organisateur = organisateur; 
+		this.participants = participants; 
+		this.lieu = lieu; 
+		this.site = site; 
+		this.image = image; 
+	}
+	
 	// Get Set radio 
 	 
 	public int getId() { 
@@ -134,12 +175,12 @@ public class Sortie {
 	
 
 	public enum Etats { 
-		  Creee ("Créée"), 
+		  Creee ("CrÃ©Ã©e"), 
 		  Ouverte ("Ouverte"), 
-		  Cloturee ("Cloturée"), 
-		  ActiviteEnCours ("Activité en cours"), 
-		  Passee ("Passée"), 
-		  Annulee ("Annulée");	 
+		  Cloturee ("CloturÃ©e"), 
+		  ActiviteEnCours ("ActivitÃ© en cours"), 
+		  Passee ("PassÃ©e"), 
+		  Annulee ("AnnulÃ©e");	 
 		 
 		private String name = ""; 
 		 

@@ -34,6 +34,16 @@ public class DaoProfil {
 		 
 		 
 	 }
+	 
+	 /**
+	 * Méthode permettant de modifier le mot de passe d'un participant via un objet participant et une string en paramètre.
+	 * @param participant
+	 * @param motDePasse
+	 */
+	 public static void modifyParticipantMDP(Participant participant, String motDePasse) {
+		 
+		 
+	 }
 
 	 /**
 	 * Méthode permettant de supprimer un participant via un objet participant en paramètre.
