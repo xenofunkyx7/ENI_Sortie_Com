@@ -21,7 +21,7 @@ public class MonProfil extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
-		//test
+		//test et second test
 		request.getRequestDispatcher("/WEB-INF/monProfil.jsp").forward(request, response);
 	}
 
