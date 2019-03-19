@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class Profil
  */
-@WebServlet("/profil")
+@WebServlet("/membre/profil")
 public class Profil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -26,8 +26,14 @@ public class Profil extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		//dao pour récupérer le profil
+		
+		//mise en attribut  du 	profil. 	
+//		request.setAttribute(name, o);
+		
+		//Envoi vers la JSP
+		request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
 	}
 
 	/**
@@ -35,6 +41,8 @@ public class Profil extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
+		
 		doGet(request, response);
 	}
 
