@@ -1,5 +1,7 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -40,14 +42,6 @@ public class DaoProfil {
 		
 	 }
 	 
-	 /**
-	 * M�thode permettant de modifier un participant via un objet participant en param�tre.
-	 * @param participant
-	 */
-	 public static void modifyParticipant(Participant participant) {
-		 
-		 
-	 }
 	 
 	 /*
      * Méthode permettant de modifier un article via un objet article en paramétre.
@@ -57,18 +51,18 @@ public class DaoProfil {
 
         String sql = MODIFY_PARTICIPANT;
 
-        try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+        try ( Connection connection = DbConnexion.getConnection() ;
+    		PreparedStatement pStat = connection.prepareStatement(sql) ){
 
 
             pStat.setString(1, participant.getPseudo() );
             pStat.setString(2, participant.getNom() );
             pStat.setString(3, participant.getPrenom() );
             pStat.setString(4, participant.getTelephone() );
-            pStat.setString(5, participant.getMail() );
-            pStat.setBoolean(6, participant.isAdministrateur() );
-            pStat.setBoolean(7, participant.isActif() );
-            pStat.setInt(8, participant.getSite().getIdSite() );
-            pStat.setInt(9, participant.getIdParticipant() );
+            pStat.setString(5, participant.getMail() );            
+            pStat.setBoolean(6, participant.isActif() );
+            pStat.setInt(7, participant.getSite().getIdSite() );
+            pStat.setInt(8, participant.getIdParticipant() );
 
             pStat.executeUpdate() ;
 
