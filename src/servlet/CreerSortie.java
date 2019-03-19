@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/membre/Sortie")
 public class CreerSortie extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	//validation git
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
