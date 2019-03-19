@@ -22,7 +22,7 @@ public class ModifierSortie extends HttpServlet {
 
 		request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response);
 	}
-
+ 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
