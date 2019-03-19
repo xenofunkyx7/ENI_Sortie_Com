@@ -60,6 +60,15 @@ public class DaoSortie {
 	
 	/**
 	* Méthode permettant de faire des recherches en fonction de plusieurs param
+	* @param nom
+	 * @param site
+	 * @param dateDebut
+	 * @param dateFin
+	 * @param participant
+	 * @param isOrganisateur
+	 * @param isInscrit
+	 * @param notInscrit
+	 * @param isPasse
 	* @return liste de Sortie
 	* @throws SQLException
 	*/
