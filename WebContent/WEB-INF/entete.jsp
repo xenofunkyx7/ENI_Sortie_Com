@@ -15,25 +15,29 @@
 	<body>
 		<nav class="navbar navbar-expand-sm bg-light navbar-light justify-content-end">
 		    <a class="navbar-brand" href="#">
-		    	<img class="img-logo" src="image/logoExit.png" width="100px" height="100px">
+		    	<object data='../image/logoExit.png' width="100px" height="100px">
+				    <img class="img-logo" src="image/logoExit.png" width="100px" height="100px">
+				</object>
+		    
+		    	
 		    </a>
 		    <div class="ml-auto"></div>
 		    <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
 		        <ul class="navbar-nav text-right">
 		        
-		        	<c:if test="true">
+		        	<c:if test="${sessionScope.utilisateur != null && sessionScope.utilisateur.administrateur }">
 		        		<jsp:include page="/WEB-INF/admin/enteteAdmin.jsp"></jsp:include>
 		        	</c:if>
 		        	
 		        
 		        	<li class="nav-item active">
-		                <a class="nav-link btn btn-outline-info" href="membre/accueil">Acceuil</a>
+		                <a class="nav-link btn btn-outline-info" href="/ENI_Sortie_Com/membre/accueil">Acceuil</a>
 		            </li>
 		            <li class="nav-item active">
-		                <a class="nav-link btn btn-outline-info" href="membre/monProfil">Mon profil</a>
+		                <a class="nav-link btn btn-outline-info" href="/ENI_Sortie_Com/membre/monProfil">Mon profil</a>
 		            </li>
 		            <li class="nav-item active">
-		                <a class="nav-link btn btn-outline-info" href="deconnexion">Se déconnecter</a>
+		                <a class="nav-link btn btn-outline-info" href="/ENI_Sortie_Com/deconnexion">Se déconnecter</a>
 		            </li>
 		        </ul>
 		    </div>
