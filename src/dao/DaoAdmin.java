@@ -13,6 +13,64 @@ import bean.Site;
 import bean.Ville;
 
 public class DaoAdmin {
+	// constantes de requetes sql
+	
+	private static  final String ADD_VILLE = 
+			"INSERT INTO VILLES "
+			+ "( nom_ville, code_postal ) "
+			+ "VALUES ( ?,? )";
+	
+	private static  final String ADD_LIEU = 
+			"INSERT INTO LIEUX "
+			+ "( nom_lieu, rue, latitude, longitude, villes_no_ville ) "
+			+ "VALUES ( ?,? , ?,?,? )";
+	
+	private static  final String ADD_PARTICIPANT = 
+			"INSERT INTO PARTICIPANTS "
+			+ "( pseudo, nom, prenom, telephone, mail,"
+			+ " mot_de_passe, actif, sites_no_site ) "
+			+ "VALUES ( ?,? , ?,?,? , ?,?,? )";
+	
+	//-------------------
+	
+	private static final String MODIFY_VILLE = 
+			"UPDATE VILLES " + 
+			"SET nom_ville = ?, code_postal = ? " + 
+			"WHERE no_ville = ?";
+	
+	private static final String MODIFY_LIEU = 
+			"UPDATE LIEUX " + 
+			"SET nom_lieu = ?, rue = ?, latitude = ?, " +
+			"longitude = ?, villes_no_ville = ? " + 
+			"WHERE no_lieu = ?";
+	
+	private static final String MODIFY_ADMIN = 
+			"UPDATE PARTICIPANTS " + 
+            "SET administrateur = ? " + 
+            "WHERE no_participant = ?";
+	
+	//-------------------
+	
+	private static final String DELETE_VILLE  = "DELETE FROM VILLES " + 
+				"WHERE no_ville = ?";
+	
+	private static final String DELETE_LIEU = "DELETE FROM LIEUX " + 
+			"WHERE no_lieu = ?";
+	
+	private static final String DELETE_PARTICIPANT = "DELETE FROM PARTICIPANTS " + 
+			"WHERE no_participant = ?";
+
+	private static final String GET_VILLE = "select * FROM VILLES "
+					+ " where nom_ville like ?";
+
+	private static final String GET_LIEU = "select * FROM LIEUX"
+				+ " inner join VILLES on villes_no_ville = no_ville "
+				+ " where nom_ville like ?";
+
+	private static final String GET_PARTICIPANTS = "select * FROM PARTICIPANTS"
+				+ " inner join SITES on no_site = sites_no_site "
+				+ " where nom like ? and prenom like ? and pseudo like ? ";
+	
 	 // Singkleton !
 	
 	 private DaoAdmin() {} 
@@ -33,15 +91,12 @@ public class DaoAdmin {
 	 */
 	public static void addVille (Ville ville) {
 		
-		String sql = "INSERT INTO VILLES "
-				+ "( no_ville, nom_ville, code_postal ) "
-				+ "VALUES ( ?,?,? )";
+		String sql = ADD_VILLE;
 		
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 				
-			pStat.setInt(1, ville.getIdVille());
-			pStat.setString(2, ville.getNom() );
-			pStat.setString(3, ville.getCodePostal() );
+			pStat.setString(1, ville.getNom() );
+			pStat.setString(2, ville.getCodePostal() );
 			
 			pStat.executeUpdate() ;
 				
@@ -57,18 +112,15 @@ public class DaoAdmin {
 	 */
 	public static void addLieu (Lieu lieu) {
 		
-		String sql = "INSERT INTO LIEUX "
-				+ "( no_lieu, nom_lieu, rue, latitude, longitude, villes_no_ville ) "
-				+ "VALUES ( ?,?,? , ?,?,? )";
+		String sql = ADD_LIEU;
 		
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 				
-			pStat.setInt(1, lieu.getId() );
-			pStat.setString(2, lieu.getNom() );
-			pStat.setString(3, lieu.getRue() );
-			pStat.setFloat(4, lieu.getLatitude() );
-			pStat.setFloat(5, lieu.getLongitude() );
-			pStat.setInt(6, lieu.getVille().getIdVille() );
+			pStat.setString(1, lieu.getNom() );
+			pStat.setString(2, lieu.getRue() );
+			pStat.setFloat(3, lieu.getLatitude() );
+			pStat.setFloat(4, lieu.getLongitude() );
+			pStat.setInt(5, lieu.getVille().getIdVille() );
 			
 			pStat.executeUpdate() ;
 				
@@ -84,23 +136,18 @@ public class DaoAdmin {
 	 */
 	public static void addParticipant (Participant participant, String motDePasse) {
 		
-		String sql = "INSERT INTO PARTICIPANTS "
-				+ "( no_participant, pseudo, nom, prenom, telephone, mail,"
-				+ " mot_de_passe, administrateur, actif, sites_no_site ) "
-				+ "VALUES ( ?,?,? , ?,?,? , ?,?,? )";
+		String sql = ADD_PARTICIPANT;
 		
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 				
-			pStat.setInt(1, participant.getIdParticipant() );
-			pStat.setString(2, participant.getPseudo() );
-			pStat.setString(3, participant.getNom() );
-			pStat.setString(4, participant.getPrenom() );
-			pStat.setString(5, participant.getTelephone() );
-			pStat.setString(6, participant.getMail() );
-			pStat.setString(7, motDePasse );
-			pStat.setBoolean(8, participant.isAdministrateur() );
-			pStat.setBoolean(9, participant.isActif() );
-			pStat.setInt(10, participant.getSite().getIdSite() );
+			pStat.setString(1, participant.getPseudo() );
+			pStat.setString(2, participant.getNom() );
+			pStat.setString(3, participant.getPrenom() );
+			pStat.setString(4, participant.getTelephone() );
+			pStat.setString(5, participant.getMail() );
+			pStat.setString(6, motDePasse );
+			pStat.setBoolean(7, participant.isActif() );
+			pStat.setInt(8, participant.getSite().getIdSite() );
 			
 			pStat.executeUpdate() ;
 				
@@ -118,9 +165,7 @@ public class DaoAdmin {
 	 * @param article
 	 */
 	public static void modifyVille(Ville ville) {
-		String sql = "UPDATE VILLES " + 
-				"SET nom_ville = ?, code_postal = ? " + 
-				"WHERE no_ville = ?";
+		String sql = MODIFY_VILLE;
 		
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 				
@@ -137,62 +182,28 @@ public class DaoAdmin {
 	}
 	
 	/**
-	 * Méthode permettant de modifier un article via un objet article en paramétre.
-	 * @param article
+	 * Méthode permettant de modifier l'état admin d'un participant avec un boolean en paramétre.
+	 * @param participant
+	 * @param isAdmin
 	 */
-	public static void modifyLieu(Lieu lieu) {
-		
-		String sql = "UPDATE LIEUX " + 
-				"SET nom_lieu = ?, rue = ?, latitude = ?, " +
-				"longitude = ?, villes_no_ville = ? " + 
-				"WHERE no_lieu = ?";
-		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
-			
-			pStat.setString(1, lieu.getNom() );
-			pStat.setString(2, lieu.getRue() );
-			pStat.setFloat(3, lieu.getLatitude() );
-			pStat.setFloat(4, lieu.getLongitude() );
-			pStat.setInt(5, lieu.getVille().getIdVille() );
-			pStat.setInt(6, lieu.getId() );
-			
-			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
 	
-	/**
-	 * Méthode permettant de modifier un article via un objet article en paramétre.
-	 * @param article
-	 */
-	public static void modifyParticipant(Participant participant) {
-		
-		String sql = "UPDATE PARTICIPANTS " + 
-				"SET pseudo = ?, nom = ?, prenom = ?, telephone = ?" +
-				", mail = ?, administrateur = ?, actif = ?, sites_no_site = ? " + 
-				"WHERE no_participant = ?";
-		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
-			
-			
-			pStat.setString(1, participant.getPseudo() );
-			pStat.setString(2, participant.getNom() );
-			pStat.setString(3, participant.getPrenom() );
-			pStat.setString(4, participant.getTelephone() );
-			pStat.setString(5, participant.getMail() );
-			pStat.setBoolean(6, participant.isAdministrateur() );
-			pStat.setBoolean(7, participant.isActif() );
-			pStat.setInt(8, participant.getSite().getIdSite() );
-			pStat.setInt(9, participant.getIdParticipant() );
-			
-			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
+	 public static void modifyAdmin(Participant participant, boolean isAdmin) {
+
+	        String sql = MODIFY_ADMIN;
+
+	        try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+
+	            pStat.setBoolean(1, participant.isAdministrateur() );
+	            pStat.setInt(2, participant.getIdParticipant() );
+
+	            pStat.executeUpdate() ;
+
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	    }
+	
+	
 	
 	//===================
 	// Update
@@ -203,8 +214,7 @@ public class DaoAdmin {
 	 * @param ville
 	 */
 	public static void deleteVille(Ville ville) {
-		String sql = "DELETE FROM VILLES " + 
-				"WHERE no_ville = ?";
+		String sql = DELETE_VILLE;
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setInt(1, ville.getIdVille() );
@@ -221,8 +231,7 @@ public class DaoAdmin {
 	 * @param lieu
 	 */
 	public static void deleteLieu(Lieu lieu) {
-		String sql = "DELETE FROM LIEUX " + 
-				"WHERE no_lieu = ?";
+		String sql = DELETE_LIEU;
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setInt(1, lieu.getId() );
@@ -248,8 +257,7 @@ public class DaoAdmin {
 	 * @param idParticipant
 	 */
 	public static void delete(int idParticipant) {
-		String sql = "DELETE FROM PARTICIPANTS " + 
-				"WHERE no_participant = ?";
+		String sql = DELETE_PARTICIPANT;
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setInt(1, idParticipant );
@@ -279,8 +287,7 @@ public class DaoAdmin {
 		
 		List<Ville> villes = new ArrayList<>();
 		
-		String sql = "select * FROM VILLES "
-					+ " where nom_ville like ?";
+		String sql = GET_VILLE;
 		
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
@@ -324,9 +331,7 @@ public class DaoAdmin {
 		
 		List<Lieu> lieux = new ArrayList<>();
 		
-		String sql = "select * FROM LIEUX"
-				+ " inner join VILLES on villes_no_ville = no_ville "
-					+ " where nom_ville like ?";
+		String sql = GET_LIEU;
 		
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
@@ -371,9 +376,7 @@ public class DaoAdmin {
 		
 		List<Participant> participants = new ArrayList<>();
 		
-		String sql = "select * FROM PARTICIPANTS"
-				+ " inner join SITES on no_site = sites_no_site "
-					+ " where nom like ? and prenom like ? and pseudo like ? ";
+		String sql = GET_PARTICIPANTS;
 		
 		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			

@@ -1,12 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
-
-</body>
-</html>
+<li class="nav-item active">
+    <a class="nav-link" href="admin/gererParticipants">Participants</a>
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href=admin/gererSites>Villes</a>
+</li>
+<li class="nav-item active">
+    <a class="nav-link" href="membre/accueil">Lieux</a>
+</li>
+<li class="nav-item"> 
+	<div class="nav-link">|</div>
+</li>
