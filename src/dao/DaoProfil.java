@@ -8,8 +8,11 @@ import bean.Sortie;
 
 public class DaoProfil {
 	
-	 private static final String ADD_PARTICIPANT = "";
-	 private static final String MODIFY_PARTICIPANT = "";
+	// false pour l'admin, on ne peut pas créer un membre qui soit directement admin)
+	 private static final String ADD_PARTICIPANT = "INSERT INTO participants VALUES (?,?,?,?,?,?,'false',?,?)";
+	 private static final String MODIFY_PARTICIPANT =  "UPDATE PARTICIPANTS "
+	 		+ "SET pseudo = ?, nom = ?, prenom = ?, telephone = ?, mail = ?, actif = ?, sites_no_site = ? " 
+			+ "WHERE no_participant = ?";	 
 	 private static final String MODIFY_PARTICIPANTMDP = "";
 	 private static final String DELETE_PARTICIPANT = "";
 	 private static final String GET_PARTICIPANT = "";
@@ -46,16 +49,33 @@ public class DaoProfil {
 		 
 	 }
 	 
-	 /**
-	 * M�thode permettant de modifier le mot de passe d'un participant via un objet participant et une string en param�tre.
-	 * @param participant
-	 * @param motDePasse
-	 */
-	 public static void modifyParticipantMDP(Participant participant, String motDePasse) {
-		 
-		 
-	 }
+	 /*
+     * Méthode permettant de modifier un article via un objet article en paramétre.
+     * @param article
+     */
+    public static void modifyParticipant(Participant participant) {
 
+        String sql = MODIFY_PARTICIPANT;
+
+        try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+
+
+            pStat.setString(1, participant.getPseudo() );
+            pStat.setString(2, participant.getNom() );
+            pStat.setString(3, participant.getPrenom() );
+            pStat.setString(4, participant.getTelephone() );
+            pStat.setString(5, participant.getMail() );
+            pStat.setBoolean(6, participant.isAdministrateur() );
+            pStat.setBoolean(7, participant.isActif() );
+            pStat.setInt(8, participant.getSite().getIdSite() );
+            pStat.setInt(9, participant.getIdParticipant() );
+
+            pStat.executeUpdate() ;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 	 /**
 	 * M�thode permettant de supprimer un participant via un objet participant en param�tre.
 	 * @param participant
