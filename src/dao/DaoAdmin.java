@@ -109,7 +109,8 @@ public class DaoAdmin {
 		
 		String sql = ADD_VILLE;
 		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 				
 			pStat.setString(1, ville.getNom() );
 			pStat.setString(2, ville.getCodePostal() );
@@ -126,7 +127,8 @@ public class DaoAdmin {
 		
 		String sql = ADD_SITE;
 		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 				
 			pStat.setString(1, site.getNom() );
 			
@@ -146,7 +148,8 @@ public class DaoAdmin {
 		
 		String sql = ADD_LIEU;
 		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 				
 			pStat.setString(1, lieu.getNom() );
 			pStat.setString(2, lieu.getRue() );
@@ -170,7 +173,8 @@ public class DaoAdmin {
 		
 		String sql = ADD_PARTICIPANT;
 		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 				
 			pStat.setString(1, participant.getPseudo() );
 			pStat.setString(2, participant.getNom() );
@@ -198,8 +202,9 @@ public class DaoAdmin {
 	 */
 	public static void modifyVille(Ville ville) {
 		String sql = MODIFY_VILLE;
-		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 				
 			pStat.setString(1, ville.getNom() );
 			pStat.setString(2, ville.getCodePostal() );
@@ -217,7 +222,8 @@ public class DaoAdmin {
 	public static void modifySite(Site site) {
 		String sql = MODIFY_SITE;
 		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 				
 			pStat.setString(1, site.getNom() );
 			pStat.setInt(2, site.getIdSite() );
@@ -238,7 +244,8 @@ public class DaoAdmin {
 		 
 		String sql = MODIFY_LIEU;
 		 
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){ 
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){ 
 			 
 			pStat.setString(1, lieu.getNom() ); 
 			pStat.setString(2, lieu.getRue() ); 
@@ -264,7 +271,8 @@ public class DaoAdmin {
 
 	        String sql = MODIFY_ADMIN;
 
-	        try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+	        DbConnexion dbConnexion = new DbConnexion();
+			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 
 	            pStat.setBoolean(1, participant.isAdministrateur() );
 	            pStat.setInt(2, participant.getIdParticipant() );
@@ -288,7 +296,8 @@ public class DaoAdmin {
 	 */
 	public static void deleteVille(Ville ville) {
 		String sql = DELETE_VILLE;
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setInt(1, ville.getIdVille() );
 			
@@ -302,7 +311,8 @@ public class DaoAdmin {
 	
 	public static void deleteSite(Site site) {
 		String sql = DELETE_SITE;
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setInt(1, site.getIdSite() );
 			
@@ -319,7 +329,8 @@ public class DaoAdmin {
 	 */
 	public static void deleteLieu(Lieu lieu) {
 		String sql = DELETE_LIEU;
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setInt(1, lieu.getId() );
 			
@@ -345,7 +356,8 @@ public class DaoAdmin {
 	 */
 	public static void deleteParticipant(int idParticipant) {
 		String sql = DELETE_PARTICIPANT;
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setInt(1, idParticipant );
 			
@@ -376,7 +388,8 @@ public class DaoAdmin {
 		
 		String sql = GET_VILLE;
 		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setString(1, "%"+nom+"%" );
 			
@@ -414,7 +427,8 @@ public class DaoAdmin {
 		
 		String sql = GET_SITE;
 		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setString(1, "%"+nom+"%" );
 			
@@ -460,7 +474,8 @@ public class DaoAdmin {
 		
 		String sql = GET_LIEU;
 		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setString(1, "%"+nom+"%" );
 			
@@ -505,7 +520,8 @@ public class DaoAdmin {
 		
 		String sql = GET_PARTICIPANTS;
 		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setString(1, "%"+nom+"%" );
 			pStat.setString(2, "%"+prenom+"%" );

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %> 
 <!DOCTYPE html>
 <html>
 	<head>
@@ -18,9 +19,11 @@
 		    	<object data='../image/logoExit.png' width="100px" height="100px">
 				    <img class="img-logo" src="image/logoExit.png" width="100px" height="100px">
 				</object>
-		    
-		    	
 		    </a>
+		    <h3 class="ml-2"> &#139;-
+					${sessionScope.utilisateur.prenom} 
+					${fn:substring(sessionScope.utilisateur.nom, 0, 1)}. 
+			</h3>
 		    <div class="ml-auto"></div>
 		    <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
 		        <ul class="navbar-nav text-right">
@@ -39,6 +42,10 @@
 		            <li class="nav-item active">
 		                <a class="nav-link btn btn-outline-info" href="/ENI_Sortie_Com/deconnexion">Se déconnecter</a>
 		            </li>
+		            <li class="nav-item active">
+		            	<jsp:include page="/WEB-INF/date.jsp"></jsp:include>
+		            </li>
 		        </ul>
 		    </div>
 		</nav>
+	
