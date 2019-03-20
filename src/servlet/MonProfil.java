@@ -20,7 +20,7 @@ public class MonProfil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+//		l'Utilisateur actif se trouve en session. 
 		//test et second test
 		request.getRequestDispatcher("/WEB-INF/monProfil.jsp").forward(request, response);
 	}

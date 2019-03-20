@@ -44,7 +44,9 @@
                 </div>
                 <div class="form-group">
                     <label for="email">Email address :</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="text" class="form-control" id="email" value="${membre.mail}" name="email" required>
+                    <div class="valid-feedback">e-mail valide</div>
+                    <div class="invalid-feedback">Veuillez saisir votre e-mail</div>
                 </div>
                 <div class="form-group">
                     <label for="mdp">Mot de passe :</label>
@@ -54,17 +56,16 @@
                 </div>
                 <div class="form-group">
                     <label for="cmdp">Confirmation Mot de passe :</label>
-                    <input type="cmdp" class="form-control" id="cmdp" placeholder="confirmer mot de passe" name="cmdp" required>
+                    <input type="password" class="form-control" id="cmdp" placeholder="confirmer mot de passe" name="cmdp" required>
                     <div class="valid-feedback">Mot de passe valide</div>
                     <div class="invalid-feedback">Veuillez saisir le même mot de passe .</div>
                 </div>
                 <div class="form-group">
                     <label for="site">Votre Site :</label>
                     <select class="form-control" id="site">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
+                    	<c:forEach var="site" items="${sites}">
+                        <option>${site.nom}</option>
+                       	</c:forEach>
                     </select>
                 </div>
                 <div class="row">
