@@ -652,7 +652,7 @@ public class DaoAdmin {
 				Site site = new Site(rs.getInt("sites_no_site"), rs.getString("nom_site"));
 				
 				
-				int id = rs.getInt("no_ville");
+				int id = rs.getInt("no_participant");
 				String pseudo = rs.getString("pseudo");
 				String nom = rs.getString("nom");
 				String prenom = rs.getString("prenom");
