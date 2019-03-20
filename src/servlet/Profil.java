@@ -50,7 +50,7 @@ public class Profil extends HttpServlet {
 			request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
 		}else {
 			//TODO à vérifier. 
-			getServletContext().getRequestDispatcher(request.getContextPath()+"/membre/accueil").forward(request, response);
+			getServletContext().getRequestDispatcher("/membre/accueil").forward(request, response);
 		}
 		
 	}
