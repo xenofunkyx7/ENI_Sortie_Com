@@ -16,16 +16,16 @@ public class DaoProfil {
 	// false pour l'admin, on ne peut pas créer un membre qui soit directement admin)
 //	 private static final String ADD_PARTICIPANT = "INSERT INTO participants VALUES (?,?, ?,?,?, ?,'false',?,?)";
 	 
-	 private static final String MODIFY_PARTICIPANT =  "UPDATE PARTICIPANTS "			 
-	 		+ "SET pseudo = ?, nom = ?, prenom = ?, telephone = ?, mail = ?,  sites_no_site = ? " 
-			+ "WHERE no_participant = ?";
+	 private static final String MODIFY_PARTICIPANT =  "UPDATE PARTICIPANTS"			 
+	 		+ "SET pseudo=?, nom=?, prenom=?, telephone=?, mail=?,  sites_no_site=?" 
+			+ "WHERE no_participant=?";
 	 
-	 private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants SET mot_de_passe=? WHERE no_participant =?";
+	 private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants SET mot_de_passe=? WHERE no_participant=?";
 	 
 //	 private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE id=? ";
 	 
 	 private static final String GET_PARTICIPANT = "SELECT * FROM PARTICIPANTS"
-				+ "WHERE pseudo=? "; 
+				+ "WHERE pseudo=?"; 
 	 
 	 private static final String GET_ALL_PARTICIPANT = "SELECT * FROM participants" ;
 	
