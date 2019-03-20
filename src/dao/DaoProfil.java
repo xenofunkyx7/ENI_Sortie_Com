@@ -14,17 +14,17 @@ import bean.Sortie;
 public class DaoProfil {
 	
 	// false pour l'admin, on ne peut pas créer un membre qui soit directement admin)
-	 private static final String ADD_PARTICIPANT = "INSERT INTO participants VALUES (?,?, ?,?,?, ?,'false',?,?)";
+//	 private static final String ADD_PARTICIPANT = "INSERT INTO participants VALUES (?,?, ?,?,?, ?,'false',?,?)";
 	 
-	 private static final String MODIFY_PARTICIPANT =  "UPDATE PARTICIPANTS "
-			 
-	 		+ "SET pseudo = ?, nom = ?, prenom = ?, telephone = ?, mail = ?, actif = ?, sites_no_site = ? " 
-			+ "WHERE no_participant = ?";	 
-	 private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants mot_de_passe=? ";
+	 private static final String MODIFY_PARTICIPANT =  "UPDATE PARTICIPANTS "			 
+	 		+ "SET pseudo = ?, nom = ?, prenom = ?, telephone = ?, mail = ?,  sites_no_site = ? " 
+			+ "WHERE no_participant = ?";
 	 
-	 private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE id=? ";
+	 private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants SET mot_de_passe=? WHERE no_participant =?";
 	 
-	 private static final String GET_PARTICIPANT = "select * FROM PARTICIPANTS"
+//	 private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE id=? ";
+	 
+	 private static final String GET_PARTICIPANT = "SELECT * FROM PARTICIPANTS"
 				+ "WHERE pseudo=? "; 
 	 
 	 private static final String GET_ALL_PARTICIPANT = "SELECT * FROM participants" ;
@@ -41,6 +41,9 @@ public class DaoProfil {
 	 public static DaoProfil getInstance() {   
 		 return INSTANCE; 
      }
+	 
+	 
+	 
 		 
 	 /*
      * Méthode permettant de modifier un article via un objet article en paramétre.
@@ -59,15 +62,35 @@ public class DaoProfil {
             pStat.setString(3, participant.getPrenom() );
             pStat.setString(4, participant.getTelephone() );
             pStat.setString(5, participant.getMail() );            
-            pStat.setBoolean(6, participant.isActif() );
-            pStat.setInt(7, participant.getSite().getIdSite() );
-            pStat.setInt(8, participant.getIdParticipant() );
+//            pStat.setBoolean(X, participant.isActif() );
+            pStat.setString(6, participant.getSite().getNom() );
+            pStat.setInt(7, participant.getIdParticipant() );
+//            pStat.setString(parameterIndex, image);
 
             pStat.executeUpdate() ;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+    
+    //Modification du mdp
+    public static void  modifyParticipantMDP( String mdp, int no_partcipant) {
+    	
+    	String sql = MODIFY_PARTICIPANTMDP; 
+    	
+    	try ( Connection connection = DbConnexion.getConnection() ;
+        		PreparedStatement pStat = connection.prepareStatement(sql)){
+        		
+    		pStat.setString(1, mdp);
+    		pStat.setInt(2, no_partcipant);
+    		
+    		pStat.executeUpdate();
+    		
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 
 	/**
