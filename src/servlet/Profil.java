@@ -38,19 +38,15 @@ public class Profil extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-//		System.out.println(pseudo);
-//		Site site = new Site("Le Mans");
-//		Participant participant1 = new Participant("vins", "Vincent","DOBREMEL","0606060606","vincent@vincent.com",true,true, site ,"Le Mans"); 
-		//mise en attribut  du 	profil. 	
-		
+			
 		request.setAttribute("membre",participant);
 		
 		if( participant !=  null) {
 			request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
 		}else {
-			//TODO à vérifier. 
-			getServletContext().getRequestDispatcher("/membre/accueil").forward(request, response);
+			//TODO le chemin n'est pas le bon, trouver un moyen que le chemin change dynamiquement
+//			getServletContext().getRequestDispatcher("/membre/accueil").forward(request, response);
+			request.getRequestDispatcher("/membre/accueil").forward(request, response);
 		}
 		
 	}
