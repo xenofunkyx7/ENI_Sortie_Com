@@ -65,18 +65,18 @@
                         <p>Ville organisatrice :</p>
                     </div>
                     <div class="col">
-                        <p>${utilisateur.site.nom}</p>
+                        <p>${sessionScope.utilisateur.site.nom}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label for="idVille" >Ville :</label>
                     </div>
-                        <select class="form-control" id="idVille">
-                            <c:forEach var="ville" items="${villes}">
-                                <option value="${ville.idVille}">${ville.nom}</option>
-                            </c:forEach>
-                        </select>
+                     <select class="form-control" id="idVille">
+                     	<c:forEach var="ville" items="${villes}">
+                        	<option value="${ville.idVille}">${ville.nom}</option>
+                     	</c:forEach>
+                     </select>
                 </div>
                 <div class="row">
                     <div class="col">
@@ -128,7 +128,10 @@
             <c:choose>
                 <c:when test="${!empty id}">
                     <div class="row">
-                        
+                        <button type="submit" class=" form-control col-3">Enregistrer</button>
+                        <button type="submit" class="form-control col-3">Publier la sortie</button>
+                        <a class="form-control  col-3" href="#">Supprimer la sortie</a>
+                        <a class="form-control  col-3" href="#">Annuler</a>
                     </div>
                 </c:when>
                 <c:otherwise>
@@ -140,7 +143,6 @@
                 </c:otherwise>
             </c:choose>
         </div>
-
     </form>
     </body>
 </html>
