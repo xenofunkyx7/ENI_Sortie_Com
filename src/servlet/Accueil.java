@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,6 +14,8 @@ import javax.servlet.http.HttpSession;
 
 import bean.Participant;
 import bean.Site;
+import bean.Sortie;
+import bean.Sortie.Etats;
 
 /**
  * Servlet implementation class Accueil
@@ -36,15 +39,33 @@ public class Accueil extends HttpServlet {
 		
 		HttpSession session = request.getSession(true);
 		
-		Participant perso = new Participant(0, "Golem de sel", "Funky", "Xeno", "02354", "15343",
-				true, true, null, "");
-		
 		List<Site> sites = new ArrayList<>();
-		sites.add(new Site(0, "la mans"));
+		sites.add(new Site(0, "le mans"));
 		sites.add(new Site(1, "nantes"));
 		sites.add(new Site(2, "la roche sur yon"));
+		sites.add(new Site(3, "Paris"));
+		
+		Participant perso = new Participant(0, "Golem de sel", "Funky", "Xeno", "02354", "15343",
+				true, true, sites.get(0), "");
+		Participant gogol = new Participant(1, "gogol", "gogol", "gogol", "02454", "15143",
+				false, true, sites.get(1), "");
 		
 		
+		List<Sortie> sorties = new ArrayList<>();
+		
+		List<Participant> parti = new ArrayList<Participant>();
+		parti.add(perso);
+		
+		sorties.add(new Sortie(0, "pokemon go au bois de boulogne", new Date( new java.util.Date().getTime() )
+				, 30, new Date( new java.util.Date().getTime() + 5000 ), 10, "attrapez toutes les mst", 
+				Etats.ActiviteEnCours, gogol, parti, null, sites.get(3), ""));
+		
+		sorties.add(new Sortie(1, "pokemon go au bois de boulogne V2", new Date( new java.util.Date().getTime() )
+				, 30, new Date( new java.util.Date().getTime() + 5000 ), 10, "attrapez toutes les mst", 
+				Etats.ActiviteEnCours, gogol, new ArrayList<Participant>(), null, sites.get(2), ""));
+		
+		
+		session.setAttribute("sorties", sorties);
 		session.setAttribute("sites", sites);
 		session.setAttribute("utilisateur", perso);
 		
