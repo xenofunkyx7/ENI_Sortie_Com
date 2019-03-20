@@ -52,8 +52,12 @@ public class DaoProfil {
     public static void modifyParticipant(Participant participant) {
 
         String sql = MODIFY_PARTICIPANT;
+        
+        DbConnexion dbConnexion = new DbConnexion();
+        
+        
 
-        try ( Connection connection = DbConnexion.getConnection() ;
+        try ( Connection connection = dbConnexion.getConnection() ;
     		PreparedStatement pStat = connection.prepareStatement(sql) ){
 
 
@@ -79,7 +83,9 @@ public class DaoProfil {
     	
     	String sql = MODIFY_PARTICIPANTMDP; 
     	
-    	try ( Connection connection = DbConnexion.getConnection() ;
+    	DbConnexion dbConnexion = new DbConnexion();
+    	
+    	try ( Connection connection = dbConnexion.getConnection() ;
         		PreparedStatement pStat = connection.prepareStatement(sql)){
         		
     		pStat.setString(1, mdp);
@@ -105,9 +111,11 @@ public class DaoProfil {
 		ResultSet rs = null;
 		String sql = GET_PARTICIPANT;
 		
+		DbConnexion dbConnexion = new DbConnexion();
+		
 		Participant participant = null;
 		
-		try( Connection connection = DbConnexion.getConnection() ;
+		try( Connection connection = dbConnexion.getConnection() ;
 	    		PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setString(1, pseudo);
@@ -138,10 +146,11 @@ public class DaoProfil {
 		ResultSet rs = null;
 		
 		List<Participant> participants = new ArrayList<>();
+		DbConnexion dbConnexion = new DbConnexion();
 		
 		String sql = GET_ALL_PARTICIPANT ;
 		
-		try ( Connection connection = DbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 			
 			pStat.setString(1, "%"+nom+"%" );
 			pStat.setString(2, "%"+prenom+"%" );
