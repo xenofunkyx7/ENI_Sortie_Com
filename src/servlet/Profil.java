@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import bean.Participant;
 import bean.Site;
+import dao.DaoProfil;
 
 /**
  * Servlet implementation class Profil
@@ -18,14 +21,6 @@ import bean.Site;
 public class Profil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Profil() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
-
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
@@ -33,16 +28,27 @@ public class Profil extends HttpServlet {
 		
 		//
 		String pseudo =  request.getParameter("pseudo");
+		Participant participant = null;
 		//dao pour récupérer le profil
-		System.out.println(pseudo);
-		Site site = new Site("Le Mans");
-		Participant participant = new Participant("vins", "Vincent","DOBREMEL","0606060606","vincent@vincent.com",true,true, site ,"Le Mans"); 
-		//mise en attribut  du 	profil. 	
-		
+		try {
+			
+			 participant = DaoProfil.getParticipant(pseudo);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+			
 		request.setAttribute("membre",participant);
 		
-		//Envoi vers la JSP
-		request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
+		if( participant !=  null) {
+			request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
+		}else {
+			//TODO le chemin n'est pas le bon, trouver un moyen que le chemin change dynamiquement
+//			getServletContext().getRequestDispatcher("/membre/accueil").forward(request, response);
+			request.getRequestDispatcher("/membre/accueil").forward(request, response);
+		}
+		
 	}
 
 	/**

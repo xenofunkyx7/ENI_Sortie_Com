@@ -20,31 +20,33 @@
             <div class="col-8">
                 <div class="form-group">
                     <label for="pseudo">Pseudo :</label>
-                    <input type="text" class="form-control" id="pseudo" value="${ membre.pseudo }" name="pseudo" required>
+                    <input type="text" class="form-control" id="pseudo" value="${sessionScope.utilisateur.pseudo}" name="pseudo" required>
                     <div class="valid-feedback">Pseudo valide</div>
                     <div class="invalid-feedback">Veuillez saisir votre pseudo</div>
                 </div>
                 <div class="form-group">
                     <label for="prenom">Prenom :</label>
-                    <input type="text" class="form-control" id="prenom" value="${membre.prenom }" name="prenom" required>
+                    <input type="text" class="form-control" id="prenom" value="${sessionScope.utilisateur.prenom }" name="prenom" required>
                     <div class="valid-feedback">Prenom valide</div>
                     <div class="invalid-feedback">Veuillez saisir votre prenom</div>
                 </div>
                 <div class="form-group">
                     <label for="nom">Nom :</label>
-                    <input type="text" class="form-control" id="nom" value="${membre.nom}" name="nom" required>
+                    <input type="text" class="form-control" id="nom" value="${sessionScope.utilisateur.nom}" name="nom" required>
                     <div class="valid-feedback">Nom valide</div>
                     <div class="invalid-feedback">Veuillez saisir votre Nom</div>
                 </div>
                 <div class="form-group">
                     <label for="telephone">Telephone :</label>
-                    <input type="text" class="form-control" id="telephone" value="${membre.telephone}" name="telephone" required>
+                    <input type="text" class="form-control" id="telephone" value="${sessionScope.utilisateur.telephone}" name="telephone" required>
                     <div class="valid-feedback">telephone valide</div>
                     <div class="invalid-feedback">Veuillez saisir votre telephone</div>
                 </div>
                 <div class="form-group">
                     <label for="email">Email address :</label>
-                    <input type="email" class="form-control" id="email">
+                    <input type="text" class="form-control" id="email" value="${sessionScope.utilisateur.mail}" name="email" required>
+                    <div class="valid-feedback">e-mail valide</div>
+                    <div class="invalid-feedback">Veuillez saisir votre e-mail</div>
                 </div>
                 <div class="form-group">
                     <label for="mdp">Mot de passe :</label>
@@ -54,17 +56,16 @@
                 </div>
                 <div class="form-group">
                     <label for="cmdp">Confirmation Mot de passe :</label>
-                    <input type="cmdp" class="form-control" id="cmdp" placeholder="confirmer mot de passe" name="cmdp" required>
+                    <input type="password" class="form-control" id="cmdp" placeholder="confirmer mot de passe" name="cmdp" required>
                     <div class="valid-feedback">Mot de passe valide</div>
                     <div class="invalid-feedback">Veuillez saisir le même mot de passe .</div>
                 </div>
                 <div class="form-group">
                     <label for="site">Votre Site :</label>
-                    <select class="form-control" id="site">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
+                    <select class="form-control" id="site" name="site">
+                    	<c:forEach var="site" items="${sites}">
+                        <option value="${site.idSite}">${site.nom}</option>
+                       	</c:forEach>
                     </select>
                 </div>
                 <div class="row">
