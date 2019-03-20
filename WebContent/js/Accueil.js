@@ -5,8 +5,7 @@
 // "main"
 $(document).ready(function(e) {
 	
-	console.log(test);
-	
+	console.log("tes2t");
 	
 	
     }
