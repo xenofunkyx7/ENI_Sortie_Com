@@ -40,9 +40,9 @@
 	<h3>Liste des participants inscrits</h3> 
 	<table> 
 		<tr> 
-			<th style="background-color: silver ">Pseudo</td> 
-			<th style="background-color: silver ">Nom</td> 
-		</tr> 
+			<th style="background-color: silver ">Pseudo</th> 
+			<th style="background-color: silver ">Nom</th> 
+		</tr>
 		<c:forEach var="participant" items="${participants}"> 
 			<td>${participant.nom}</td> 
 			<td>${participant.prenom}</td> 
