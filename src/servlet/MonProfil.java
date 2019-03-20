@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -14,6 +15,8 @@ import javax.servlet.http.HttpSession;
 import bean.Participant;
 import bean.Site;
 import dao.DaoAdmin;
+import dao.DaoHelper;
+import dao.DaoProfil;
 
 /**
  * Servlet implementation class MonProfil
@@ -28,19 +31,6 @@ public class MonProfil extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		List<Site> sites = null;
-		
-		try {
-			
-			sites = DaoAdmin.getSites("");
-			
-		} catch (SQLException e) {
-			
-			e.printStackTrace();
-		}
-		
-		//Mis en attribut des sites afin qu'ils soient affichés  dans la jsp 
-		request.setAttribute("sites", sites);		
 		request.getRequestDispatcher("/WEB-INF/monProfil.jsp").forward(request, response);
 	}
 
@@ -49,17 +39,42 @@ public class MonProfil extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession Session = request.getSession();
-		Participant utilisateurModif = new Participant();
+		HttpSession session = request.getSession();
+		Participant utilisateurModif = (Participant) session.getAttribute("utilisateur");
+		Site site = null;
 		
-		String mdp = (request.getParameter("mdp"));
-		String cMdp =(request.getParameter("cmdp"));
+		//nouveau mdp 
+		String nmdp = request.getParameter("nmdp");
+		String cmdp =request.getParameter("cmdp");
 		
-		utilisateurModif.setPseudo(request.getParameter("pseudo"));
-		utilisateurModif.setPrenom(request.getParameter("prenom"));
-		utilisateurModif.setNom(request.getParameter("nom"));
-		utilisateurModif.setTelephone(request.getParameter("telephone"));
-		utilisateurModif.setMail(request.getParameter("email"));
+		//mdp actuel
+		String mdpa = request.getParameter("mdpa");
+		String test;
+		
+		try {
+			
+			byte[] mdpHash = DaoHelper.hash("vincent");
+			test = mdpHash.toString();
+			
+			
+			
+		} catch (NoSuchAlgorithmException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		System.out.println(test);
+		// changement des informations utilisateurs.
+
+			utilisateurModif.setPseudo(request.getParameter("pseudo"));
+			utilisateurModif.setPrenom(request.getParameter("prenom"));
+			utilisateurModif.setNom(request.getParameter("nom"));
+			utilisateurModif.setTelephone(request.getParameter("telephone"));
+			utilisateurModif.setMail(request.getParameter("email"));
+
+			
+			DaoProfil.modifyParticipant(utilisateurModif);			
+		
 		
 		
 		//site a confirmer. 

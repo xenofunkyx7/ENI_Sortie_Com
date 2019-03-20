@@ -9,7 +9,7 @@ import java.util.List;
 
 import bean.Participant;
 import bean.Site;
-import bean.Sortie;
+
 
 public class DaoProfil {
 	
@@ -52,6 +52,9 @@ public class DaoProfil {
     public static void modifyParticipant(Participant participant) {
 
         String sql = MODIFY_PARTICIPANT;
+//        "UPDATE PARTICIPANTS "			 
+// 		+ " SET pseudo=?, nom=?, prenom=?, telephone=?, mail=?,  sites_no_site=? " 
+//		+ " WHERE no_participant=? ";
         
         DbConnexion dbConnexion = new DbConnexion();
         
@@ -133,6 +136,12 @@ public class DaoProfil {
 		return participant;
 	}
 	
+	public static verifMdp() {
+		
+		ResultSet rs = null
+				String sql = 
+		
+	}
 
 	 
 	/**
