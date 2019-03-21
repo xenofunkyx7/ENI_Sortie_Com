@@ -22,7 +22,7 @@ public class DaoProfil {
 	 
 	 private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants SET mot_de_passe=? WHERE no_participant=? ";
 	 
-//	 private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE id=? ";
+	 private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE id=? ";
 	 
 	 private static final String GET_PARTICIPANT = "SELECT * FROM PARTICIPANTS inner join SITES on no_site = sites_no_site "
 				+ " WHERE pseudo = ? "; 
@@ -190,6 +190,34 @@ public class DaoProfil {
 		
 		
 		return participants;
+	}
+	
+	
+	/**
+	 * Méthode permettant de supprimer un Participant via un objet Participant en paramétre.
+	 * @param participant
+	 */
+	public static void deleteParticipant(Participant participant) {
+		deleteParticipant(participant.getIdParticipant());
+	}
+	
+	/**
+	 * Surcharge de méthode permettant de supprimer un Participant via l'id du Participant en paramétre.
+	 * @param idParticipant
+	 */
+	public static void deleteParticipant(int idParticipant) {
+		String sql = DELETE_PARTICIPANT;
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			pStat.setInt(1, idParticipant );
+			
+			pStat.executeUpdate() ;
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private static Participant mappageParticipant(ResultSet rs) {

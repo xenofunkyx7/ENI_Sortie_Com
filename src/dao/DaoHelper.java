@@ -59,7 +59,7 @@ public class DaoHelper {
 			
 			if(rs != null){
 				pswSQL = rs.getString("mot_de_passe");
-				
+				System.out.println(pswSQL);
 				if(pswSQL == inputPsw) {					
 					 isVerif = true;
 				}

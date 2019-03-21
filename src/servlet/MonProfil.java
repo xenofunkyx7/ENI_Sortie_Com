@@ -40,6 +40,7 @@ public class MonProfil extends HttpServlet {
 		HttpSession session = request.getSession();		
 		Participant utilisateurModif = (Participant) session.getAttribute("utilisateur");
 		int idUtilisateur = utilisateurModif.getIdParticipant();
+		System.out.println(idUtilisateur+" Id utilisateur");
 		
 		//Mot de passe vérifié 
 		String mdpa = DaoHelper.hash(request.getParameter("mdpa"));

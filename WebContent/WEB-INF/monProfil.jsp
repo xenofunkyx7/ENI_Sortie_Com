@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/entete.jsp"></jsp:include>     
 
 
-<form action="${pageContext.request.contextPath}/monProfil" method="POST" class="was-validated">
+<form action="${pageContext.request.contextPath}/membre/monProfil" method="POST" class="was-validated">
     <fieldset>
         <legend>Mon profil</legend>
         <section class="container">
@@ -85,7 +85,7 @@
                 <div class="row">
                 
                 <button type="submit" class="btn btn-primary mb-2">Modifier</button>
-                <a href="/ENI_Sortie_Com/membre/accueil">
+                <a href="${pageContext.request.contextPath}/membre/accueil">
                     <button type="button" class="btn btn-warning">Annuler</button></a>
                 </div>
                 </fieldset>
