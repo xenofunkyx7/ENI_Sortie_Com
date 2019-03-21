@@ -57,13 +57,16 @@ public class Accueil extends HttpServlet {
 		parti.add(perso);
 		
 		sorties.add(new Sortie(0, "pokemon go au bois de boulogne", new Date( new java.util.Date().getTime() )
-				, 30, new Date( new java.util.Date().getTime() + 5000 ), 10, "attrapez toutes les mst", 
-				Etats.ActiviteEnCours, gogol, parti, null, sites.get(3), ""));
+				, 30, new Date( new java.util.Date().getTime() ), 10, "attrapez toutes les mst", 
+				Etats.ACTIVITE_EN_COURS, gogol, parti, null, sites.get(3), ""));
 		
 		sorties.add(new Sortie(1, "pokemon go au bois de boulogne V2", new Date( new java.util.Date().getTime() )
-				, 30, new Date( new java.util.Date().getTime() + 5000 ), 10, "attrapez toutes les mst", 
-				Etats.ActiviteEnCours, gogol, new ArrayList<Participant>(), null, sites.get(2), ""));
+				, 30, new Date( new java.util.Date().getTime() ), 10, "attrapez toutes les mst", 
+				Etats.ACTIVITE_EN_COURS, gogol, new ArrayList<Participant>(), null, sites.get(2), ""));
 		
+		sorties.add(new Sortie(1, "jdr", new Date( new java.util.Date().getTime() )
+				, 30, new Date( new java.util.Date().getTime() ), 10, "jdr", 
+				Etats.ACTIVITE_EN_COURS, perso, new ArrayList<Participant>(), null, sites.get(2), ""));
 		
 		session.setAttribute("sorties", sorties);
 		session.setAttribute("sites", sites);
