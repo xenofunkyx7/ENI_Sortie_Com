@@ -65,25 +65,25 @@
                         <p>Ville organisatrice :</p>
                     </div>
                     <div class="col">
-                        <p>${utilisateur.site.nom}</p>
+                        <p>${sessionScope.utilisateur.site.nom}</p>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label for="idVille" >Ville :</label>
                     </div>
-                        <select class="form-control" id="idVille">
-                            <c:forEach var="ville" items="${villes}">
-                                <option value="${ville.idVille}">${ville.nom}</option>
-                            </c:forEach>
-                        </select>
+                     <select class="form-control" id="idVille" name="idVille">
+                     	<c:forEach var="ville" items="${villes}">
+                        	<option value="${ville.idVille}">${ville.nom}</option>
+                     	</c:forEach>
+                     </select>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label for="idLieu" >Lieu :</label>
                     </div>
                     <div class="col">
-                        <select class="form-control" id="idLieu" onchange="myFunction()" >
+                        <select class="form-control" id="idLieu" name="idLieu"  >
                             <c:forEach var="lieu" items="${lieux}">
                                 <option value="${lieu.id}">${lieu.nom}</option>
                             </c:forEach>
@@ -128,19 +128,21 @@
             <c:choose>
                 <c:when test="${!empty id}">
                     <div class="row">
-                        
+                        <button type="submit" class=" form-control col-3" value="enregistrer" name="etat">Enregistrer</button>
+                        <button type="submit" class="form-control col-3" value="publier" name="etat">Publier la sortie</button>
+                        <a class="form-control  col-3" href="#">Supprimer la sortie</a>
+                        <a class="form-control  col-3" href="#">Annuler</a>
                     </div>
                 </c:when>
                 <c:otherwise>
                     <div class="row">
-                        <button type="submit" class=" form-control col-4">Enregistrer</button>
-                        <button type="submit" class="form-control col-4">Publier la sortie</button>
+                        <button type="submit" class=" form-control col-4" value="enregistrer" name="etat">Enregistrer</button>
+                        <button type="submit" class="form-control col-4" value="publier" name="etat">Publier la sortie</button>
                         <a class="form-control  col-4" href="#">Annuler</a>
                     </div>
                 </c:otherwise>
             </c:choose>
         </div>
-
     </form>
     </body>
 </html>
