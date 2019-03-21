@@ -72,7 +72,7 @@ public class DaoHelper {
 			return isVerif;
 		}
 	}
-	
+	// la c'est le pseudo !
 	public static boolean verifMdp(String inputPsw, String PseudoUtilisateur) {
 		
 		String sql = VERIF_UTILISATEUR_PSEUDO;
