@@ -175,19 +175,23 @@ public class Sortie {
 	
 
 	public enum Etats { 
-		  Creee ("Créée"), 
-		  Ouverte ("Ouverte"), 
-		  Cloturee ("Cloturée"), 
-		  ActiviteEnCours ("Activité en cours"), 
-		  Passee ("Passée"), 
-		  Annulee ("Annulée");	 
+		  CREEE ("Créée"), 
+		  OUVERTE ("Ouverte"), 
+		  CLOTUREE ("Cloturée"), 
+		  ACTIVITE_EN_COURS ("Activité en cours"), 
+		  PASSEE ("Passée"), 
+		  ANNULEE ("Annulée");	 
 		 
 		private String name = ""; 
 		 
 		Etats(String name){ 
 			this.name = name; 
 		} 
-			    
+		
+		public String getName() {
+			return name;
+		}
+		
 		public String toString(){ 
 			return name; 
 		} 

@@ -23,10 +23,8 @@
 					<div class="col-2">
 						<label for="Site">Site :</label>
 					</div>
-					
 					<div class="col-10">
-						<select name="select" class="form-control" id="selectCategorie">
-							<option>Tous</option>
+						<select name="Site" class="form-control" id="Site" onChange="filtre();">
 							<c:forEach items="${ sessionScope.sites }" var="site">
 							    <option> ${site.nom }</option>
 							</c:forEach>
@@ -40,8 +38,8 @@
 					</div>
 					
 					<div class="col-10">
-						<input name="Sortie" class="form-control form-control-lg form-control-borderless" 
-								type="search" placeholder="Le nom de la sortie contient">
+						<input id="Sortie" name="Sortie" class="form-control form-control-lg form-control-borderless" 
+								type="search" placeholder="Le nom de la sortie contient" onkeyup="filtre();">
 					</div>
 				</div>
 				
@@ -52,7 +50,7 @@
 						</div>
 						
 						<div class="col-9">
-							<input name="DateInf" class="form-control form-control-lg form-control-borderless" type="datetime-local">
+							<input id="DateInf" name="DateInf" class="form-control form-control-lg form-control-borderless" type="datetime-local" onChange="filtre();">
 						</div>
 					</div>
 					
@@ -62,7 +60,7 @@
 						</div>
 						
 						<div class="col-9">
-							<input name="DateSup" class="form-control form-control-lg form-control-borderless" type="datetime-local">
+							<input id="DateSup" name="DateSup" class="form-control form-control-lg form-control-borderless" type="datetime-local" onChange="filtre();">
 						</div>
 					</div>
 				</div>
@@ -75,29 +73,29 @@
 			
 			<div class="col-5 ml-5">
 					<div class="col">
-						<input class="form-check-input" type="checkbox" name="IsOrganisateur"  id="IsOrganisateur">
+						<input class="form-check-input" type="checkbox" name="IsOrganisateur"  id="IsOrganisateur" onclick="checkboxExclisif();filtre();">
 						<label for="IsOrganisateur"> Sorties dont je suis l'organisateur/trice</label>
 					</div>
 					
 					<div class="col">
-						<input class="form-check-input" type="checkbox" name="IsInscrit"  id="IsInscrit">
+						<input class="form-check-input" type="checkbox" name="IsInscrit"  id="IsInscrit" onclick="checkboxExclisif();filtre();" checked="checked">
 						<label for="IsInscrit"> Sorties auquelles je suis inscrit/e </label>
 					</div>
 					
 					<div class="col">
-						<input class="form-check-input" type="checkbox" name="IsNotInscrit"  id="IsNotInscrit">
+						<input class="form-check-input" type="checkbox" name="IsNotInscrit"  id="IsNotInscrit" onclick="checkboxExclisif();filtre();" checked="checked">
 						<label for="IsNotInscrit"> Sorties auquelles je suis ne suis pas inscrit/e</label>
 					</div>
 					
 					<div class="col">
-						<input class="form-check-input" type="checkbox" name="IsPassee"  id="IsPassee">
+						<input class="form-check-input" type="checkbox" name="IsPassee"  id="IsPassee" onclick="filtre()">
 						<label for="IsPassee"> Sorties passées</label>
 					</div>
-					
+					<!--===================
 					<div>
-						<button class="mt-2" type="button" id="search" class="btn btn-outline-success"> Rechercher </button>
+						<button class="mt-2" type="button" id="search" class="btn btn-outline-success" onclick="filtre()"> Rechercher </button>
 					</div>
-					
+					===================-->
 			</div>
 		</div>
 	</div>
@@ -117,38 +115,40 @@
 				</tr>
 			</thead>
 			<tbody id="TableSortie">
-				<tr>
-					<td> Sortie en forêt (bois de boulogne) </td>
-					<td> 21/03/2019 19h25 </td>
-					<td> 21/03/2019 19h65</td>
-					<td> 5 / 8 </td>
-					<td> Ouverte </td>
-					<td>  </td>
-					<td> <a href="/ENI_Sortie_Com/membre/profil?pseudo=gogol">gogol</a> </td>
-					<td> <a href="/ENI_Sortie_Com/membre/detailSortie?id=1">Afficher</a> </td>
-				</tr>
-				<tr>
-					<td> Sortie en classe </td>
-					<td> 31/02/2019 19h25 </td>
-					<td> 31/03/2019 19h25</td>
-					<td> 8 / 8 </td>
-					<td> En cours </td>
-					<td>  </td>
-					<td> <a href="/ENI_Sortie_Com/membre/profil?pseudo=gogol">gogol</a> </td>
-					<td> <a href="/ENI_Sortie_Com/membre/detailSortie?id=1">Afficher</a> </td>
-				</tr>
+			
+				<c:forEach items="${ sessionScope.sorties }" var="sortie">
+					<tr>
+						<td> ${sortie.nom } </td>
+						<td> ${sortie.dateHeureDebut } </td>
+						<td> ${sortie.dateLimiteInscription }</td>
+						<td> ${ fn:length(sortie.participants) } / ${sortie.nbInscriptionMax } </td>
+						<td> ${sortie.etat.name } </td>
+						
+						<td><c:forEach items="${ sortie.participants }" var="participant"><c:if test="${participant.idParticipant == sessionScope.utilisateur.idParticipant }">X</c:if></c:forEach></td>
+						
+						<td><a href="/ENI_Sortie_Com/membre/profil?pseudo=${sortie.organisateur.pseudo }">${sortie.organisateur.pseudo }</a></td>
+						<td> 
+							<a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }">Afficher</a> 
+							
+							
+						</td>
+						<td style="display: none;">${sessionScope.utilisateur.pseudo }</td>
+						<td style="display: none;">${sortie.site.nom }</td>
+						
+						
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 	</div>
 	<div>
-		<button type="button" id="CreerSortie" name="CreerSortie" class="btn btn-outline-info ml-5 mt-3">
+		<a href="/ENI_Sortie_Com/membre/Sortie" class="btn btn-outline-info ml-5 mt-3" id="CreerSortie" name="CreerSortie"> 
 			Créer une sortie
-		</button>
+		</a>
 	</div>
 	
 	<script type="text/javascript" src="../js/jquery/jquery-3.3.1.min.js"></script>
 	<script type="text/javascript" src="../js/Accueil.js"></script>
-	
 	
 </body>
 </html>
