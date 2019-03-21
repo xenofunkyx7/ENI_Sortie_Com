@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.Participant;
-import bean.Site;
+
 import dao.DaoProfil;
 
 /**

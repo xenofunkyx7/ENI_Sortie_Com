@@ -9,7 +9,7 @@ import java.util.List;
 
 import bean.Participant;
 import bean.Site;
-import bean.Sortie;
+
 
 public class DaoProfil {
 	
@@ -22,12 +22,13 @@ public class DaoProfil {
 	 
 	 private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants SET mot_de_passe=? WHERE no_participant=? ";
 	 
-//	 private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE id=? ";
+	 private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE id=? ";
 	 
 	 private static final String GET_PARTICIPANT = "SELECT * FROM PARTICIPANTS inner join SITES on no_site = sites_no_site "
 				+ " WHERE pseudo = ? "; 
 	 
 	 private static final String GET_ALL_PARTICIPANT = "SELECT * FROM participants inner join SITES on no_site = sites_no_site " ;
+	
 	
 	
 	// Singkleton !
@@ -49,9 +50,10 @@ public class DaoProfil {
      * Méthode permettant de modifier un article via un objet article en paramétre.
      * @param article
      */
-    public static void modifyParticipant(Participant participant) {
+    public static int modifyParticipant(Participant participant) {
 
         String sql = MODIFY_PARTICIPANT;
+        int resultModif = 0;
         
         DbConnexion dbConnexion = new DbConnexion();
         
@@ -71,16 +73,19 @@ public class DaoProfil {
             pStat.setInt(7, participant.getIdParticipant() );
 //            pStat.setString(parameterIndex, image);
 
-            pStat.executeUpdate() ;
+            return resultModif = pStat.executeUpdate() ;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            
+            return resultModif;
         }
     }
     
     //Modification du mdp
-    public static void  modifyParticipantMDP( String mdp, int no_partcipant) {
+    public static  int modifyParticipantMDP( String mdp, int no_partcipant) {
     	
+    	int resultModif = 0;
     	String sql = MODIFY_PARTICIPANTMDP; 
     	
     	DbConnexion dbConnexion = new DbConnexion();
@@ -91,11 +96,15 @@ public class DaoProfil {
     		pStat.setString(1, mdp);
     		pStat.setInt(2, no_partcipant);
     		
-    		pStat.executeUpdate();
+    		return resultModif = pStat.executeUpdate();
+    		
     		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+			return resultModif;
+			
 		}
     }
 
@@ -133,6 +142,8 @@ public class DaoProfil {
 		return participant;
 	}
 	
+
+
 
 	 
 	/**
@@ -179,6 +190,34 @@ public class DaoProfil {
 		
 		
 		return participants;
+	}
+	
+	
+	/**
+	 * Méthode permettant de supprimer un Participant via un objet Participant en paramétre.
+	 * @param participant
+	 */
+	public static void deleteParticipant(Participant participant) {
+		deleteParticipant(participant.getIdParticipant());
+	}
+	
+	/**
+	 * Surcharge de méthode permettant de supprimer un Participant via l'id du Participant en paramétre.
+	 * @param idParticipant
+	 */
+	public static void deleteParticipant(int idParticipant) {
+		String sql = DELETE_PARTICIPANT;
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			pStat.setInt(1, idParticipant );
+			
+			pStat.executeUpdate() ;
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private static Participant mappageParticipant(ResultSet rs) {
