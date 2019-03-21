@@ -5,6 +5,7 @@
 
 
 <form action="${pageContext.request.contextPath}/membre/monProfil" method="POST" class="was-validated">
+	
     <fieldset>
         <legend>Mon profil</legend>
         <section class="container">
@@ -18,67 +19,69 @@
             </div>
 
             <div class="col-8">
+            
             <fieldset>
 	            <legend>Informations Personnels</legend>
 	            	<c:if test="${RequestScope.modification >= 1 }">
 	            		<div class="alert alert-success">
 						  <strong>Success!</strong> Modification effectué
 						</div>
-	            	</c:if>
-	                <div class="form-group">
-	                    <label for="pseudo">Pseudo :</label>
-	                    <input type="text" class="form-control" id="pseudo" value="${sessionScope.utilisateur.pseudo}" name="pseudo" required>
+	            	</c:if>	            	
+	                <div class="form-group row">
+	                    <label for="pseudo" class="col-3">Pseudo :</label>
+	                    <input type="text" class="form-control col" id="pseudo" value="${sessionScope.utilisateur.pseudo}" name="pseudo" required>
 	                    <div class="valid-feedback">Pseudo valide</div>
 	                    <div class="invalid-feedback">Veuillez saisir votre pseudo</div>
 	                </div>
-	                <div class="form-group">
-	                    <label for="prenom">Prenom :</label>
-	                    <input type="text" class="form-control" id="prenom" value="${sessionScope.utilisateur.prenom }" name="prenom" required>
+	                <div class="form-group row">
+	                    <label for="prenom" class="col-3">Prenom :</label>
+	                    <input type="text" class="form-control col" id="prenom" value="${sessionScope.utilisateur.prenom }" name="prenom" required>
 	                    <div class="valid-feedback">Prenom valide</div>
 	                    <div class="invalid-feedback">Veuillez saisir votre prenom</div>
 	                </div>
-	                <div class="form-group">
-	                    <label for="nom">Nom :</label>
-	                    <input type="text" class="form-control" id="nom" value="${sessionScope.utilisateur.nom}" name="nom" required>
+	                <div class="form-group row">
+	                    <label for="nom" class="col-3">Nom :</label>
+	                    <input type="text" class="form-control col" id="nom" value="${sessionScope.utilisateur.nom}" name="nom" required>
 	                    <div class="valid-feedback">Nom valide</div>
 	                    <div class="invalid-feedback">Veuillez saisir votre Nom</div>
 	                </div>
-	                <div class="form-group">
-	                    <label for="telephone">Telephone :</label>
-	                    <input type="text" class="form-control" id="telephone" value="${sessionScope.utilisateur.telephone}" name="telephone" required>
+	                <div class="form-group row">
+	                    <label for="telephone" class="col-3">Telephone :</label>
+	                    <input type="text" class="form-control col" id="telephone" value="${sessionScope.utilisateur.telephone}" name="telephone" required>
 	                    <div class="valid-feedback">telephone valide</div>
 	                    <div class="invalid-feedback">Veuillez saisir votre telephone (que des chiffres)</div>
 	                </div>
-	                <div class="form-group">
-	                    <label for="email">Email address :</label>
-	                    <input type="text" class="form-control" id="email" value="${sessionScope.utilisateur.mail}" name="email" required>
+	                <div class="form-group row">
+	                    <label for="email" class="col-3">Email address :</label>
+	                    <input type="text" class="form-control col" id="email" value="${sessionScope.utilisateur.mail}" name="email" required>
 	                    <div class="valid-feedback">e-mail valide</div>
 	                    <div class="invalid-feedback">Veuillez saisir votre e-mail</div>
 	                </div>
-	                <div class="form-group">
-	                    <label for="site">Votre Site :</label>
-	                    <select class="form-control" id="site" name="site" disabled>                    	
+	                <div class="form-group row">
+	                    <label for="site" class="col-3">Votre Site :</label>
+	                    <select class="form-control col" id="site" name="site" disabled>                    	
 	                    <option value="${sessionScope.utilisateur.site.nom}">${sessionScope.utilisateur.site.nom}</option>
                     </select>
                 </div>
                 </fieldset>
                 <fieldset>
                 	<legend>Changement de mot de passe</legend>
-	                <div class="form-group">
-	                    <label for="nmdp">Nouveau mot de passe :</label>
-	                    <input type="password" class="form-control" id="nmdp" placeholder="Enter mot de passe" name="nmdp" >
+	                <div class="form-group row" >
+	                    <label for="nmdp" class="col-3">Nouveau mot de passe :</label>
+	                    <input type="password" class="form-control col" id="nmdp" placeholder="Enter mot de passe" name="nmdp" >
 	                </div>
-	                <div class="form-group">
-	                    <label for="cmdp">Confirmation nouveau mot de passe :</label>
-	                    <input type="password" class="form-control" id="cmdp" placeholder="confirmer mot de passe" name="cmdp">
+	                <div class="form-group  row">
+	                    <label for="cmdp" class="col-3">Confirmation nouveau mot de passe :</label>
+	                    <input type="password" class="form-control col" id="cmdp" placeholder="confirmer mot de passe" name="cmdp">
 	                </div>
 	                
                 </fieldset>
+                
 				<fieldset>
                 <legend>Confirmer modifications(s)</legend>
-                <div class="form-group">
-                    <label for="mdpa">Mot de passe actuel :</label>
-                    <input type="password" class="form-control" id="nmdp" placeholder="Enter mot de passe" name="mdpa" required>
+                <div class="form-group row">
+                    <label for="mdpa" class="col-3">Mot de passe actuel :</label>
+                    <input type="password" class="form-control col" id="nmdp" placeholder="Enter mot de passe" name="mdpa" required>
                     <div class="valid-feedback">Mot de passe valide</div>
                     <div class="invalid-feedback">Veuillez saisir votre mot de passe.</div>
                 </div>
