@@ -80,10 +80,11 @@ public class MonProfil extends HttpServlet {
 			resultModif = DaoProfil.modifyParticipant(utilisateurModif);	
 			
 			//modification du mdp
-			if(nmdp == cmdp ) {				
+			if(nmdp.equals(cmdp) ) {				
 				
 				resultModif = DaoProfil.modifyParticipantMDP(nmdp, idUtilisateur);
 			}
+			session.setAttribute("utilisateur", utilisateurModif);
 		}
 		
 		//Permet d'indiquer a la jsp si il y a eu des modifications. 

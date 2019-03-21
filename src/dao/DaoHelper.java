@@ -46,7 +46,7 @@ public class DaoHelper {
 		
 		String sql = VERIF_UTILISATEUR_ID;
 		ResultSet rs = null;
-		String pswSQL = null;
+		String pswSQL = "";
 		
 		boolean isVerif = false;
 		
@@ -57,13 +57,19 @@ public class DaoHelper {
 			
 			rs = pStat.executeQuery();
 			
-			if(rs != null){
+			
+			if(rs != null && rs.next()){				
+				
 				pswSQL = rs.getString("mot_de_passe");
+				
 				System.out.println(pswSQL);
-				if(pswSQL == inputPsw) {					
-					 isVerif = true;
-				}
-			}			
+				System.out.println(inputPsw);
+					
+				isVerif = pswSQL.equals(inputPsw);
+					 
+				
+			}
+			System.out.println(isVerif);
 			return isVerif;	
 			
 		} catch (SQLException e) {
@@ -88,10 +94,10 @@ public class DaoHelper {
 			
 			rs = pStat.executeQuery();
 			
-			if(rs != null){
+			if(rs != null && rs.next()){
 				pswSQL = rs.getString("mot_de_passe");
 				System.out.println(pswSQL);
-				if(pswSQL == inputPsw) {					
+				if(pswSQL.equals(inputPsw) ) {					
 					 isVerif = true;
 				}
 			}			

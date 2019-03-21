@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import bean.Participant;
 import bean.Site;
 import bean.Sortie;
 import bean.Sortie.Etats;
+import dao.DaoProfil;
 
 /**
  * Servlet implementation class Accueil
@@ -40,13 +42,18 @@ public class Accueil extends HttpServlet {
 		HttpSession session = request.getSession(true);
 		
 		List<Site> sites = new ArrayList<>();
-		sites.add(new Site(0, "le mans"));
+		sites.add(new Site(11, "le mans"));
 		sites.add(new Site(1, "nantes"));
 		sites.add(new Site(2, "la roche sur yon"));
 		sites.add(new Site(3, "Paris"));
 		
-		Participant perso = new Participant(5, "Golem de sel", "Funky", "Xeno", "02354", "15343",
-				true, true, sites.get(0), "");
+		Participant perso = null;
+		try {
+			perso = DaoProfil.getParticipant("Golem de sel");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Participant gogol = new Participant(1, "gogol", "gogol", "gogol", "02454", "15143",
 				false, true, sites.get(1), "");
 		

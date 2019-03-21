@@ -14,7 +14,7 @@ import bean.Site;
 public class DaoProfil {
 	
 	// false pour l'admin, on ne peut pas créer un membre qui soit directement admin)
-	 private static final String ADD_PARTICIPANT = "INSERT INTO participants VALUES (?,?, ?,?,?, ?,'false',?,?)";
+//	 private static final String ADD_PARTICIPANT = "INSERT INTO participants VALUES (?,?, ?,?,?, ?,'false',?,?)";
 	 
 	 private static final String MODIFY_PARTICIPANT =  "UPDATE PARTICIPANTS "			 
 	 		+ " SET pseudo=?, nom=?, prenom=?, telephone=?, mail=?,  sites_no_site=? " 
@@ -44,33 +44,7 @@ public class DaoProfil {
      }
 	 
 	 
-	 /**
-		 * Méthode permettant de rajouter un Participant via un objet Participant en paramétre.
-		 * @param participant
-		 * @param motDePasse
-		 */
-		public static void addParticipant (Participant participant, String motDePasse) {
-			
-			String sql = ADD_PARTICIPANT;
-			
-			DbConnexion dbConnexion = new DbConnexion();
-			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
-					
-				pStat.setString(1, participant.getPseudo() );
-				pStat.setString(2, participant.getNom() );
-				pStat.setString(3, participant.getPrenom() );
-				pStat.setString(4, participant.getTelephone() );
-				pStat.setString(5, participant.getMail() );
-				pStat.setString(6, motDePasse );
-				pStat.setBoolean(7, participant.isActif() );
-				pStat.setInt(8, participant.getSite().getIdSite() );
-				
-				pStat.executeUpdate() ;
-					
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
+	 
 		 
 	 /*
      * Méthode permettant de modifier un article via un objet article en paramétre.
@@ -95,7 +69,7 @@ public class DaoProfil {
             pStat.setString(4, participant.getTelephone() );
             pStat.setString(5, participant.getMail() );            
 //            pStat.setBoolean(X, participant.isActif() );
-            pStat.setString(6, participant.getSite().getNom() );
+            pStat.setInt(6, participant.getSite().getIdSite() );
             pStat.setInt(7, participant.getIdParticipant() );
 //            pStat.setString(parameterIndex, image);
 
