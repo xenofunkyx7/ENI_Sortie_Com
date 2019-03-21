@@ -9,8 +9,8 @@ import java.sql.SQLException;
 
 public class DaoHelper {
 	
-	private static final String VERIF_UTILISATEUR = " SELECT mot_de_passe FROM participants WHERE no_participant = ? ";
-
+	private static final String VERIF_UTILISATEUR_ID = " SELECT mot_de_passe FROM participants WHERE no_participant = ? ";
+	private static final String VERIF_UTILISATEUR_PSEUDO = " SELECT mot_de_passe FROM participants WHERE pseudo = ? ";
 	
 	public static String hash(String mdp) {
 		
@@ -44,7 +44,7 @@ public class DaoHelper {
 	
 	public static boolean verifMdp(String inputPsw, int idUtilisateur ) {
 		
-		String sql = VERIF_UTILISATEUR;
+		String sql = VERIF_UTILISATEUR_ID;
 		ResultSet rs = null;
 		String pswSQL = null;
 		
@@ -54,6 +54,37 @@ public class DaoHelper {
 		try( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql)){
 			
 			pStat.setInt(1, idUtilisateur);
+			
+			rs = pStat.executeQuery();
+			
+			if(rs != null){
+				pswSQL = rs.getString("mot_de_passe");
+				System.out.println(pswSQL);
+				if(pswSQL == inputPsw) {					
+					 isVerif = true;
+				}
+			}			
+			return isVerif;	
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();			
+			return isVerif;
+		}
+	}
+	
+	public static boolean verifMdp(String inputPsw, String PseudoUtilisateur) {
+		
+		String sql = VERIF_UTILISATEUR_PSEUDO;
+		ResultSet rs = null;
+		String pswSQL = null;
+		
+		boolean isVerif = false;
+		
+		DbConnexion dbConnexion = new DbConnexion();
+		try( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql)){
+			
+			pStat.setString(1, PseudoUtilisateur);
 			
 			rs = pStat.executeQuery();
 			
