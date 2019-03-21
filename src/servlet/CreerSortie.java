@@ -56,10 +56,11 @@ public class CreerSortie extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		
 		request.getServletContext().setAttribute("villes",villes );
 		request.getServletContext().setAttribute("lieux", lieux);
 		
-		
+		//TODO CHECK if utilisateur = createur de la 
 		request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response); 
 	}
  
