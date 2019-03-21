@@ -126,7 +126,7 @@ function filtre() {
 					  
 					  isInscritGood = ckInscrit.checked && txtValue == "X" || !ckInscrit.checked;
 					  
-					  // je suis pas incesruit ckInscrit, ckNotInscrit
+					  // je suis pas incesruit ckInscrit, ckNotInscrit 
 					  
 					  isNotInscritGood = ckNotInscrit.checked && txtValue == "" || !ckNotInscrit.checked;
 				  }
