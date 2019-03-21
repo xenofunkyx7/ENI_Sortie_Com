@@ -20,6 +20,11 @@
             <div class="col-8">
             <fieldset>
 	            <legend>Informations Personnels</legend>
+	            	<c:if test="${RequestScope.modification >= 1 }">
+	            		<div class="alert alert-success">
+						  <strong>Success!</strong> Modification effectué
+						</div>
+	            	</c:if>
 	                <div class="form-group">
 	                    <label for="pseudo">Pseudo :</label>
 	                    <input type="text" class="form-control" id="pseudo" value="${sessionScope.utilisateur.pseudo}" name="pseudo" required>
@@ -42,7 +47,7 @@
 	                    <label for="telephone">Telephone :</label>
 	                    <input type="text" class="form-control" id="telephone" value="${sessionScope.utilisateur.telephone}" name="telephone" required>
 	                    <div class="valid-feedback">telephone valide</div>
-	                    <div class="invalid-feedback">Veuillez saisir votre telephone</div>
+	                    <div class="invalid-feedback">Veuillez saisir votre telephone (que des chiffres)</div>
 	                </div>
 	                <div class="form-group">
 	                    <label for="email">Email address :</label>
@@ -67,19 +72,20 @@
 	                    <label for="cmdp">Confirmation nouveau mot de passe :</label>
 	                    <input type="password" class="form-control" id="cmdp" placeholder="confirmer mot de passe" name="cmdp">
 	                </div>
+	                
                 </fieldset>
 				<fieldset>
-                <legend>Confirmer changement(s)</legend>
+                <legend>Confirmer modifications(s)</legend>
                 <div class="form-group">
                     <label for="mdpa">Mot de passe actuel :</label>
                     <input type="password" class="form-control" id="nmdp" placeholder="Enter mot de passe" name="mdpa" required>
                     <div class="valid-feedback">Mot de passe valide</div>
-                    <div class="invalid-feedback">Veuillez saisir un mot de passe .</div>
+                    <div class="invalid-feedback">Veuillez saisir votre mot de passe.</div>
                 </div>
                 <div class="row">
                 
                 <button type="submit" class="btn btn-primary mb-2">Modifier</button>
-                <a href="http://localhost:8080/ENI_Sortie_Com/membre/accueil">
+                <a href="/ENI_Sortie_Com/membre/accueil">
                     <button type="button" class="btn btn-warning">Annuler</button></a>
                 </div>
                 </fieldset>

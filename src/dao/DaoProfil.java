@@ -30,6 +30,7 @@ public class DaoProfil {
 	 private static final String GET_ALL_PARTICIPANT = "SELECT * FROM participants inner join SITES on no_site = sites_no_site " ;
 	
 	
+	
 	// Singkleton !
 	
 	 private DaoProfil() {} 
@@ -49,12 +50,10 @@ public class DaoProfil {
      * Méthode permettant de modifier un article via un objet article en paramétre.
      * @param article
      */
-    public static void modifyParticipant(Participant participant) {
+    public static int modifyParticipant(Participant participant) {
 
         String sql = MODIFY_PARTICIPANT;
-//        "UPDATE PARTICIPANTS "			 
-// 		+ " SET pseudo=?, nom=?, prenom=?, telephone=?, mail=?,  sites_no_site=? " 
-//		+ " WHERE no_participant=? ";
+        int resultModif = 0;
         
         DbConnexion dbConnexion = new DbConnexion();
         
@@ -74,16 +73,19 @@ public class DaoProfil {
             pStat.setInt(7, participant.getIdParticipant() );
 //            pStat.setString(parameterIndex, image);
 
-            pStat.executeUpdate() ;
+            return resultModif = pStat.executeUpdate() ;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            
+            return resultModif;
         }
     }
     
     //Modification du mdp
-    public static void  modifyParticipantMDP( String mdp, int no_partcipant) {
+    public static  int modifyParticipantMDP( String mdp, int no_partcipant) {
     	
+    	int resultModif = 0;
     	String sql = MODIFY_PARTICIPANTMDP; 
     	
     	DbConnexion dbConnexion = new DbConnexion();
@@ -94,11 +96,15 @@ public class DaoProfil {
     		pStat.setString(1, mdp);
     		pStat.setInt(2, no_partcipant);
     		
-    		pStat.executeUpdate();
+    		return resultModif = pStat.executeUpdate();
+    		
     		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			
+			return resultModif;
+			
 		}
     }
 
@@ -136,12 +142,8 @@ public class DaoProfil {
 		return participant;
 	}
 	
-	public static verifMdp() {
-		
-		ResultSet rs = null
-				String sql = 
-		
-	}
+
+
 
 	 
 	/**
