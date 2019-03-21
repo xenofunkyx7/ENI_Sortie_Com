@@ -45,7 +45,7 @@ public class Accueil extends HttpServlet {
 		sites.add(new Site(2, "la roche sur yon"));
 		sites.add(new Site(3, "Paris"));
 		
-		Participant perso = new Participant(0, "Golem de sel", "Funky", "Xeno", "02354", "15343",
+		Participant perso = new Participant(5, "Golem de sel", "Funky", "Xeno", "02354", "15343",
 				true, true, sites.get(0), "");
 		Participant gogol = new Participant(1, "gogol", "gogol", "gogol", "02454", "15143",
 				false, true, sites.get(1), "");
