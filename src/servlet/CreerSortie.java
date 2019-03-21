@@ -188,7 +188,7 @@ public class CreerSortie extends HttpServlet {
 		newSortie.setNbInscriptionMax(nbInscriptionMax);
 		newSortie.setInfoSortie(infoSortie);
 		
-		newSortie.setEtat(etat.equals("publier")? Etats.Ouverte : Etats.Creee);
+		newSortie.setEtat(etat.equals("publier")? Etats.OUVERTE : Etats.CREEE);
 		
 		newSortie.setLieu(lieuChoisi);
 		newSortie.setSite(user.getSite());
