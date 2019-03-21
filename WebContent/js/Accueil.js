@@ -124,11 +124,11 @@ function filtre() {
 				  }else {
 					  // je suis incesruit
 					  
-					  isInscritGood = ckInscrit.checked && txtValue == "" || !ckInscrit.checked;
+					  isInscritGood = ckInscrit.checked && txtValue == "X" || !ckInscrit.checked;
 					  
 					  // je suis pas incesruit ckInscrit, ckNotInscrit
 					  
-					  isNotInscritGood = ckNotInscrit.checked && txtValue == "X" || !ckNotInscrit.checked;
+					  isNotInscritGood = ckNotInscrit.checked && txtValue == "" || !ckNotInscrit.checked;
 				  }
 			  }else {
 				  isInscritGood = true;
