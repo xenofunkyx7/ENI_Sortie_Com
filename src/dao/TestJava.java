@@ -7,21 +7,17 @@ public class TestJava {
 
 	public static void main(String[] args) throws NoSuchAlgorithmException {
 		
-		byte[] mdpHash = DaoHelper.hash("contenu");
+		String mp1 = DaoHelper.hash("antoine");
+		String mp2 = DaoHelper.hash("eniotna");    
 		
-		String test = mdpHash.toString();
-		System.out.println("essai 1 : "+test);
-		
-		String mdp2 = "b";
-		byte[] mdpHash2 = DaoHelper.hash(mdp2);
-		
-		
-		int test2 = mdpHash2.hashCode();
-		
-		System.out.println("string mdp 2 : "+ mdp2);
-		System.out.println("essai 2 int : "+mdpHash2);
-		System.out.println("essai 2 : "+test2);
-
+		System.out.println(mp1);
+		System.out.println(mp2);
 	}
+}	
+		
+		
+		
+		
+		
+		
 
-}
