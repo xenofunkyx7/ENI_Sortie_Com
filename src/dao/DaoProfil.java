@@ -286,6 +286,11 @@ public class DaoProfil {
 		
 	}
 	
+	private static List<Participant> mappageParticipants(ResultSet rs) {
+		//whuile;mappageParticipant
+		return null;
+	}
+	
 	private static Participant mappageParticipant(ResultSet rs) {
 		
 		Participant participant = null;

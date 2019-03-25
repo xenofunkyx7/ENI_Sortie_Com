@@ -105,7 +105,7 @@ public class DaoSortie {
 			
 			rs = pStat.executeQuery();
 
-			if( rs != null) {
+			if( rs != null  ) {
 				
 				sortie = mappageSortie(rs);
 			}
