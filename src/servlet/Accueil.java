@@ -17,7 +17,10 @@ import bean.Participant;
 import bean.Site;
 import bean.Sortie;
 import bean.Sortie.Etats;
+import dao.DaoInscription;
 import dao.DaoProfil;
+import dao.DaoSite;
+import dao.DaoSortie;
 
 /**
  * Servlet implementation class Accueil
@@ -41,6 +44,7 @@ public class Accueil extends HttpServlet {
 		
 		HttpSession session = request.getSession(true);
 		
+		/*
 		List<Site> sites = new ArrayList<>();
 		sites.add(new Site(11, "le mans"));
 		sites.add(new Site(1, "nantes"));
@@ -74,10 +78,25 @@ public class Accueil extends HttpServlet {
 		sorties.add(new Sortie(1, "jdr", new Date( new java.util.Date().getTime() )
 				, 30, new Date( new java.util.Date().getTime() ), 10, "jdr", 
 				Etats.ACTIVITE_EN_COURS, perso, new ArrayList<Participant>(), null, sites.get(2), ""));
+		*/
+		
+		
+		List<Sortie> sorties = new ArrayList<>();
+		List<Site> sites = new ArrayList<>();
+		try {
+			sites = DaoSite.getSites("");
+			sorties = DaoSortie.getSorties("", null, null, null, null, true, true, true, true);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 		
 		session.setAttribute("sorties", sorties);
 		session.setAttribute("sites", sites);
-		session.setAttribute("utilisateur", perso);
 		
 		
 		request.getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
@@ -87,8 +106,56 @@ public class Accueil extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		String btn = request.getParameter("btnAction");
+		
+		switch (btn) {
+		case "S'inscrire":
+			inscription(request, response);
+			break;
+		case "Se désister":
+			seDesiste(request, response);
+			break;
+		case "Publier":
+			publier(request, response);
+			break;
+		case "Annuler":
+			annuler(request, response);
+			break;
+		default:
+			request.getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
+			break;
+		}
+		
+		request.getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
+		
+	}
+	
+	private void inscription (HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(true);
+		Participant user = (Participant) session.getAttribute("utilisateur");
+		int idSortie = Integer.parseInt( request.getParameter("idSortie") );
+		Date date = new Date(new java.util.Date().getTime() );
+		
+		DaoInscription.addInscription(date, idSortie, user.getIdParticipant());
+	}
+	
+	private void seDesiste (HttpServletRequest request, HttpServletResponse response) {
+		HttpSession session = request.getSession(true);
+		Participant user = (Participant) session.getAttribute("utilisateur");
+		int idSortie = Integer.parseInt( request.getParameter("idSortie") );
+		
+		DaoInscription.deleteInscription(idSortie, user.getIdParticipant());
+	}
+
+	private void publier (HttpServletRequest request, HttpServletResponse response) {
+		// changer l'attribut de la sortie
+		
+	}
+	
+	private void annuler (HttpServletRequest request, HttpServletResponse response) {
+		// changer l'attribut de la sortie
+		
 	}
 
 }
