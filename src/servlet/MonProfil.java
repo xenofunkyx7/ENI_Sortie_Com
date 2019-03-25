@@ -87,9 +87,11 @@ public class MonProfil extends HttpServlet {
 			session.setAttribute("utilisateur", utilisateurModif);
 		}
 		
-		//Permet d'indiquer a la jsp si il y a eu des modifications. 
+		
+		
+		//Permet d'indiquer a la jsp si il y a eu des modifications. 		
 		if(resultModif > 0)
-		{
+		{				
 			request.setAttribute("modification", resultModif);
 		}
 		

@@ -56,7 +56,7 @@ public class Login extends HttpServlet {
 		if(identifiant == null) identifiant = "";
 		if(password == null) password = "";
 		
-		//Si le cookie n'existe pas on le créé si l'utilisateur à coché la checkbox
+		//Si le cookie n'existe pas on le crï¿½ï¿½ si l'utilisateur ï¿½ cochï¿½ la checkbox
 		if (request.getParameter("seSouvenirDeMoi") != null)
 		{
 			setCookie(response, "identifiant", identifiant, 60*60*24*30);
