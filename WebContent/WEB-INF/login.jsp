@@ -16,10 +16,10 @@
 			
 			<div class="row mt-5">
 				<div class="col-3">
-					<label for="login">Identifiant:</label>
+					<label for="identifiant">Identifiant: </label>
 				</div>
 				<div class="col-9">
-					<input type="text" placeholder="Pseudonyme" name="login" value='' class="form-control form-control-lg form-control-borderless" >
+					<input type="text" placeholder="Pseudonyme" name="identifiant" value='<c:if test="${not empty sessionScope.identifiant}">${sessionScope.identifiant}</c:if>' class="form-control form-control-lg form-control-borderless" >
 				</div>
 			</div>
 			
@@ -32,7 +32,7 @@
 				</div>
 			</div>
 			
-			<c:if test ="${requestScope.erreur == true}">
+			<c:if test ="${sessionScope.erreur == true}">
 				<div class="row mt-2">
 					<div class="col-12">
 				         <p class='text-danger'>Mot de passe/Identifiant Incorrect<p>
@@ -47,7 +47,7 @@
 				
 				<div class="col-6">
 					<input type="checkbox" id="" name="seSouvenirDeMoi"
-						<c:if test="${not empty identifiant}">
+						<c:if test="${not empty sessionScope.identifiant}">
 							checked="checked"
 						</c:if>
 					>

@@ -17,7 +17,7 @@
 		<nav class="navbar navbar-expand-sm bg-light navbar-light justify-content-end">
 		    <a class="navbar-brand" href="/ENI_Sortie_Com/membre/accueil">
 		    	<object data='../image/logoExit.png' width="100px" height="100px">
-				    <img class="img-logo" src="image/logoExit.png" width="100px" height="100px">
+				  <!-- <img class="img-logo" src="image/logoExit.png" width="100px" height="100px"> -->
 				</object>
 		    </a>
 		    <h3 class="ml-2"> &#139;-
