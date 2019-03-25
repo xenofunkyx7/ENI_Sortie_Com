@@ -32,6 +32,8 @@ public class DaoLieu {
 			+ " inner join VILLES on villes_no_ville = no_ville "
 			+ " where nom_ville like ?";
 	
+	private static final String GET_LIEU_BY_ID = "";
+	
 	// Singkleton !
 	
 	 private DaoLieu() {} 
@@ -166,6 +168,36 @@ public class DaoLieu {
 		
 		return lieux;
 	}
+	
+	public static Lieu getlieu( int id )
+	{
+		ResultSet rs = null;
+		
+		String sql = GET_LIEU;
+		Lieu lieuChoisis = null;
+		
+		DbConnexion dbConnexion = new DbConnexion();
+		
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+					
+			pStat.setString(1, "" );
+					
+			rs = pStat.executeQuery();
+						
+			if (rs != null ) 
+			{		
+				Lieu lieu = mappageLieu(rs);
+				lieuChoisis = lieu; ;
+			}
+		} catch ( Exception exception )  
+		{
+			throw new RuntimeException( exception );
+		}
+
+		return lieuChoisis;
+	}
+	
+	
 	 
 	//===================
 	// Mappage

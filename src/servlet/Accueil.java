@@ -49,7 +49,7 @@ public class Accueil extends HttpServlet {
 		
 		Participant perso = null;
 		try {
-			perso = DaoProfil.getParticipant("LeGolemdesel");
+			perso = DaoProfil.getParticipant("LeGolemDeSel");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,7 +77,6 @@ public class Accueil extends HttpServlet {
 		
 		session.setAttribute("sorties", sorties);
 		session.setAttribute("sites", sites);
-		session.setAttribute("utilisateur", perso);
 		
 		
 		request.getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);

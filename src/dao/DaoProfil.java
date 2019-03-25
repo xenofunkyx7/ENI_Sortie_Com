@@ -27,8 +27,16 @@ public class DaoProfil {
 	 private static final String GET_PARTICIPANT = "SELECT * FROM PARTICIPANTS inner join SITES on no_site = sites_no_site "
 				+ " WHERE pseudo = ? "; 
 	 
+	 private static final String GET_PARTICIPANT_BY_ID = "SELECT * FROM PARTICIPANTS inner join SITES on no_site = sites_no_site  "
+				+ " WHERE no_participant = ? "; 
+	 
+	 
 	 private static final String GET_ALL_PARTICIPANT = "SELECT * FROM participants inner join SITES on no_site = sites_no_site " ;
 	
+	 private static final String GET_ALL_PARTICIPANT_BY_IDSORTIE = "SELECT * FROM INSCRIPTIONS " + 
+	 		"inner join PARTICIPANTS on participants_no_participant = no_participant " + 
+	 		"inner join SITES on sites_no_site = no_site " + 
+	 		"WHERE sorties_no_sortie = ? ";
 	
 	
 	// Singkleton !
@@ -114,7 +122,6 @@ public class DaoProfil {
 	* @return Participant
 	* @throws SQLException
 	*/
-	
 	public static Participant getParticipant (String pseudo) throws SQLException {
 		
 		ResultSet rs = null;
@@ -142,6 +149,31 @@ public class DaoProfil {
 		return participant;
 	}
 	
+	public static Participant getParticipantById (int id) throws SQLException {
+		
+		ResultSet rs = null;
+		String sql = GET_PARTICIPANT_BY_ID;
+		
+		DbConnexion dbConnexion = new DbConnexion();
+		
+		Participant participant = null;
+		
+		try( Connection connection = dbConnexion.getConnection() ;
+	    		PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			pStat.setInt(1, id);
+			
+			rs = pStat.executeQuery();
+			
+			if( rs != null && rs.next() ) {
+				
+				participant = mappageParticipant(rs);
+			}
+		}
+		
+		return participant;
+	}
+	
 
 
 
@@ -152,7 +184,6 @@ public class DaoProfil {
 	* @return liste de Participant
 	* @throws SQLException
 	*/
-	
 	public static List<Participant> getParticipants (String nom, String prenom, String pseudo) throws SQLException {
 		ResultSet rs = null;
 		
@@ -192,6 +223,41 @@ public class DaoProfil {
 		return participants;
 	}
 	
+	public static List<Participant> getParticipantsBySortie (int idSortie)
+	{
+		ResultSet rs = null;
+		
+		String sql = GET_ALL_PARTICIPANT_BY_IDSORTIE;
+		List<Participant> participants = new ArrayList<>();
+		
+		DbConnexion dbConnexion = new DbConnexion();
+		
+			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) )
+			{
+				pStat.setInt(1, idSortie );
+		
+				rs = pStat.executeQuery();
+					
+				if (rs != null) {
+					
+					boolean bool = true;
+					while (bool) {
+						Participant participant = mappageParticipant(rs);
+						
+						if (participant == null) { // = null si il n'y a plus de ligne dans le rs, on ne peut pas test rs.next() car il y en a un aussi dans le mappage et on sauterai donc une ligne sur 2
+							bool = false;
+						} else {
+							participants.add(participant);
+						}
+					}
+				}
+			}catch ( Exception exception )  {
+				throw new RuntimeException( exception );
+			}		
+			
+			return participants;
+	}
+	
 	
 	/**
 	 * Méthode permettant de supprimer un Participant via un objet Participant en paramétre.
@@ -218,6 +284,11 @@ public class DaoProfil {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	private static List<Participant> mappageParticipants(ResultSet rs) {
+		//whuile;mappageParticipant
+		return null;
 	}
 	
 	private static Participant mappageParticipant(ResultSet rs) {
