@@ -21,6 +21,7 @@ import bean.Sortie;
 import bean.Ville;
 import bean.Sortie.Etats;
 import dao.DaoLieu;
+import dao.DaoSortie;
 import dao.DaoVille;
 
 
@@ -193,6 +194,17 @@ public class CreerSortie extends HttpServlet {
 		newSortie.setLieu(lieuChoisi);
 		newSortie.setSite(user.getSite());
 		
+		
+		/**
+		 * Envoie de la sortie en base de donnée
+		 */
+		int resultat = DaoSortie.addSortie(newSortie, user.getIdParticipant());
+		if (resultat == -1)
+		{
+			//TODO : echec de l'envoie en BDD
+		}
+		
+		request.getRequestDispatcher("/membre/detailSortie?id=" + resultat );
 		
 		
 	
