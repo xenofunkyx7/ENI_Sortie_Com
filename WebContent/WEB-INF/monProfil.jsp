@@ -22,9 +22,9 @@
             
             <fieldset>
 	            <legend>Informations Personnels</legend>
-	            	<c:if test="${RequestScope.modification >= 1 }">
+	            	<c:if test="${modification >= 1 }">
 	            		<div class="alert alert-success">
-						  <strong>Success!</strong> Modification effectué
+						  <strong>Succès !</strong> Modification effectué !
 						</div>
 	            	</c:if>	            	
 	                <div class="form-group row">
@@ -43,11 +43,11 @@
 	                    <label for="nom" class="col-3">Nom :</label>
 	                    <input type="text" class="form-control col" id="nom" value="${sessionScope.utilisateur.nom}" name="nom" required>
 	                    <div class="valid-feedback">Nom valide</div>
-	                    <div class="invalid-feedback">Veuillez saisir votre Nom</div>
+	                    <div class="invalid-feedback">Veuillez saisir votre Nom</div> 
 	                </div>
 	                <div class="form-group row">
 	                    <label for="telephone" class="col-3">Telephone :</label>
-	                    <input type="text" class="form-control col" id="telephone" value="${sessionScope.utilisateur.telephone}" name="telephone" required>
+	                    <input type="text" pattern="[0-9]{8,15}+" class="form-control col" id="telephone"  value="${sessionScope.utilisateur.telephone}" name="telephone" required>
 	                    <div class="valid-feedback">telephone valide</div>
 	                    <div class="invalid-feedback">Veuillez saisir votre telephone (que des chiffres)</div>
 	                </div>
