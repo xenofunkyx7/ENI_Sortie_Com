@@ -49,7 +49,7 @@ public class Accueil extends HttpServlet {
 		
 		Participant perso = null;
 		try {
-			perso = DaoProfil.getParticipant("Golem de sel");
+			perso = DaoProfil.getParticipant("LeGolemdesel");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

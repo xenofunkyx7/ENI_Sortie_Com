@@ -10,3 +10,7 @@
 {
 	box-shadow: 0 0 2px 1px red;
 }
+.center{
+    margin:auto;
+    float:none;  /* annule le float:left de bootstrap*/
+}

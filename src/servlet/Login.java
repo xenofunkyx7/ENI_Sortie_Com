@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -8,6 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import bean.Participant;
+import dao.DaoHelper;
+import dao.DaoProfil;
 
 /**
  * Servlet implementation class Login
@@ -34,11 +40,10 @@ public class Login extends HttpServlet {
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			for (Cookie cookie : cookies) {
-				System.out.println(cookie.getName().equals("identifiant"));
-				System.out.println(cookie.getValue());
 				
 				if (cookie.getName().equals("identifiant")) {
-					request.setAttribute("identifiant", cookie.getValue());
+					session.setAttribute("identifiant", cookie.getValue());
+					System.out.println(cookie.getValue());
 				}
 			}
 		}
@@ -51,22 +56,39 @@ public class Login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		HttpSession session = request.getSession(true);
 		String identifiant = request.getParameter("identifiant");
 		String password = request.getParameter("password");
 		if(identifiant == null) identifiant = "";
 		if(password == null) password = "";
 		
-		//Si le cookie n'existe pas on le cr�� si l'utilisateur � coch� la checkbox
+		//Si le cookie n'existe pas on le créé si l'utilisateur à coché la checkbox
 		if (request.getParameter("seSouvenirDeMoi") != null)
 		{
 			setCookie(response, "identifiant", identifiant, 60*60*24*30);
+			session.setAttribute("identifiant", identifiant);
 		}
 		else
 		{
 			setCookie(response, "identifiant", "", 0);
+			session.removeAttribute("identifiant");
 		}
 		
-		doGet(request, response);
+		
+		if (DaoHelper.verifMdp(DaoHelper.hash(password), identifiant) ) {
+			try {
+				Participant user = DaoProfil.getParticipant(identifiant);
+				session.setAttribute("utilisateur", user);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			session.setAttribute("erreur", false);
+			response.sendRedirect("/ENI_Sortie_Com/membre/accueil");
+			//request.getRequestDispatcher("/membre/accueil").forward(request, response);
+		}else {
+			session.setAttribute("erreur", true);
+			request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+		}
 	}
 	
 	private static void setCookie( HttpServletResponse response, String nom, String valeur, int maxAge )
