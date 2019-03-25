@@ -1,3 +1,6 @@
 @charset "ISO-8859-1";
 
-
+.center{
+    margin:auto;
+    float:none;  /* annule le float:left de bootstrap*/
+}
