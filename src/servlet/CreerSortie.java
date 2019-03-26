@@ -206,7 +206,7 @@ public class CreerSortie extends HttpServlet {
 		
 		request.getRequestDispatcher("/membre/detailSortie?id=" + resultat );
 		
-		
+		 
 	
 		
 	}
