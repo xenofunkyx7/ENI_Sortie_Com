@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import BLL.Mappage;
 import bean.Sortie;
+import bll.Mappage;
 
 public class DaoSortie {
 
@@ -16,8 +16,30 @@ public class DaoSortie {
 			"INSERT INTO SORTIES "
 			+ "VALUES ( ?,?,?,?,?, ?,?,?,?,?, ? )";
 	
-	 private static final String GET_SORTIE = "SELECT * FROM SORTIES "
-				+ " WHERE no_sortie = ? "; 
+	 private static final String GET_SORTIE = 
+			 "select " + 
+			 "	no_sortie, Sorties.nom as 'nom_sortie', datedebut, duree, datecloture, " + 
+			 "	nbinscriptionsmax, descriptioninfos, urlPhoto, organisateur, etats_no_etat, " + 
+			 
+			 "	no_lieu ,nom_lieu, rue, latitude, longitude, " + 
+
+			 "	no_ville, nom_ville, code_postal, " + 
+			 
+			 "	no_participant, pseudo, PARTICIPANTS.nom, prenom, telephone, mail, "
+			 + " mot_de_passe, administrateur, actif, urlAvatar, " + 
+
+			 "	siteSortie.no_site as 'sites_no_site' , siteSortie.nom_site as 'sites_nom_site', " + 
+
+			 "	siteOrga.no_site, siteOrga.nom_site " + 
+
+			 "	from SORTIES " + 
+			 "		inner join LIEUX on lieux_no_lieu = no_lieu " + 
+			 "		inner join VILLES on lieux.villes_no_ville = villes.no_ville " + 
+			 "		inner join SITES siteSortie on sites_no_site = siteSortie.no_site " + 
+			 "		inner join PARTICIPANTS on organisateur = PARTICIPANTS.no_participant " + 
+			 "		inner join SITES siteOrga on PARTICIPANTS.sites_no_site = siteOrga.no_site" +
+			 
+			 " where no_sortie = ? ;"; 
 	 
 	 private static final String GET_SORTIES = 
 			 "select " + 
@@ -31,7 +53,7 @@ public class DaoSortie {
 			 "	no_participant, pseudo, PARTICIPANTS.nom, prenom, telephone, mail, "
 			 + " mot_de_passe, administrateur, actif, urlAvatar, " + 
 
-			 "	siteSortie.no_site as 'sortie_no_site' , siteSortie.nom_site as 'sortie_nom_site', " + 
+			 "	siteSortie.no_site as 'sites_no_site' , siteSortie.nom_site as 'sites_nom_site', " + 
 
 			 "	siteOrga.no_site, siteOrga.nom_site " + 
 

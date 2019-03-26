@@ -1,4 +1,4 @@
-package BLL;
+package bll;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import BLL.Mappage;
 import bean.Ville;
+import bll.Mappage;
 
 public class DaoVille {
 	// constantes de requetes sql

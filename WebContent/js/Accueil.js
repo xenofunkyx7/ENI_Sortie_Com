@@ -97,21 +97,25 @@ function filtre() {
 		  
 		  // Je suis l'organiasateur
 		  
-		  if ( ckOrga.checked ){
+		  
+		  var isOrga;
+		  
+		  td = ListTd[iOrganisateur];
+		  var user = ListTd[iUtilisateur];
+		  
+		  if (td) {
+			  txtValue = td.textContent || td.innerText;
+			  var txtValue2 = user.textContent || user.innerText;
+			  isOrga = txtValue2 == txtValue;
+		  }else {
+			  isOrga = false;
+		  }
+		  
+		  if ( ckOrga.checked || isOrga){
 			  isInscritGood = true;
 			  isNotInscritGood = true;
 			  
-			  td = ListTd[iOrganisateur];
-			  var user = ListTd[iUtilisateur];
-			  
-			  if (td) {
-				  txtValue = td.textContent || td.innerText;
-				  var txtValue2 = user.textContent || user.innerText;
-				  isOrgaGood = txtValue2 == txtValue;
-			  }else {
-				  isOrgaGood = false;
-			  }
-			  
+			  isOrgaGood = isOrga;
 			  
 		  }else {
 			  td = ListTd[iEtat];

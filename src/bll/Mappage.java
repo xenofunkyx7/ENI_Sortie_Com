@@ -1,4 +1,4 @@
-package BLL;
+package bll;
 
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -107,8 +107,8 @@ public class Mappage {
 		
 		try {
 			
-			int id = rs.getInt("sortie_no_site");
-			String nom = rs.getString("sortie_nom_site");
+			int id = rs.getInt("sites_no_site");
+			String nom = rs.getString("sites_nom_site");
 			
 			Site siteSortie = new Site(id, nom);
 			Lieu lieu = mappageLieu(rs);

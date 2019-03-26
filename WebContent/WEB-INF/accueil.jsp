@@ -164,7 +164,7 @@
 										</c:if>
 										
 										<c:if test='${sortie.etat.name == "Ouverte" }'>
-											<a href="/ENI_Sortie_Com/membre/annulerSortie?id=${sortie.id }" class="btn btn-link">Ouverte</a> <br/>
+											<a href="/ENI_Sortie_Com/membre/annulerSortie?id=${sortie.id }" class="btn btn-link">Annuler</a> <br/>
 										</c:if>
 									
 								</c:if>

@@ -18,7 +18,7 @@ import dao.DaoSortie;
 /**
  * Servlet implementation class ModifierSortie
  */
-@WebServlet("/ModifierSortie")
+@WebServlet("/membre/ModifierSortie")
 public class ModifierSortie extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -45,15 +45,16 @@ public class ModifierSortie extends HttpServlet {
 			&&	sortie.getEtat() 				== 	Etats.CREEE)
 		{
 			request.setAttribute( "sortie", sortie);		
-			request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response);
+			request.getRequestDispatcher("sortie").forward(request, response);
 		}
 		else
 		{
 			//TODO envoyer vers page erreur acces interdit.
 			System.out.println("acces interdit ModifierSortie");
+			request.getRequestDispatcher("sortie").forward(request, response);		// TODO
 		}
 
-		request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response);		
+		
 	}
  
 	/**
