@@ -25,15 +25,15 @@
 				<p>Rue : </p> 
 				<p>Code Postal : </p> 
 				<p>Latitude : </p> 
-				<p>Loongitude : </p> 
+				<p>Longitude : </p> 
 			</div> 
 			<div class="col-3"> 
-				<p>${sortie.nom}</p> 
-				<p>${sortie.dateHeureDebut}</p> 
-				<p>${sortie.dateLimiteInscription}</p> 
-				<p>${sortie.nbInscriptionMax} </p> 
-				<p>${sortie.duree} </p> 
-				<p>${sortie.infoSortie} </p> 
+				<p>${sortie.lieu.ville.nom}</p> 
+				<p>${sortie.lieu.nom}</p> 
+				<p>${sortie.lieu.rue}</p> 
+				<p>${sortie.lieu.ville.codePostal}</p> 
+				<p>${sortie.lieu.latitude}</p> 
+				<p>${sortie.lieu.longitude}</p> 
 			</div>		 
 		</div> 
 	</div> 

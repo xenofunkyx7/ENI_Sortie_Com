@@ -2,11 +2,13 @@ package servlet;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -39,6 +41,11 @@ public class CreerSortie extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		
+		HttpSession session = request.getSession();
+		session.removeAttribute("sortie");
+		
+		
 		List<Ville> villes = null;
 		List<Lieu> lieux = null;
 		
@@ -58,6 +65,8 @@ public class CreerSortie extends HttpServlet {
 		}
 		
 		
+		
+		
 		request.getServletContext().setAttribute("villes",villes );
 		request.getServletContext().setAttribute("lieux", lieux);
 		
@@ -71,13 +80,16 @@ public class CreerSortie extends HttpServlet {
 	@SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
+		//Création d'une hashmap de message d'erreur Si le formulaire préente des erreurs
+				Map<String, String> erreurs = new HashMap<String, String>();
+				
+				
 		HttpSession session = request.getSession();
 		
 		Sortie newSortie = new Sortie();
 		Lieu lieuChoisi = new Lieu();
 		Participant user = null;
-		
-		List<Ville> villes = null;
+
 		List<Lieu> lieux = null;
 		int duree = 0;
 		int nbInscriptionMax = 0;
@@ -89,7 +101,6 @@ public class CreerSortie extends HttpServlet {
 		//Récupération des données du formulaire / session sauf dates et Int
 		String nom = request.getParameter("nom");
 		String infoSortie = request.getParameter("infoSortie");
-		int idVille = Integer.parseInt(request.getParameter("idVille"));
 		int idLieu = Integer.parseInt(request.getParameter("idLieu"));
 		user = (Participant)session.getAttribute("utilisateur");
 		String etat = request.getParameter("etat");
@@ -97,23 +108,21 @@ public class CreerSortie extends HttpServlet {
 		
 		
 		//date du jour instant T pour vérification
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-ddTHH:mm");
 		Date dateEtHeureActuel = new Date(new java.util.Date().getTime());
-		formatter.format(dateEtHeureActuel);
 		
 		
 		/**
 		 * Parse + vérification de validité des dates saisies
 		 */
         try {
-        	dateLimiteInscription = new Date (new SimpleDateFormat("yyyy-MM-ddTHH:mm").parse(request.getParameter("dateLimiteInscription")).getTime() );
+        	dateLimiteInscription = new Date (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(request.getParameter("dateLimiteInscription")).getTime() );
         } catch (Exception e) {
-			// TODO: renvoyer erreur date invalide
+        	erreurs.put( "dateLimiteInscriptionErreur", "La Date limite d'inscription est invalide" );
 		}
         try {
-        	dateHeureDebut = new Date (new SimpleDateFormat("yyyy-MM-ddTHH:mm").parse(request.getParameter("dateHeureDebut")).getTime() );
+        	dateHeureDebut = new Date (new SimpleDateFormat("yyyy-MM-dd'T'HH:mm").parse(request.getParameter("dateHeureDebut")).getTime() );
         } catch (Exception e) {
-			// TODO: renvoyer erreur date invalide
+        	erreurs.put( "dateHeureDebutErreur", "La Date/heure de début est invalide" );
 		}
         
 	    /**
@@ -121,22 +130,23 @@ public class CreerSortie extends HttpServlet {
 	     */
         if (dateHeureDebut != null && dateLimiteInscription != null)
         {
-        	if (dateHeureDebut.before(dateLimiteInscription))
+        	if (dateHeureDebut.compareTo(dateLimiteInscription) < 0)
         	{
-        		// TODO : erreur date debut avant la date limite d'inscription
+        		erreurs.put( "dateErreur1", "Vueillez inscrire des dates valides" );
         	}
         }
+        //TODO VERIF si date debut < date jour = bug
         
         /**
          * Vérifie si le nom est correct
          */
         if (nom.length() < 0 || nom.length() >50 || nom == "" || nom == null)
         {
-        	// TODO : erreur nom invalide
+        	erreurs.put( "nomErreur", "Nom invalide" );
         }
         if (infoSortie.length() < 0 || infoSortie.length() >500 || infoSortie == "" || infoSortie == null)
         {
-        	// TODO : erreur infoSortie invalide
+        	erreurs.put( "infoSortieErreur", "Les informations supplémentaire de sortie doivent etre d'une longueur comprise entre 0 et 500 charactere" );
         }
         
         
@@ -146,11 +156,11 @@ public class CreerSortie extends HttpServlet {
         try {
         	duree = Integer.parseInt(request.getParameter("duree"));
         } catch (Exception e) {
-			// TODO: Durée invalide
+        	erreurs.put( "dureeErreur", "Veuillez inscrire une durée valide (en minute)" );
 		}
         if (duree < 10 ) 
         {
-        	//TODO : durée doit etre suppérieur à 10
+        	erreurs.put( "dureeErreur2", "La durée doit etre d'une durée de 10 minutes minimum" );
         }
         
         /**
@@ -159,11 +169,11 @@ public class CreerSortie extends HttpServlet {
         try {
         	nbInscriptionMax = Integer.parseInt(request.getParameter("nbInscriptionMax"));
         } catch (Exception e) {
-			// TODO: nb Inscription Max invalide
+        	erreurs.put( "nbInscriptionMaxErreur", "Veuillez inscrire un nombre valide" );
 		}
-        if (nbInscriptionMax < 10 ) 
+        if (nbInscriptionMax < 2 ) 
         {
-        	//TODO : nbInscriptionMax doit etre suppérieur à 10
+        	erreurs.put( "nbInscriptionMaxErreur2", "Le nombre d'inscription max doit etre d'un minimum de 2 " );
         }
         
         /**
@@ -180,34 +190,33 @@ public class CreerSortie extends HttpServlet {
         
         
         /**
-         * Hydratation de l'objet a envoyer à la dao addSortie
+         * Hydratation de l'objet a envoyer à la dao addSortie Si aucune erreur
          */
-		newSortie.setNom(nom);
-		newSortie.setDateHeureDebut(dateHeureDebut);
-		newSortie.setDuree(duree);
-		newSortie.setDateLimiteInscription(dateLimiteInscription);
-		newSortie.setNbInscriptionMax(nbInscriptionMax);
-		newSortie.setInfoSortie(infoSortie);
-		
-		newSortie.setEtat(etat.equals("publier")? Etats.OUVERTE : Etats.CREEE);
-		
-		newSortie.setLieu(lieuChoisi);
-		newSortie.setSite(user.getSite());
-		
-		
-		/**
-		 * Envoie de la sortie en base de donnée
-		 */
-		int resultat = DaoSortie.addSortie(newSortie, user.getIdParticipant());
-		if (resultat == -1)
-		{
-			//TODO : echec de l'envoie en BDD
-		}
-		
-		request.getRequestDispatcher("/membre/detailSortie?id=" + resultat );
-		
-		 
-	
+        if (erreurs.isEmpty() ) {
+        	Participant organisateur = (Participant) session.getAttribute("utilisateur");
+        
+        	Sortie sortie = new Sortie(nom, dateHeureDebut, duree, dateLimiteInscription,nbInscriptionMax,
+        								infoSortie, etat.equals("publier")?Etats.OUVERTE:Etats.CREEE,organisateur,
+	        								new ArrayList<Participant>(), lieuChoisi,user.getSite(),"");
+	        /**
+			 * Envoie de la sortie en base de donnée
+			 */
+			int resultat = DaoSortie.addSortie(sortie, user.getIdParticipant());
+			
+			if (resultat == -1)
+			{
+				erreurs.put( "dao", "Echec de l'envoie en base de donnée" );
+				request.setAttribute("erreurs", erreurs);
+				request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response); 
+			}
+			System.out.println(resultat);
+			response.sendRedirect("/ENI_Sortie_Com/membre/detailSortie?id=" + resultat );
+        }
+        else
+        {
+        	request.setAttribute("erreurs", erreurs);
+			request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response); 
+        }
 		
 	}
 
