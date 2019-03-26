@@ -42,18 +42,20 @@ public class ModifierSortie extends HttpServlet {
 		}
 		
 		if (	participant.getIdParticipant() 	== 	sortie.getOrganisateur().getIdParticipant()
-			&&	sortie.getEtat() 				== 	Etats.CREEE)
+			&&	sortie.getEtat() 				== 	Etats.CREEE
+			&& 	sortie != null)
 		{
 			request.setAttribute( "sortie", sortie);		
-			request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response);
+			request.getRequestDispatcher("Sortie").forward(request, response);
 		}
 		else
 		{
 			//TODO envoyer vers page erreur acces interdit.
 			System.out.println("acces interdit ModifierSortie");
+			request.getRequestDispatcher("Sortie").forward(request, response);		
 		}
 
-		request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response);		
+
 	}
  
 	/**
@@ -61,7 +63,7 @@ public class ModifierSortie extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-		
+		doGet(request, response);
 	}
 
 }
