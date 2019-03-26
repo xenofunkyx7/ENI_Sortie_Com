@@ -85,7 +85,7 @@ public class Accueil extends HttpServlet {
 		List<Site> sites = new ArrayList<>();
 		try {
 			sites = DaoSite.getSites("");
-			sorties = DaoSortie.getSorties("", null, null, null, null, true, true, true, true);
+			//sorties = DaoSortie.getSorties("", null, null, null, null, true, true, true, true);
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -119,9 +119,6 @@ public class Accueil extends HttpServlet {
 		case "Publier":
 			publier(request, response);
 			break;
-		case "Annuler":
-			annuler(request, response);
-			break;
 		default:
 			request.getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
 			break;
@@ -149,11 +146,6 @@ public class Accueil extends HttpServlet {
 	}
 
 	private void publier (HttpServletRequest request, HttpServletResponse response) {
-		// changer l'attribut de la sortie
-		
-	}
-	
-	private void annuler (HttpServletRequest request, HttpServletResponse response) {
 		// changer l'attribut de la sortie
 		
 	}
