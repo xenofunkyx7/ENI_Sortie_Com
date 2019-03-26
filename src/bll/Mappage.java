@@ -1,13 +1,18 @@
 package bll;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import bean.Lieu;
 import bean.Participant;
 import bean.Site;
 import bean.Sortie;
 import bean.Ville;
+import dao.DaoProfil;
+import bean.Sortie.Etats;
 
 public class Mappage {
 	
@@ -17,14 +22,10 @@ public class Mappage {
 		
 		try {
 			
-			int id = rs.getInt("no_ville");
-			String nom = rs.getString("nom_ville");
-			String codePostal = rs.getString("code_postal");
-			
-			Ville ville = new Ville(id, nom, codePostal);
+			Ville ville = mappageVille(rs);
 
-			id = rs.getInt("no_lieu");
-			nom = rs.getString("nom_lieu");
+			int id = rs.getInt("no_lieu");
+			String nom = rs.getString("nom_lieu");
 			String rue = rs.getString("rue");
 			float latitude = rs.getFloat("latitude");
 			float longitude = rs.getFloat("longitude");
@@ -43,9 +44,7 @@ public class Mappage {
 		Participant participant = null;
 		
 		try {
-				
-			Site site = new Site(rs.getInt("sites_no_site"), rs.getString("nom_site"));
-				
+			Site site = mappageSite(rs);
 			
 			int id = rs.getInt("no_participant");
 			String pseudo = rs.getString("pseudo");
@@ -55,8 +54,7 @@ public class Mappage {
 			String mail = rs.getString("mail");
 			boolean administrateur = rs.getBoolean("administrateur");
 			boolean actif = rs.getBoolean("actif");
-			//String image = rs.getString("image");
-			String image = "";
+			String image = rs.getString("image");
 			
 			participant = new Participant(id, pseudo, nom, prenom, 
 							telephone, mail, administrateur, actif, site, image);
@@ -108,12 +106,36 @@ public class Mappage {
 		
 		Sortie sortie = null;
 		
-		/*try {
+		try {
 			
-				
+			int id = rs.getInt("sortie_no_site");
+			String nom = rs.getString("sortie_nom_site");
+			
+			Site siteSortie = new Site(id, nom);
+			Lieu lieu = mappageLieu(rs);
+			
+			id = rs.getInt("no_sortie");
+			nom = rs.getString("nom_sortie");
+			Date dateDebut = rs.getDate("datedebut");
+			int duree = rs.getInt("duree");
+			Date dateCloture = rs.getDate("datecloture");
+			
+			int nbInscription = rs.getInt("nbinscriptionsmax");
+			String descriptionInfos = rs.getString("descriptioninfos");
+			String urlPhoto = rs.getString("urlPhoto");
+			
+			Participant organisateur = mappageParticipant(rs);
+			
+			List<Participant> participants = new ArrayList<>(); // TODO
+			
+			Etats etat = Etats.values()[rs.getInt("etats_no_etat")];
+			
+			sortie = new Sortie(id, nom, dateDebut, duree, dateCloture, nbInscription, 
+					descriptionInfos, etat, organisateur, participants, lieu, siteSortie, urlPhoto);
+					
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}*/
+		}
 		
 		return sortie;
 	}
