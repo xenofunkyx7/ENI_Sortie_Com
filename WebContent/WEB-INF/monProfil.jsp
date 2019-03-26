@@ -4,22 +4,30 @@
 <jsp:include page="/WEB-INF/entete.jsp"></jsp:include>     
 
 
-<form action="${pageContext.request.contextPath}/membre/monProfil" method="POST" class="was-validated">
+
 	
     <fieldset>
         <legend>Mon profil</legend>
         <section class="container">
         <div class="row">
             <div class="col-4">
-                <div>
-                <img src="ici url base de donné" class="img-rounded" alt="Andre le Nain">
-                </div>
-
-
+            	<form action="${pageContext.request.contextPath}/membre/avatar" method="POST" enctype="multipart/form-data">
+            	<fieldset>
+            		<legend>Photo de profil</legend>
+	                <div>
+	                	<img src="../image/dwarf.jpg" class="img-fluid rounded" alt="Andre le Nain">
+	                </div>
+					<div class="form-group">
+						<label for="file">Choisissez votre avatar.</label>
+						<input type="file" class="form-control-file border" id="file" name="file" accept="image/*">					
+					</div>
+					<input type="submit" class="btn btn-info" value="Changer" name="photo">
+				</fieldset>
+				</form>
             </div>
-
+			
             <div class="col-8">
-            
+            <form action="${pageContext.request.contextPath}/membre/monProfil" method="POST" class="was-validated" >            
             <fieldset>
 	            <legend>Informations Personnels</legend>
 	            	<c:if test="${modification >= 1 }">
@@ -92,10 +100,11 @@
                     <button type="button" class="btn btn-warning">Annuler</button></a>
                 </div>
                 </fieldset>
+                </form>
             </div>
         </div>
         </section>
     </fieldset>
-</form>
+
 </body>
 </html>

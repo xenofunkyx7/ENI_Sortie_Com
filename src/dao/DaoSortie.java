@@ -14,9 +14,7 @@ public class DaoSortie {
 
 	private static final String ADD_SORTIE = 
 			"INSERT INTO SORTIES "
-			+ "( nom, datedebut , duree, datecloture, nbinscriptionsmax, descriptioninfos, "
-			+ " organisateur, lieux_no_lieu, etats_no_etat) "
-			+ "VALUES ( ?,?,?,?,?,?,?,?,?,? )";
+			+ "VALUES ( ?,?,?,?,?, ?,?,?,?,?, ? )";
 	
 	 private static final String GET_SORTIE = "SELECT * FROM SORTIES "
 				+ " WHERE no_sortie = ? "; 
@@ -56,7 +54,7 @@ public class DaoSortie {
 			
 			DbConnexion dbConnexion = new DbConnexion();
 			
-			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS) ){
 				
 				pStat.setString(1, sortie.getNom() );
 				pStat.setDate(2, sortie.getDateHeureDebut() );
@@ -64,20 +62,24 @@ public class DaoSortie {
 				pStat.setDate(4, sortie.getDateLimiteInscription() );
 				pStat.setInt(5, sortie.getNbInscriptionMax() );
 				pStat.setString(6, sortie.getInfoSortie() );
-				pStat.setInt(7, idCreateur );
-				pStat.setInt(8, sortie.getLieu().getId() );
-				pStat.setInt(9, sortie.getEtat().ordinal() + 1 );
+				pStat.setString(7, sortie.getImage());
+				pStat.setInt(8, idCreateur );
+				pStat.setInt(9, sortie.getLieu().getId() );
+				pStat.setInt(10, sortie.getEtat().ordinal() + 1 );
+				pStat.setInt(11, sortie.getSite().getIdSite());
  
 				pStat.executeUpdate() ;
+				
 				ResultSet rs = pStat.getGeneratedKeys();
 				
-				if (rs != null && rs.first() ) 
+				if (rs != null && rs.next() ) 
 				{
 					generatedId = rs.getInt(1);
 				}
 					
 			} catch (SQLException e) {
-				//TODO erreur d'envoie à la base de donné
+				e.printStackTrace();
+				System.out.println("bug1");
 			}
 			
 			return generatedId; 
