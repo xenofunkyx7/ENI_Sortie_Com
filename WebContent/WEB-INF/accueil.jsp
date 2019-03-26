@@ -124,13 +124,52 @@
 						<td> ${ fn:length(sortie.participants) } / ${sortie.nbInscriptionMax } </td>
 						<td> ${sortie.etat.name } </td>
 						
-						<td><c:forEach items="${ sortie.participants }" var="participant"><c:if test="${participant.idParticipant == sessionScope.utilisateur.idParticipant }">X</c:if></c:forEach></td>
+						<c:set var="estInscrit" value="bad"/>
+						<c:forEach items="${ sortie.participants }" var="participant">
+							<c:if test='${estInscrit != "good" && participant.idParticipant == sessionScope.utilisateur.idParticipant }'>
+								<c:set var="estInscrit" value="good"/>
+							</c:if>
+						</c:forEach>
 						
-						<td><a href="/ENI_Sortie_Com/membre/profil?pseudo=${sortie.organisateur.pseudo }">${sortie.organisateur.pseudo }</a></td>
-						<td> 
-							<a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }">Afficher</a> 
+						<td><c:if test='${estInscrit != null && estInscrit == "good" }'>X</c:if></td>
+						
+						<td><a href="/ENI_Sortie_Com/membre/profil?pseudo=${sortie.organisateur.pseudo }" class="btn btn-link">${sortie.organisateur.pseudo }</a></td>
+						<td><a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }" class="btn btn-link">Afficher</a> <br/>
 							
-							
+							<!-- ============================= -->
+							<!-- ===Merdier des affichages==== -->
+							<!-- ============================= -->
+							<form action="accueil" method="POST">
+								<input type="hidden" name="idSortie" value="${sortie.id }" >
+								
+								<c:if test="${sortie.organisateur.pseudo != sessionScope.utilisateur.pseudo }"> <!-- est pas l'orga, pas cloturé, pas fermé, pas plus de place-->
+									
+									<c:if test='${estInscrit != null && estInscrit == "bad" }'> <!-- pas déja inscrit <a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }">S'incrire</a> <br/> -->
+										<input type="submit" name="btnAction" value="S'inscrire" class="btn btn-link"> <br/>
+										
+									</c:if>
+									
+									<c:if test='${estInscrit != null && estInscrit == "good" }'> <!-- déja inscrit <a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }">Se désister</a> <br/> -->
+										<input type="submit" name="btnAction" value="Se désister" class="btn btn-link"> <br/>
+										
+									</c:if>
+									
+								</c:if>
+								
+									
+								<c:if test="${sortie.organisateur.pseudo == sessionScope.utilisateur.pseudo }"> <!-- est l'orga -->
+									
+										<c:if test='${sortie.etat.name == "Créée" }'>
+											<a href="/ENI_Sortie_Com/membre/ModifierSortie?id=${sortie.id }" class="btn btn-link">Modifier</a> <br/>
+											<input type="submit" name="btnAction" value="Publier" class="btn btn-link"> <br/>
+										</c:if>
+										
+										<c:if test='${sortie.etat.name == "Ouverte" }'>
+											<a href="/ENI_Sortie_Com/membre/annulerSortie?id=${sortie.id }" class="btn btn-link">Ouverte</a> <br/>
+										</c:if>
+									
+								</c:if>
+							</form>
 						</td>
 						<td style="display: none;">${sessionScope.utilisateur.pseudo }</td>
 						<td style="display: none;">${sortie.site.nom }</td>

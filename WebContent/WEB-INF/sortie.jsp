@@ -5,8 +5,13 @@
 
     <h2 class="text-align">Créer une une sortie</h2>
 
+	
+	<div class="text-align">
+		<c:forEach items="${erreurs}" var="erreur" >
+			<p class="text-danger">${erreur}</p>
+		</c:forEach>
+	</div>
     <form class="form-horizontal" action="#" method="POST">
-
         <div class="d-flex p-2">
             <div class="container">
                 <div class="row">
@@ -126,7 +131,7 @@
         </div>
         <div class="container">
             <c:choose>
-                <c:when test="${!empty id}">
+                <c:when test="${!empty requestScope.sortie}">
                     <div class="row">
                         <button type="submit" class=" form-control col-3" value="enregistrer" name="etat">Enregistrer</button>
                         <button type="submit" class="form-control col-3" value="publier" name="etat">Publier la sortie</button>
