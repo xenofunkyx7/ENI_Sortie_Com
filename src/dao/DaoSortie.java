@@ -29,7 +29,7 @@ public class DaoSortie {
 			 "	no_ville, nom_ville, code_postal, " + 
 			 
 			 "	no_participant, pseudo, PARTICIPANTS.nom, prenom, telephone, mail, "
-			 + " mot_de_passe, administrateur, actif, " + 
+			 + " mot_de_passe, administrateur, actif, urlAvatar, " + 
 
 			 "	siteSortie.no_site as 'sortie_no_site' , siteSortie.nom_site as 'sortie_nom_site', " + 
 

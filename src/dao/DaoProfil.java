@@ -17,7 +17,7 @@ public class DaoProfil {
 //	 private static final String ADD_PARTICIPANT = "INSERT INTO participants VALUES (?,?, ?,?,?, ?,'false',?,?)";
 	 
 	 private static final String MODIFY_PARTICIPANT =  "UPDATE PARTICIPANTS "			 
-	 		+ " SET pseudo=?, nom=?, prenom=?, telephone=?, mail=?,  sites_no_site=? " 
+	 		+ " SET pseudo=?, nom=?, prenom=?, telephone=?, mail=?,  sites_no_site=? , urlAvatar = ?" 
 			+ " WHERE no_participant=? ";
 	 
 	 private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants SET mot_de_passe=? WHERE no_participant=? ";
@@ -75,11 +75,10 @@ public class DaoProfil {
             pStat.setString(2, participant.getNom() );
             pStat.setString(3, participant.getPrenom() );
             pStat.setString(4, participant.getTelephone() );
-            pStat.setString(5, participant.getMail() );            
-//            pStat.setBoolean(X, participant.isActif() );
+            pStat.setString(5, participant.getMail() );   
             pStat.setInt(6, participant.getSite().getIdSite() );
-            pStat.setInt(7, participant.getIdParticipant() );
-//            pStat.setString(parameterIndex, image);
+            pStat.setString(7, participant.getImage());
+            pStat.setInt(8, participant.getIdParticipant() );
 
             return resultModif = pStat.executeUpdate() ;
 

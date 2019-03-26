@@ -53,8 +53,7 @@ public class Mappage {
 			String mail = rs.getString("mail");
 			boolean administrateur = rs.getBoolean("administrateur");
 			boolean actif = rs.getBoolean("actif");
-			//String image = rs.getString("urlPhoto"); TODO
-			String image = "";
+			String image = rs.getString("urlAvatar");
 			
 			participant = new Participant(id, pseudo, nom, prenom, 
 							telephone, mail, administrateur, actif, site, image);
