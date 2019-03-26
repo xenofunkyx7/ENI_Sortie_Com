@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import BLL.Mappage;
 import bean.Site;
 
 public class DaoSite {
@@ -141,15 +142,9 @@ public class DaoSite {
 				
 			if (rs != null) {
 				
-				boolean bool = true;
-				while (bool) {
-					Site site = mappageSite(rs);
-					
-					if (site == null) { // = null si il n'y a plus de ligne dans le rs, on ne peut pas test rs.next() car il y en a un aussi dans le mappage et on sauterai donc une ligne sur 2
-						bool = false;
-					} else {
-						sites.add(site);
-					}
+				while (rs.next()) {
+					Site site = Mappage.mappageSite(rs);
+					sites.add(site);
 				}
 				
 			}
@@ -161,35 +156,4 @@ public class DaoSite {
 		
 		return sites;
 	}
-	
-		
-	//===================
-	// Mappage
-	//===================
-	
-	/**
-	 * map une ville avec un result set (évite la duplication de code, possiblement)
-	 * @param rs
-	 * @return ville
-	 */
-	private static Site mappageSite(ResultSet rs) {
-		Site site = null;
-		
-		try {
-			if (rs.next()) {
-
-				int id = rs.getInt("no_site");
-				String nom = rs.getString("nom_site");
-				
-				site = new Site(id, nom);
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return site;
-	}
-	
-	
 }

@@ -1,9 +1,8 @@
-package bll;
+package BLL;
 
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import bean.Lieu;
@@ -54,7 +53,8 @@ public class Mappage {
 			String mail = rs.getString("mail");
 			boolean administrateur = rs.getBoolean("administrateur");
 			boolean actif = rs.getBoolean("actif");
-			String image = rs.getString("image");
+			//String image = rs.getString("urlPhoto"); TODO
+			String image = "";
 			
 			participant = new Participant(id, pseudo, nom, prenom, 
 							telephone, mail, administrateur, actif, site, image);
@@ -126,9 +126,11 @@ public class Mappage {
 			
 			Participant organisateur = mappageParticipant(rs);
 			
-			List<Participant> participants = new ArrayList<>(); // TODO
+			int etats_no_etat = rs.getInt("etats_no_etat") - 1;
+			Etats etat = Etats.values()[etats_no_etat];
 			
-			Etats etat = Etats.values()[rs.getInt("etats_no_etat")];
+			//List<Participant> participants = new ArrayList<>(); // TODO
+			List<Participant> participants = DaoProfil.getParticipantsBySortie(id);
 			
 			sortie = new Sortie(id, nom, dateDebut, duree, dateCloture, nbInscription, 
 					descriptionInfos, etat, organisateur, participants, lieu, siteSortie, urlPhoto);

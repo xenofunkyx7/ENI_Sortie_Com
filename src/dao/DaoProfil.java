@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import BLL.Mappage;
 import bean.Participant;
-import bean.Site;
 
 
 public class DaoProfil {
@@ -116,6 +116,36 @@ public class DaoProfil {
 		}
     }
 
+
+	/**
+	 * Méthode permettant de supprimer un Participant via un objet Participant en paramétre.
+	 * @param participant
+	 */
+	public static void deleteParticipant(Participant participant) {
+		deleteParticipant(participant.getIdParticipant());
+	}
+	
+	/**
+	 * Surcharge de méthode permettant de supprimer un Participant via l'id du Participant en paramétre.
+	 * @param idParticipant
+	 */
+	public static void deleteParticipant(int idParticipant) {
+		String sql = DELETE_PARTICIPANT;
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			pStat.setInt(1, idParticipant );
+			
+			pStat.executeUpdate() ;
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+    
+    
 	/**
 	* M�thode permettant de faire des recherches en fonction du pseudo
 	* @param pseudo
@@ -138,11 +168,9 @@ public class DaoProfil {
 			
 			rs = pStat.executeQuery();
 			
-			
-			
-			if( rs != null) {
+			if( rs != null && rs.next()) {
 				
-				participant = mappageParticipant(rs);
+				participant = Mappage.mappageParticipant(rs);
 			}
 		}
 		
@@ -167,7 +195,7 @@ public class DaoProfil {
 			
 			if( rs != null && rs.next() ) {
 				
-				participant = mappageParticipant(rs);
+				participant = Mappage.mappageParticipant(rs);
 			}
 		}
 		
@@ -202,15 +230,9 @@ public class DaoProfil {
 				
 			if (rs != null) {
 				
-				boolean bool = true;
-				while (bool) {
-					Participant participant = mappageParticipant(rs);
-					
-					if (participant == null) { // = null si il n'y a plus de ligne dans le rs, on ne peut pas test rs.next() car il y en a un aussi dans le mappage et on sauterai donc une ligne sur 2
-						bool = false;
-					} else {
-						participants.add(participant);
-					}
+				while (rs.next()) {
+					Participant participant = Mappage.mappageParticipant(rs);
+					participants.add(participant);
 				}
 				
 			}
@@ -240,15 +262,9 @@ public class DaoProfil {
 					
 				if (rs != null) {
 					
-					boolean bool = true;
-					while (bool) {
-						Participant participant = mappageParticipant(rs);
-						
-						if (participant == null) { // = null si il n'y a plus de ligne dans le rs, on ne peut pas test rs.next() car il y en a un aussi dans le mappage et on sauterai donc une ligne sur 2
-							bool = false;
-						} else {
-							participants.add(participant);
-						}
+					while (rs.next()) {
+						Participant participant = Mappage.mappageParticipant(rs);
+						participants.add(participant);
 					}
 				}
 			}catch ( Exception exception )  {
@@ -256,70 +272,5 @@ public class DaoProfil {
 			}		
 			
 			return participants;
-	}
-	
-	
-	/**
-	 * Méthode permettant de supprimer un Participant via un objet Participant en paramétre.
-	 * @param participant
-	 */
-	public static void deleteParticipant(Participant participant) {
-		deleteParticipant(participant.getIdParticipant());
-	}
-	
-	/**
-	 * Surcharge de méthode permettant de supprimer un Participant via l'id du Participant en paramétre.
-	 * @param idParticipant
-	 */
-	public static void deleteParticipant(int idParticipant) {
-		String sql = DELETE_PARTICIPANT;
-		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
-			
-			pStat.setInt(1, idParticipant );
-			
-			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-	}
-	
-	private static List<Participant> mappageParticipants(ResultSet rs) {
-		//whuile;mappageParticipant
-		return null;
-	}
-	
-	private static Participant mappageParticipant(ResultSet rs) {
-		
-		Participant participant = null;
-		
-		try {
-			if (rs.next()) {
-				
-				Site site = new Site(rs.getInt("sites_no_site"), rs.getString("nom_site"));
-				
-				
-				int id = rs.getInt("no_participant");
-				String pseudo = rs.getString("pseudo");
-				String nom = rs.getString("nom");
-				String prenom = rs.getString("prenom");
-				String telephone = rs.getString("telephone");
-				String mail = rs.getString("mail");
-				boolean administrateur = rs.getBoolean("administrateur");
-				boolean actif = rs.getBoolean("actif");
-				//String image = rs.getString("image");
-				String image = "";
-				
-				participant = new Participant(id, pseudo, nom, prenom, 
-								telephone, mail, administrateur, actif, site, image);
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return participant;
 	}
 }

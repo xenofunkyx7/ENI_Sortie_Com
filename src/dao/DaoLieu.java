@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import BLL.Mappage;
 import bean.Lieu;
-import bean.Ville;
 
 public class DaoLieu {
 	
@@ -31,8 +31,6 @@ public class DaoLieu {
 	private static final String GET_LIEU = "select * FROM LIEUX"
 			+ " inner join VILLES on villes_no_ville = no_ville "
 			+ " where nom_ville like ?";
-	
-	private static final String GET_LIEU_BY_ID = "";
 	
 	// Singkleton !
 	
@@ -151,15 +149,9 @@ public class DaoLieu {
 				
 			if (rs != null) {
 				
-				boolean bool = true;
-				while (bool) {
-					Lieu lieu = mappageLieu(rs);
-					
-					if (lieu == null) { // = null si il n'y a plus de ligne dans le rs, on ne peut pas test rs.next() car il y en a un aussi dans le mappage et on sauterai donc une ligne sur 2
-						bool = false;
-					} else {
-						lieux.add(lieu);
-					}
+				while (rs.next()) {
+					Lieu lieu = Mappage.mappageLieu(rs);
+					lieux.add(lieu);
 				}
 			}
 		}catch ( Exception exception )  {
@@ -184,10 +176,9 @@ public class DaoLieu {
 					
 			rs = pStat.executeQuery();
 						
-			if (rs != null ) 
+			if (rs != null && rs.next() ) 
 			{		
-				Lieu lieu = mappageLieu(rs);
-				lieuChoisis = lieu; ;
+				lieuChoisis = Mappage.mappageLieu(rs);
 			}
 		} catch ( Exception exception )  
 		{
@@ -197,44 +188,4 @@ public class DaoLieu {
 		return lieuChoisis;
 	}
 	
-	
-	 
-	//===================
-	// Mappage
-	//===================
-	
-	/**
-	 * map un lieu avec un result set (évite la duplication de code, possiblement)
-	 * @param rs
-	 * @return lieu
-	 */
-	private static Lieu mappageLieu(ResultSet rs) {
-		
-		Lieu lieu = null;
-		
-		try {
-			if (rs.next()) {
-				
-				int id = rs.getInt("no_ville");
-				String nom = rs.getString("nom_ville");
-				String codePostal = rs.getString("code_postal");
-				
-				Ville ville = new Ville(id, nom, codePostal);
-
-				id = rs.getInt("no_lieu");
-				nom = rs.getString("nom_lieu");
-				String rue = rs.getString("rue");
-				float latitude = rs.getFloat("latitude");
-				float longitude = rs.getFloat("longitude");
-				
-				lieu = new Lieu(id, nom, rue, ville, latitude, longitude);
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return lieu;
-	}
-
 }

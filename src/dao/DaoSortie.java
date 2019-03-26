@@ -1,20 +1,14 @@
 package dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
-import bean.Lieu;
-import bean.Participant;
-import bean.Site;
+import BLL.Mappage;
 import bean.Sortie;
-import bean.Sortie.Etats;
 
 public class DaoSortie {
 
@@ -26,6 +20,29 @@ public class DaoSortie {
 	
 	 private static final String GET_SORTIE = "SELECT * FROM SORTIES "
 				+ " WHERE no_sortie = ? "; 
+	 
+	 private static final String GET_SORTIES = 
+			 "select " + 
+			 "	no_sortie, Sorties.nom as 'nom_sortie', datedebut, duree, datecloture, " + 
+			 "	nbinscriptionsmax, descriptioninfos, urlPhoto, organisateur, etats_no_etat, " + 
+			 
+			 "	no_lieu ,nom_lieu, rue, latitude, longitude, " + 
+
+			 "	no_ville, nom_ville, code_postal, " + 
+			 
+			 "	no_participant, pseudo, PARTICIPANTS.nom, prenom, telephone, mail, "
+			 + " mot_de_passe, administrateur, actif, " + 
+
+			 "	siteSortie.no_site as 'sortie_no_site' , siteSortie.nom_site as 'sortie_nom_site', " + 
+
+			 "	siteOrga.no_site, siteOrga.nom_site " + 
+
+			 "	from SORTIES " + 
+			 "		inner join LIEUX on lieux_no_lieu = no_lieu " + 
+			 "		inner join VILLES on lieux.villes_no_ville = villes.no_ville " + 
+			 "		inner join SITES siteSortie on sites_no_site = siteSortie.no_site " + 
+			 "		inner join PARTICIPANTS on organisateur = PARTICIPANTS.no_participant " + 
+			 "		inner join SITES siteOrga on PARTICIPANTS.sites_no_site = siteOrga.no_site;"; 
 	
 	
 	 /**
@@ -105,9 +122,9 @@ public class DaoSortie {
 			
 			rs = pStat.executeQuery();
 
-			if( rs != null  ) {
+			if( rs != null && rs.next() ) {
 				
-				sortie = mappageSortie(rs);
+				sortie = Mappage.mappageSortie(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace(); //TODO 
@@ -131,74 +148,32 @@ public class DaoSortie {
 	* @return liste de Sortie
 	* @throws SQLException
 	*/
-	public static List<Sortie> getSorties (String nom, Site site, 
-											Date dateDebut, Date dateFin,
-											Participant participant, boolean isOrganisateur,
-											boolean isInscrit, boolean notInscrit, 
-											boolean isPasse) throws SQLException {
-		// check si null alors mettre =1 � la place
+	public static List<Sortie> getSorties () throws SQLException {
+		ResultSet rs = null;
 		
-		return null;
-	}
-	
-	private static Sortie mappageSortie(ResultSet rs) {
+		List<Sortie> sorties = new ArrayList<>();
 		
-		Sortie sortie = null;
-		Site site = null;
-		List<Participant> participants = new ArrayList<>();
+		String sql = GET_SORTIES;
 		
-		try {
-			if (rs.next()) {
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			rs = pStat.executeQuery();
 				
-				int no_sortie = rs.getInt("no_sortie");
+			if (rs != null) {
 				
-				String nom = rs.getString("nom");
-				Date datedebut = rs.getDate("datedebut");
-				int duree = rs.getInt("duree");
-				Date datecloture = rs.getDate("datecloture");
-				int nbinscriptionsmax = rs.getInt("nbinscriptionsmax");
-				String descriptioninfos = rs.getString("descriptioninfos");
+				while (rs.next()) {
+					Sortie sortie = Mappage.mappageSortie(rs);
+					sorties.add(sortie);
+				}
 				
-				/*
-				 * Récupération de l'etat (enum) par sa value
-				 */
-				int etats_no_etat = rs.getInt("etats_no_etat");
-				Etats etat = Etats.values()[etats_no_etat - 1];
-
-				/*
-				 * Récupération Objet Participant par l'id de l'organisateur
-				 */
-				int idOrganisateur = rs.getInt("organisateur");
-				Participant orga = DaoProfil.getParticipantById(idOrganisateur);
-				
-				/*
-				 * Récupération de la list des participant par l'id de la Sortie
-				 */
-				participants = DaoProfil.getParticipantsBySortie(no_sortie);
-				
-				/*
-				 * Récupération de l'objet Lieu par sont id
-				 */
-				int lieux_no_lieu = rs.getInt("lieux_no_lieu");
-				Lieu lieu = DaoLieu.getlieu(lieux_no_lieu);
-				
-				site = orga.getSite();
-				
-				/*
-				 * TODO
-				 */
-				String urlPhoto = null ; //rs.getString("urlPhoto");
-				
-				
-				
-				
-				sortie = new Sortie(no_sortie, nom, datedebut, duree, 
-						datecloture, nbinscriptionsmax, descriptioninfos, etat, orga, participants , lieu, site , urlPhoto );	
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
+			
+		}catch ( Exception exception )  {
+			throw new RuntimeException( exception );
 		}
 		
-		return sortie;
+		return sorties;
 	}
+	
 }

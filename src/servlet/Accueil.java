@@ -85,15 +85,11 @@ public class Accueil extends HttpServlet {
 		List<Site> sites = new ArrayList<>();
 		try {
 			sites = DaoSite.getSites("");
-			//sorties = DaoSortie.getSorties("", null, null, null, null, true, true, true, true);
+			sorties = DaoSortie.getSorties();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
-		
-		
-		
 		
 		session.setAttribute("sorties", sorties);
 		session.setAttribute("sites", sites);
@@ -120,11 +116,11 @@ public class Accueil extends HttpServlet {
 			publier(request, response);
 			break;
 		default:
-			request.getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
+			//request.getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
 			break;
 		}
-		
-		request.getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
+		doGet(request, response);
+		//request.getRequestDispatcher("/WEB-INF/accueil.jsp").forward(request, response);
 		
 	}
 	

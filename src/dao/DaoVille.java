@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import BLL.Mappage;
 import bean.Ville;
 
 public class DaoVille {
@@ -141,15 +142,9 @@ public class DaoVille {
 				
 			if (rs != null) {
 				
-				boolean bool = true;
-				while (bool) {
-					Ville ville = mappageVille(rs);
-					
-					if (ville == null) { // = null si il n'y a plus de ligne dans le rs, on ne peut pas test rs.next() car il y en a un aussi dans le mappage et on sauterai donc une ligne sur 2
-						bool = false;
-					} else {
-						villes.add(ville);
-					}
+				while (rs.next()) {
+					Ville ville = Mappage.mappageVille(rs);
+					villes.add(ville);
 				}
 				
 			}
@@ -161,33 +156,4 @@ public class DaoVille {
 		return villes;
 	}
 	
-	//===================
-	// Mapage
-	//===================
-	
-	/**
-	 * 
-	 * @param rs
-	 * @return
-	 */
-	private static Ville mappageVille(ResultSet rs) {
-		
-		Ville ville = null;
-		
-		try {
-			if (rs.next()) {
-
-				int id = rs.getInt("no_ville");
-				String nom = rs.getString("nom_ville");
-				String codePostal = rs.getString("code_postal");
-				
-				ville = new Ville(id, nom, codePostal);
-				
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
-		return ville;
-	}
 }

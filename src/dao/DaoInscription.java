@@ -5,8 +5,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-import bean.Lieu;
-
 public class DaoInscription {
 	
 	private static final String 
