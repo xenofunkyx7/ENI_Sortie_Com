@@ -68,23 +68,28 @@ public class MonProfil extends HttpServlet {
 		int resultModif = 0;
 
 		if(verifMdp) {
-			
+			boolean bool = true;
 			// modification de monProfil	
-			if(nPseudo 		!= null && !nPseudo.isEmpty() && nPseudo.length() <31 ) { utilisateurModif.setPseudo(nPseudo); } ;
-			if(nPrenom 		!= null && !nPrenom.isEmpty() && nPrenom.length() <31 ) { utilisateurModif.setPrenom(nPrenom); } ;
-			if(nNom 		!= null && !nNom.isEmpty() 	  && nNom.length() < 31 ) 	{ utilisateurModif.setNom(nNom); } ;			
-			if(nEmail 		!= null && !nEmail.isEmpty()  && nEmail.length() <21 ) 	{ utilisateurModif.setMail(nEmail); } ;
-			if(nTelephone 	!= null && !nTelephone.isEmpty() && isRegTel ) 			{ utilisateurModif.setTelephone(nTelephone); } ;
+			if(nPseudo 		!= null && !nPseudo.isEmpty() && nPseudo.length() <31 ) { utilisateurModif.setPseudo(nPseudo); }
+			else {bool = false;} ;
+			if(bool && nPrenom 		!= null && !nPrenom.isEmpty() && nPrenom.length() <31  ) { utilisateurModif.setPrenom(nPrenom); }
+			else {bool = false;} ;
+			if(bool && nNom 		!= null && !nNom.isEmpty() 	  && nNom.length() < 31 ) 	{ utilisateurModif.setNom(nNom); }
+			else {bool = false;} ;			
+			if(bool && nEmail 		!= null && !nEmail.isEmpty()  && nEmail.length() <21 ) 	{ utilisateurModif.setMail(nEmail); }
+			else {bool = false;} ;
+			if(bool && nTelephone 	!= null && !nTelephone.isEmpty() && isRegTel ) 			{ utilisateurModif.setTelephone(nTelephone); }
+			else {bool = false;} ;
 			
-						
-			resultModif = DaoProfil.modifyParticipant(utilisateurModif);	
-			
-			//modification du mdp
-			if(nmdp.equals(cmdp) ) {				
-				
-				resultModif = DaoProfil.modifyParticipantMDP(nmdp, idUtilisateur);
+			if(bool) {
+				resultModif = DaoProfil.modifyParticipant(utilisateurModif);				
+				//modification du mdp
+				if(nmdp.equals(cmdp) ) {				
+					
+					resultModif = DaoProfil.modifyParticipantMDP(nmdp, idUtilisateur);
+				}
+				session.setAttribute("utilisateur", utilisateurModif);
 			}
-			session.setAttribute("utilisateur", utilisateurModif);
 		}
 		
 		

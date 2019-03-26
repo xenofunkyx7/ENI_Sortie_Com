@@ -140,7 +140,7 @@ public class DaoProfil {
 			
 			
 			
-			if( rs != null) {
+			if( rs != null  ) {
 				
 				participant = mappageParticipant(rs);
 			}
