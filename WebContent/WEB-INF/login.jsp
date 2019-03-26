@@ -2,6 +2,16 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
 
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>ENI-Sortir</title>
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		<link rel="stylesheet" href="../css/styles.css">
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>
+		
+	</head>
 <body>
 
 <div class="container">
@@ -15,7 +25,9 @@
 					<label for="identifiant">Identifiant: </label>
 				</div>
 				<div class="col-9">
-					<input type="text" placeholder="Pseudonyme" name="identifiant" value='<c:if test="${not empty sessionScope.identifiant}">${sessionScope.identifiant}</c:if>' class="form-control form-control-lg form-control-borderless" >
+					<input type="text" placeholder="Pseudonyme" name="identifiant" 
+						value='<c:if test="${not empty sessionScope.identifiant}">${sessionScope.identifiant}</c:if>' 
+						class="form-control form-control-lg form-control-borderless" >
 				</div>
 			</div>
 			
