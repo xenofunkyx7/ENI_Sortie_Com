@@ -1,4 +1,4 @@
-package bll;
+package BLL;
 
 import java.sql.Date;
 import java.sql.ResultSet;
