@@ -43,6 +43,7 @@ function filtre() {
 	  var iNom = 0;
 	  var iDateDebut = 1;
 	  var iCloture = 2;
+	  var iEtat = 4;
 	  var iX = 5;
 	  var iOrganisateur = 6;
 	  var iUtilisateur = 8;
@@ -72,7 +73,10 @@ function filtre() {
 		
 		  // Filtre Sortie
 		  
-		  td = tr[i].getElementsByTagName("td")[iNom];
+		  ListTd = tr[i].getElementsByTagName("td");
+		  
+		  td = ListTd[iNom];
+		  
 		  if (td) {
 			  	txtValue = td.textContent || td.innerText;
 			  		isSortieGood = txtValue.toUpperCase().indexOf(filtreSortie) > -1;
@@ -82,7 +86,7 @@ function filtre() {
 	    
 		  // comboBox Site
 	    
-		  td = tr[i].getElementsByTagName("td")[iSite];
+		  td = ListTd[iSite];
 	    
 		  if (td) {
 			  	txtValue = td.textContent || td.innerText;
@@ -97,8 +101,8 @@ function filtre() {
 			  isInscritGood = true;
 			  isNotInscritGood = true;
 			  
-			  td = tr[i].getElementsByTagName("td")[iOrganisateur];
-			  var user = tr[i].getElementsByTagName("td")[iUtilisateur];
+			  td = ListTd[iOrganisateur];
+			  var user = ListTd[iUtilisateur];
 			  
 			  if (td) {
 				  txtValue = td.textContent || td.innerText;
@@ -110,8 +114,16 @@ function filtre() {
 			  
 			  
 		  }else {
-			  isOrgaGood = true;
-			  td = tr[i].getElementsByTagName("td")[iX];
+			  td = ListTd[iEtat];
+			  
+			  if (td){
+				  txtValue = td.textContent || td.innerText;
+				  isOrgaGood = txtValue != "Créée".decode();
+			  }else{
+				  isOrgaGood = false;
+			  }
+			  
+			  td = ListTd[iX];
 			  
 			  if (td && !(ckInscrit.checked && ckNotInscrit.checked) ){
 				  txtValue = td.textContent || td.innerText;
@@ -141,7 +153,7 @@ function filtre() {
 		  
 	      // dateDebut
 		  
-		  td = tr[i].getElementsByTagName("td")[iDateDebut];
+		  td = ListTd[iDateDebut];
 		  
 		  if (td){
 			  txtValue = td.textContent || td.innerText;
@@ -163,7 +175,7 @@ function filtre() {
 		  
 		  // dateFin
 		  
-		  td = tr[i].getElementsByTagName("td")[iCloture];
+		  td = ListTd[iCloture];
 		  
 		  if (td){
 			  txtValue = td.textContent || td.innerText;
@@ -174,7 +186,6 @@ function filtre() {
 				  var clotureValue = new Date(cloture.value) - 0; // le -0 est pour mettre en ms
 				  
 				  isDateSupGood = date2 > clotureValue;
-				  
 				  
 			  }else{
 				  isDateSupGood = true;
@@ -203,3 +214,32 @@ function filtre() {
 	    
 	  }
 	}
+
+String.prototype.decode = function(encoding) {
+    var result = "";
+ 
+    var index = 0;
+    var c = c1 = c2 = 0;
+ 
+    while(index < this.length) {
+        c = this.charCodeAt(index);
+ 
+        if(c < 128) {
+            result += String.fromCharCode(c);
+            index++;
+        }
+        else if((c > 191) && (c < 224)) {
+            c2 = this.charCodeAt(index + 1);
+            result += String.fromCharCode(((c & 31) << 6) | (c2 & 63));
+            index += 2;
+        }
+        else {
+            c2 = this.charCodeAt(index + 1);
+            c3 = this.charCodeAt(index + 2);
+            result += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63));
+            index += 3;
+        }
+    }
+ 
+    return result;
+};

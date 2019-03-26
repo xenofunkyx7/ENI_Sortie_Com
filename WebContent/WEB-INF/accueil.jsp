@@ -118,11 +118,11 @@
 			
 				<c:forEach items="${ sessionScope.sorties }" var="sortie">
 					<tr>
-						<td> ${sortie.nom } </td>
-						<td> ${sortie.dateHeureDebut } </td>
-						<td> ${sortie.dateLimiteInscription }</td>
-						<td> ${ fn:length(sortie.participants) } / ${sortie.nbInscriptionMax } </td>
-						<td> ${sortie.etat.name } </td>
+						<td>${sortie.nom }</td>
+						<td>${sortie.dateHeureDebut }</td>
+						<td>${sortie.dateLimiteInscription }</td>
+						<td>${ fn:length(sortie.participants) } / ${sortie.nbInscriptionMax }</td>
+						<td>${sortie.etat.name }</td>
 						
 						<c:set var="estInscrit" value="bad"/>
 						<c:forEach items="${ sortie.participants }" var="participant">
@@ -141,19 +141,18 @@
 							<!-- ============================= -->
 							<form action="accueil" method="POST">
 								<input type="hidden" name="idSortie" value="${sortie.id }" >
+								<input type="hidden" name="type" value="${sortie.etat.name }" >
 								
-								<c:if test="${sortie.organisateur.pseudo != sessionScope.utilisateur.pseudo }"> <!-- est pas l'orga, pas cloturé, pas fermé, pas plus de place-->
+								<c:if test='${sortie.organisateur.pseudo != sessionScope.utilisateur.pseudo 
+									&& sortie.etat.name == "Ouverte" }'> <!-- est pas l'orga, pas cloturé, pas fermé, pas plus de place-->
 									
 									<c:if test='${estInscrit != null && estInscrit == "bad" }'> <!-- pas déja inscrit <a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }">S'incrire</a> <br/> -->
 										<input type="submit" name="btnAction" value="S'inscrire" class="btn btn-link"> <br/>
-										
 									</c:if>
 									
 									<c:if test='${estInscrit != null && estInscrit == "good" }'> <!-- déja inscrit <a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }">Se désister</a> <br/> -->
 										<input type="submit" name="btnAction" value="Se désister" class="btn btn-link"> <br/>
-										
 									</c:if>
-									
 								</c:if>
 								
 									
@@ -181,7 +180,7 @@
 		</table>
 	</div>
 	<div>
-		<a href="/ENI_Sortie_Com/membre/Sortie" class="btn btn-outline-info ml-5 mt-3" id="CreerSortie" name="CreerSortie"> 
+		<a href="/ENI_Sortie_Com/membre/Sortie" class="btn btn-outline-info ml-5 mt-3" id="CreerSortie"> 
 			Créer une sortie
 		</a>
 	</div>
