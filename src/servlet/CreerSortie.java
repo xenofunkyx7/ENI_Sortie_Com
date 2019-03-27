@@ -82,8 +82,9 @@ public class CreerSortie extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 			
 		//Création d'une hashmap de message d'erreur Si le formulaire préente des erreurs
-				Map<String, String> erreurs = new HashMap<String, String>();
+		Map<String, String> erreurs = new HashMap<String, String>();
 				
+		
 				
 		HttpSession session = request.getSession();
 		
@@ -127,16 +128,20 @@ public class CreerSortie extends HttpServlet {
 		}
         
 	    /**
-	     * SI les date sont valide alors check si date debut est suppérieur à la date fin inscription
+	     * SI les date sont valide alors check 
+	     * si date debut est suppérieur à la date fin inscription
 	     */
         if (dateHeureDebut != null && dateLimiteInscription != null)
         {
         	if (dateHeureDebut.compareTo(dateLimiteInscription) < 0)
         	{
-        		erreurs.put( "dateErreur1", "Vueillez inscrire des dates valides" );
+        		erreurs.put( "dateErreur1", "Veuillez inscrire des dates valides" );
+        	}
+        	if (dateHeureDebut.compareTo(dateEtHeureActuel) < 0  || dateLimiteInscription.compareTo(dateEtHeureActuel) < 0 )
+        	{
+        		erreurs.put( "dateErreur2", "Veuillez choisir des dates supérieur à la date du jour" );
         	}
         }
-        //TODO VERIF si date debut < date jour = bug
         
         /**
          * Vérifie si le nom est correct
@@ -156,26 +161,27 @@ public class CreerSortie extends HttpServlet {
          */
         try {
         	duree = Integer.parseInt(request.getParameter("duree"));
+        	if (duree < 10 ) 
+            {
+            	erreurs.put( "dureeErreur2", "La durée doit etre d'une durée de 10 minutes minimum" );
+            }
         } catch (Exception e) {
         	erreurs.put( "dureeErreur", "Veuillez inscrire une durée valide (en minute)" );
 		}
-        if (duree < 10 ) 
-        {
-        	erreurs.put( "dureeErreur2", "La durée doit etre d'une durée de 10 minutes minimum" );
-        }
         
         /**
          * Vérification si nombre max participant est un chiffre correct
          */
         try {
         	nbInscriptionMax = Integer.parseInt(request.getParameter("nbInscriptionMax"));
+        	if (nbInscriptionMax < 2 ) 
+            {
+            	erreurs.put( "nbInscriptionMaxErreur2", "Le nombre d'inscription max doit etre d'un minimum de 2 " );
+            }
         } catch (Exception e) {
         	erreurs.put( "nbInscriptionMaxErreur", "Veuillez inscrire un nombre valide" );
 		}
-        if (nbInscriptionMax < 2 ) 
-        {
-        	erreurs.put( "nbInscriptionMaxErreur2", "Le nombre d'inscription max doit etre d'un minimum de 2 " );
-        }
+        
         
         /**
          * hydratation Objet lieu
@@ -210,13 +216,16 @@ public class CreerSortie extends HttpServlet {
 				request.setAttribute("erreurs", erreurs);
 				request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response); 
 			}
-			System.out.println(resultat);
-			response.sendRedirect("/ENI_Sortie_Com/membre/detailSortie?id=" + resultat );
+			else
+			{
+				response.sendRedirect("/ENI_Sortie_Com/membre/detailSortie?id=" + resultat );
+			}
+			
         }
         else
         {
         	request.setAttribute("erreurs", erreurs);
-			request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response); 
+			request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response);
         }
 		
 	}
