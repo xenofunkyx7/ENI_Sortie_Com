@@ -30,7 +30,7 @@ public class AnnulerSortie extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		Participant participant = (Participant) session.getAttribute("utilisateur");
+		Participant user = (Participant) session.getAttribute("utilisateur");
 		
 		Sortie sortie = null;
 		
@@ -42,10 +42,9 @@ public class AnnulerSortie extends HttpServlet {
 			System.out.println("erreur dao sortie dans annulerSortie GET");
 		}
 		
-		if (participant.getIdParticipant() 	== 	sortie.getOrganisateur().getIdParticipant() 
-			&& 	sortie.getEtat() 			== 	Etats.ANNULEE
-			|| 	sortie.getEtat() 			== 	Etats.CREEE
-			|| 	sortie.getEtat() 			== 	Etats.OUVERTE)
+		if (user.getIdParticipant() 		== 	sortie.getOrganisateur().getIdParticipant() 
+			&&( sortie.getEtat() 			== 	Etats.CREEE
+			|| 	sortie.getEtat() 			== 	Etats.OUVERTE))
 		{
 			request.setAttribute( "sortie", sortie);		
 			request.getRequestDispatcher("/WEB-INF/annulerSortie.jsp").forward(request, response);
@@ -61,28 +60,16 @@ public class AnnulerSortie extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-		HttpSession session = request.getSession();
 		
 		String motif = request.getParameter("motif");
-		Participant user = (Participant) session.getAttribute("utilisateur");
 		int idSortie = Integer.parseInt(request.getParameter("id"));
 		
 		Date dateEtHeureActuel = new Date(new java.util.Date().getTime());
 		
 		
-		/**
-		 * Par sécurité : re-verification que l'utilisateur soit bien l'organisateur de la sortie
-		 */
-		if ( idSortie != user.getIdParticipant() ) 
-		{
-			//TODO renvois vers page acces non autorisé
-		}else
-		{
-			DaoSortie.setAnnulation(idSortie);
-			DaoAnnulation.addAnnulation(idSortie, motif, dateEtHeureActuel);
-			response.sendRedirect("/ENI_Sortie_Com/membre/accueil");
-		}
+		DaoSortie.setAnnulation(idSortie);
+		DaoAnnulation.addAnnulation(idSortie, motif, dateEtHeureActuel);
+		response.sendRedirect("/ENI_Sortie_Com/membre/accueil");
 		
 		
 	}

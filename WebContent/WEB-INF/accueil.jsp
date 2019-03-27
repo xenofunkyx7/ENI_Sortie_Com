@@ -1,3 +1,9 @@
+<%@ page 	language="java" 	
+			contentType="text/html; charset=UTF-8"
+    		pageEncoding="UTF-8"
+    		errorPage="/WEB-INF/erreur.jsp"
+    		isErrorPage="false"
+%>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
@@ -89,7 +95,7 @@
 					
 					<div class="col">
 						<input class="form-check-input" type="checkbox" name="IsPassee"  id="IsPassee" onclick="filtre()">
-						<label for="IsPassee"> Sorties passées</label>
+						<label for="IsPassee"> Sorties passÃ©es</label>
 					</div>
 					<!--===================
 					<div>
@@ -106,7 +112,7 @@
 				<tr>
 					<th scope="col"> Nom de la sortie </th>
 					<th scope="col"> Date de la sortie </th>
-					<th scope="col"> Clôture </th>
+					<th scope="col"> ClÃ´ture </th>
 					<th scope="col"> Inscrit / Place</th>
 					<th scope="col"> Etat </th>
 					<th scope="col"> Inscrit </th>
@@ -144,21 +150,21 @@
 								<input type="hidden" name="type" value="${sortie.etat.name }" >
 								
 								<c:if test='${sortie.organisateur.pseudo != sessionScope.utilisateur.pseudo 
-									&& sortie.etat.name == "Ouverte" }'> <!-- est pas l'orga, pas cloturé, pas fermé, pas plus de place-->
+									&& sortie.etat.name == "Ouverte" }'> <!-- est pas l'orga, pas cloturÃ©, pas fermÃ©, pas plus de place-->
 									
-									<c:if test='${estInscrit != null && estInscrit == "bad" }'> <!-- pas déja inscrit <a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }">S'incrire</a> <br/> -->
+									<c:if test='${estInscrit != null && estInscrit == "bad" }'> <!-- pas dÃ©ja inscrit <a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }">S'incrire</a> <br/> -->
 										<input type="submit" name="btnAction" value="S'inscrire" class="btn btn-link"> <br/>
 									</c:if>
 									
-									<c:if test='${estInscrit != null && estInscrit == "good" }'> <!-- déja inscrit <a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }">Se désister</a> <br/> -->
-										<input type="submit" name="btnAction" value="Se désister" class="btn btn-link"> <br/>
+									<c:if test='${estInscrit != null && estInscrit == "good" }'> <!-- dÃ©ja inscrit <a href="/ENI_Sortie_Com/membre/detailSortie?id=${sortie.id }">Se dÃ©sister</a> <br/> -->
+										<input type="submit" name="btnAction" value="Se dÃ©sister" class="btn btn-link"> <br/>
 									</c:if>
 								</c:if>
 								
 									
 								<c:if test="${sortie.organisateur.pseudo == sessionScope.utilisateur.pseudo }"> <!-- est l'orga -->
 									
-										<c:if test='${sortie.etat.name == "Créée" }'>
+										<c:if test='${sortie.etat.name == "CrÃ©Ã©e" }'>
 											<a href="/ENI_Sortie_Com/membre/ModifierSortie?id=${sortie.id }" class="btn btn-link">Modifier</a> <br/>
 											<input type="submit" name="btnAction" value="Publier" class="btn btn-link"> <br/>
 										</c:if>
@@ -181,7 +187,7 @@
 	</div>
 	<div>
 		<a href="/ENI_Sortie_Com/membre/Sortie" class="btn btn-outline-info ml-5 mt-3" id="CreerSortie"> 
-			Créer une sortie
+			CrÃ©er une sortie
 		</a>
 	</div>
 	
