@@ -15,7 +15,7 @@
             	<fieldset>
             		<legend>Photo de profil</legend>
 	                <div>
-	                	<img src="../image/dwarf.jpg" class="img-fluid rounded" alt="Andre le Nain">
+	                	<img src="../image/${sessionScope.utilisateur.image}" class="img-fluid rounded" alt="avatar">
 	                </div>
 					<div class="form-group">
 						<label for="file">Choisissez votre avatar.</label>

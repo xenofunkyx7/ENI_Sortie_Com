@@ -1,12 +1,17 @@
-package BLL;
+package bll;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.Properties;
 
 import javax.servlet.http.Part;
 
@@ -26,7 +31,7 @@ public class ManagementFile {
 	}	
 	
 	//Enregistre le fichier a l'emplacement prévu
-	//TODO sort un string qui indique la localisation exact du fichier + son nom
+	//Enregistre  le fichier avec le nom choisi à la localisation indiqué
 	public static void writeFile(Part part, String name, String path) throws IOException {
 		
 		InputStream  in = null;
@@ -62,8 +67,45 @@ public class ManagementFile {
 		    }
 	}
 	
+	
+	public static boolean copyFile(Path source, Path destination) {
+		
+		try {			
+				
+			Files.copy(source, destination);
+			
+		}catch(IOException e) {
+			e.printStackTrace(); 
+	        return false; 
+		}
+		
+		return true;
+		
+	}
 	//lecture fichier
-	public static void readFile(){
+	public  String readProperties(String propertiesName) {
+		
+		Properties prop = new Properties();
+		InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
+		String propriete = null;
+		
+		
+		if(input != null)
+		{
+			try {
+				
+				prop.load(input);
+				
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			propriete = prop.getProperty(propertiesName);			
+		}
+		
+		return propriete;
+	
 		
 	}
 	

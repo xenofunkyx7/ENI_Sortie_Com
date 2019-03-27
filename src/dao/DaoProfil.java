@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import BLL.Mappage;
 import bean.Participant;
+import bll.Mappage;
 
 
 public class DaoProfil {
@@ -17,7 +17,7 @@ public class DaoProfil {
 //	 private static final String ADD_PARTICIPANT = "INSERT INTO participants VALUES (?,?, ?,?,?, ?,'false',?,?)";
 	 
 	 private static final String MODIFY_PARTICIPANT =  "UPDATE PARTICIPANTS "			 
-	 		+ " SET pseudo=?, nom=?, prenom=?, telephone=?, mail=?,  sites_no_site=? , urlAvatar = ?" 
+	 		+ " SET pseudo=?, nom=?, prenom=?, telephone=?, mail=?,  sites_no_site=? " 
 			+ " WHERE no_participant=? ";
 	 
 	 private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants SET mot_de_passe=? WHERE no_participant=? ";
@@ -37,6 +37,8 @@ public class DaoProfil {
 	 		"inner join PARTICIPANTS on participants_no_participant = no_participant " + 
 	 		"inner join SITES on sites_no_site = no_site " + 
 	 		"WHERE sorties_no_sortie = ? ";
+	 
+	 private static final String MODIFY_AVATAR = "UPDATE participants SET urlAvatar= ? WHERE no_participant= ? ";
 	
 	
 	// Singkleton !
@@ -51,6 +53,26 @@ public class DaoProfil {
 		 return INSTANCE; 
      }
 	 
+	 public static void modifyAvatar(String photoFileName , int id_participant) {
+		 
+		 String sql = MODIFY_AVATAR;
+		 System.out.println(photoFileName);
+		 
+		 DbConnexion dbConnexion = new DbConnexion();
+		 
+	        try ( Connection connection = dbConnexion.getConnection() ;
+	    		PreparedStatement pStat = connection.prepareStatement(sql) ){
+	        	
+	            pStat.setString(1, photoFileName);
+	            pStat.setInt(2, id_participant );	        	
+	        	
+	            pStat.executeUpdate(); 
+	            
+	        } catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	 }
 	 
 	 
 		 
@@ -77,8 +99,8 @@ public class DaoProfil {
             pStat.setString(4, participant.getTelephone() );
             pStat.setString(5, participant.getMail() );   
             pStat.setInt(6, participant.getSite().getIdSite() );
-            pStat.setString(7, participant.getImage());
-            pStat.setInt(8, participant.getIdParticipant() );
+//            pStat.setString(7, participant.getImage());
+            pStat.setInt(7, participant.getIdParticipant() );
 
             return resultModif = pStat.executeUpdate() ;
 

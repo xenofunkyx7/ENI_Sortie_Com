@@ -1,4 +1,4 @@
-package BLL;
+package bll;
 
 public class ControleSortie {
 	

@@ -1,10 +1,14 @@
 package servlet;
 
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,21 +16,35 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import bean.Participant;
+import bll.ManagementFile;
 import dao.DaoHelper;
 import dao.DaoProfil;
 
 /**
  * Servlet implementation class MonProfil
  */
-@WebServlet("/membre/monProfil")
+@WebServlet(urlPatterns = "/membre/monProfil")
 public class MonProfil extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//TODO récupérer l"image dans C:Image  et la mettre dans W>ebcontent/image si elle n'y est pas déjà.
+		//Chemin où sont enregistrés les fichiers
+		HttpSession session = request.getSession();
+		Participant utilisateur = (Participant) session.getAttribute("utilisateur");
+		String avatarName = utilisateur.getImage();		
+
+		ManagementFile mf = new ManagementFile();
+		
+		
+		Path pathImage = Paths.get(mf.readProperties("image.stock")+avatarName);		
+		Path pathImageDisplay = Paths.get(mf.readProperties("image.display")+avatarName);
+	
+		if(! Files.exists(pathImageDisplay)) {
+			
+			ManagementFile.copyFile(pathImage, pathImageDisplay);
+		}	
 		
 		request.getRequestDispatcher("/WEB-INF/monProfil.jsp").forward(request, response);
 	}

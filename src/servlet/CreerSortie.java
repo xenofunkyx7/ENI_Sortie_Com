@@ -42,6 +42,7 @@ public class CreerSortie extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		
+		System.out.println("Créer sortie");
 		HttpSession session = request.getSession();
 		session.removeAttribute("sortie");
 		

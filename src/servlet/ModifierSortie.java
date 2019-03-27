@@ -18,7 +18,7 @@ import dao.DaoSortie;
 /**
  * Servlet implementation class ModifierSortie
  */
-@WebServlet("/ModifierSortie")
+@WebServlet("/membre/ModifierSortie")
 public class ModifierSortie extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -27,7 +27,7 @@ public class ModifierSortie extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+		
 		HttpSession session = request.getSession();
 		Participant participant = (Participant) session.getAttribute("utilisateur");
 		
