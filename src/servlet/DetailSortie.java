@@ -40,8 +40,8 @@ public class DetailSortie extends HttpServlet {
 		try {
 			sortie = DaoSortie.getSortie(id);
 		} catch (SQLException e) {
-			//TODO Redirection page erreurs
-			System.out.println("erreur dao sortie dans detailsortie GET");
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
 		}
 		
 		request.setAttribute( "sortie", sortie);		
@@ -52,7 +52,7 @@ public class DetailSortie extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+
 		doGet(request, response);
 	}
 

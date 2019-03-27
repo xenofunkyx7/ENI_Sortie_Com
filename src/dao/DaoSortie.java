@@ -86,15 +86,17 @@ public class DaoSortie {
 	 /**
 	 * M�thode permettant de rajouter un sortie via un objet sortie + utilisateur en param�tre.
 	 * @param sortie
+	 * @throws SQLException 
 	 */
-	 public static int addSortie (Sortie sortie, int idCreateur) {
+	 public static int addSortie (Sortie sortie, int idCreateur) throws SQLException {
 		 	
 			String sql = ADD_SORTIE;
 			int generatedId = -1;
 			
 			DbConnexion dbConnexion = new DbConnexion();
 			
-			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS) ){
+			Connection connection = dbConnexion.getConnection(); 
+			PreparedStatement pStat = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
 				
 				pStat.setString(1, sortie.getNom() );
 				pStat.setDate(2, sortie.getDateHeureDebut() );
@@ -116,12 +118,7 @@ public class DaoSortie {
 				{
 					generatedId = rs.getInt(1);
 				}
-					
-			} catch (SQLException e) {
-				e.printStackTrace();
-				System.out.println("bug1");
-			}
-			
+							
 			return generatedId; 
 	 }
 	 
@@ -129,12 +126,15 @@ public class DaoSortie {
 	 * M�thode permettant de modifier un sortie via un objet sortie en param�tre.
 	 * @param sortie
 	 * @return 
+	 * @throws SQLException 
 	 */
-	 public static void modifySortie(Sortie sortie) {
+	 public static void modifySortie(Sortie sortie) throws SQLException {
 		 String sql = MODIFY_SORTIE;
 			
 			DbConnexion dbConnexion = new DbConnexion();
-			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			Connection connection = dbConnexion.getConnection();
+			PreparedStatement pStat = connection.prepareStatement(sql);
 					
 				pStat.setString(1, sortie.getNom() );
 				pStat.setDate(2, sortie.getDateHeureDebut() );
@@ -149,36 +149,32 @@ public class DaoSortie {
 				pStat.setInt(10, sortie.getId() );
 				
 				pStat.executeUpdate() ;
-					
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		 
 	 }
 
 	 /**
 	 * M�thode permettant de supprimer un sortie via un objet sortie en param�tre.
 	 * @param sortie
+	 * @throws SQLException 
 	 */
-	 public static void deleteSortie(Sortie sortie) {
+	 public static void deleteSortie(Sortie sortie) throws SQLException {
 		 deleteSortie(sortie.getId());
 	 }
 	 
-	 public static void deleteSortie(int idSortie) {
+	 public static void deleteSortie(int idSortie) throws SQLException {
 			String sql = DELETE_SORTIE;
 			
 			DbConnexion dbConnexion = new DbConnexion();
-			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			Connection connection = dbConnexion.getConnection();
+			PreparedStatement pStat = connection.prepareStatement(sql);
 					
 				pStat.setInt(1, idSortie );
 				
 				pStat.executeUpdate() ;
-					
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+
 	 }
-		 
+		
 	 /**
 	* M�thode permettant de faire des recherches en fonction d'un id de sortie
 	* @return Sortie
@@ -193,8 +189,8 @@ public class DaoSortie {
 		
 		DbConnexion dbConnexion = new DbConnexion();
 		
-		try( Connection connection = dbConnexion.getConnection() ;
-	    		PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection() ;
+	    PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setInt(1, idSortie);
 			
@@ -204,9 +200,6 @@ public class DaoSortie {
 				
 				sortie = Mappage.mappageSortie(rs);
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
 		return sortie;
 	}
@@ -234,7 +227,9 @@ public class DaoSortie {
 		String sql = GET_SORTIES;
 		
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			rs = pStat.executeQuery();
 				
@@ -243,70 +238,60 @@ public class DaoSortie {
 				while (rs.next()) {
 					Sortie sortie = Mappage.mappageSortie(rs);
 					sorties.add(sortie);
-				}
-				
+				}	
 			}
-			
-		}catch ( Exception exception )  {
-			throw new RuntimeException( exception );
-		}
 		
 		return sorties;
 	}
 	
-	public static void setArchive (int idSortie) {
+	public static void setArchive (int idSortie) throws SQLException {
 		String sql = ARCHIVE_SORTIE;
 		
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setInt(1, idSortie );
 			pStat.executeUpdate() ;
 			
 			deleteSortie(idSortie);
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
 		
 		
 	}
 	
-	public static void setPublier (int idSortie) {
+	public static void setPublier (int idSortie) throws SQLException {
 		changeEtat(idSortie, Etats.OUVERTE.ordinal() ); 
 	}
 	
-	public static void setAnnulation (int idSortie) {
+	public static void setAnnulation (int idSortie) throws SQLException {
 		changeEtat(idSortie, Etats.ANNULEE.ordinal() ); 
 	}
 	
-	public static void setPassee (int idSortie) {
+	public static void setPassee (int idSortie) throws SQLException {
 		changeEtat(idSortie, Etats.PASSEE.ordinal() ); 
 	}
 	
-	public static void setCloture (int idSortie) {
+	public static void setCloture (int idSortie) throws SQLException {
 		changeEtat(idSortie, Etats.CLOTUREE.ordinal() ); 
 	}
 	
-	public static void setEnCours (int idSortie) {
+	public static void setEnCours (int idSortie) throws SQLException {
 		changeEtat(idSortie, Etats.ACTIVITE_EN_COURS.ordinal() ); 
 	}
 	
-	public static void changeEtat (int idSortie, int idEtat) {
+	public static void changeEtat (int idSortie, int idEtat) throws SQLException {
 		 String sql = CHANGE_ETAT;
 			
 			DbConnexion dbConnexion = new DbConnexion();
-			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			Connection connection = dbConnexion.getConnection();
+			PreparedStatement pStat = connection.prepareStatement(sql);
 				
 				pStat.setInt(1, idEtat + 1 );
 				pStat.setInt(2, idSortie );
 				
 				pStat.executeUpdate() ;
-					
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 	}
 	
 }

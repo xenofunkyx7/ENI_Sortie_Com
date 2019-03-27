@@ -22,19 +22,9 @@ public class DbConnexion {
 	{
 		Connection cnx = null;
 		
-		try{
-			DriverManager.registerDriver(new SQLServerDriver());
-		}
-		catch(SQLException e){
-			throw new SQLException("Impossible de charger le driver JDBC : "+e.getMessage());
-		}
-		
-		try{
+		DriverManager.registerDriver(new SQLServerDriver());
 		cnx = DriverManager.getConnection(URL, USER, PWD);
-		}
-		catch(SQLException e){
-			throw new SQLException("Impossible d'obtenir une connexion : "+e.getMessage());
-		}
+
 		return cnx;
 	}
 }

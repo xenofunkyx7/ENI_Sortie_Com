@@ -52,7 +52,8 @@ public class Accueil extends HttpServlet {
 			sorties = DaoSortie.getSorties();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
 		}
 		
 		session.setAttribute("sorties", sorties);
@@ -72,16 +73,30 @@ public class Accueil extends HttpServlet {
 		
 		switch (btn) {
 		case "S'inscrire":
-			inscription(request, response);
-			
+			try {
+				inscription(request, response);
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			break;
 		case "Se désister":
-			seDesiste(request, response);
+			try {
+				seDesiste(request, response);
+			} catch (SQLException e1) {
+				request.setAttribute("exception", e1);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			if (erreurs.length() > 0) {request.setAttribute("erreurs", erreurs);}
 			doGet(request, response);
 			break;
 		case "Publier":
-			publier(request, response);
+			try {
+				publier(request, response);
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			if (erreurs.length() > 0) {request.setAttribute("erreurs", erreurs);}
 			doGet(request, response);
 			break;
@@ -96,7 +111,7 @@ public class Accueil extends HttpServlet {
 		
 	}
 	
-	private void inscription (HttpServletRequest request, HttpServletResponse response) throws IOException {
+	private void inscription (HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
 		HttpSession session = request.getSession(true);
 		Participant user = (Participant) session.getAttribute("utilisateur");
 		int idSortie = Integer.parseInt( request.getParameter("idSortie") );
@@ -104,12 +119,10 @@ public class Accueil extends HttpServlet {
 		
 		Sortie sortie = null;
 		List<Participant> participants = null;
-		try {
-			sortie = DaoSortie.getSortie(idSortie);
-			participants = DaoProfil.getParticipantsBySortie(idSortie);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
+		sortie = DaoSortie.getSortie(idSortie);
+		participants = DaoProfil.getParticipantsBySortie(idSortie);
+
 		
 		String type = request.getParameter("type");
 		
@@ -123,7 +136,7 @@ public class Accueil extends HttpServlet {
 		
 	}
 	
-	private void seDesiste (HttpServletRequest request, HttpServletResponse response) {
+	private void seDesiste (HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		HttpSession session = request.getSession(true);
 		Participant user = (Participant) session.getAttribute("utilisateur");
 		int idSortie = Integer.parseInt( request.getParameter("idSortie") );
@@ -138,7 +151,7 @@ public class Accueil extends HttpServlet {
 		
 	}
 
-	private void publier (HttpServletRequest request, HttpServletResponse response) {
+	private void publier (HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		int idSortie = Integer.parseInt( request.getParameter("idSortie") );
 		DaoSortie.setPublier(idSortie);
 	}

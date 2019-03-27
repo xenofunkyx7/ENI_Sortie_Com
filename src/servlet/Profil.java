@@ -35,8 +35,8 @@ public class Profil extends HttpServlet {
 			 participant = DaoProfil.getParticipant(pseudo);
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
 		}
 			
 		request.setAttribute("membre",participant);
@@ -44,8 +44,6 @@ public class Profil extends HttpServlet {
 		if( participant !=  null) {
 			request.getRequestDispatcher("/WEB-INF/profil.jsp").forward(request, response);
 		}else {
-			//TODO le chemin n'est pas le bon, trouver un moyen que le chemin change dynamiquement
-//			getServletContext().getRequestDispatcher("/membre/accueil").forward(request, response);
 			request.getRequestDispatcher("/membre/accueil").forward(request, response);
 		}
 		
@@ -55,9 +53,6 @@ public class Profil extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		
-		
 		doGet(request, response);
 	}
 

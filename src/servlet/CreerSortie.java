@@ -46,32 +46,27 @@ public class CreerSortie extends HttpServlet {
 		HttpSession session = request.getSession();
 		session.removeAttribute("sortie");
 		
-		
 		List<Ville> villes = null;
-		List<Lieu> lieux = null;
-		
+		List<Lieu> lieux = null;	
 		
 		// Recupération de tout les lieux et Villes
 		try {
 			villes = DaoVille.getVilles("");
 		} catch (SQLException e) {
-			//TODO
-			e.printStackTrace();
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
 		}
+		
 		try {
 			lieux = DaoLieu.getLieux("");
 		} catch (SQLException e) {
-			// TODO 
-			e.printStackTrace();
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
 		}
-		
-		
-		
-		
+
 		request.getServletContext().setAttribute("villes",villes );
 		request.getServletContext().setAttribute("lieux", lieux);
 		
-		//TODO CHECK if utilisateur = createur de la 
 		request.getRequestDispatcher("/WEB-INF/sortie.jsp").forward(request, response); 
 	}
  
@@ -83,12 +78,10 @@ public class CreerSortie extends HttpServlet {
 			
 		//Création d'une hashmap de message d'erreur Si le formulaire préente des erreurs
 		Map<String, String> erreurs = new HashMap<String, String>();
-				
-		
+
 				
 		HttpSession session = request.getSession();
 		
-		Sortie newSortie = new Sortie();
 		Lieu lieuChoisi = new Lieu();
 		Participant user = null;
 
@@ -96,9 +89,7 @@ public class CreerSortie extends HttpServlet {
 		int duree = 0;
 		int nbInscriptionMax = 0;
 		Date dateLimiteInscription = null;
-		Date dateHeureDebut = null;
-		
-		
+		Date dateHeureDebut = null;		
 		
 		//Récupération des données du formulaire / session sauf dates et Int
 		String nom = request.getParameter("nom");
@@ -106,7 +97,6 @@ public class CreerSortie extends HttpServlet {
 		int idLieu = Integer.parseInt(request.getParameter("idLieu"));
 		user = (Participant)session.getAttribute("utilisateur");
 		String etat = request.getParameter("etat");
-			
 		
 		
 		//date du jour instant T pour vérification
@@ -208,7 +198,13 @@ public class CreerSortie extends HttpServlet {
 	        /**
 			 * Envoie de la sortie en base de donnée
 			 */
-			int resultat = DaoSortie.addSortie(sortie, user.getIdParticipant());
+			int resultat = 0;
+			try {
+				resultat = DaoSortie.addSortie(sortie, user.getIdParticipant());
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			
 			if (resultat == -1)
 			{
