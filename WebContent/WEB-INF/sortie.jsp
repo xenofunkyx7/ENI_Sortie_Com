@@ -85,16 +85,20 @@
                     <div class="col">
                         <label for="idVille" >Ville :</label>
                     </div>
+                    <!-- ============================================== -->
+                    <!-- ================combobox villes=============== -->
+                    <!-- ============================================== -->
                      <select class="form-control" id="idVille" name="idVille" >
                      	<c:forEach var="ville" items="${villes}">
                      		<c:choose>
-                     			<c:when test="${ville.idVille == sortie.lieu.ville.idVille} " >
+                     			<c:when test="${sortie != null && ville.idVille == sortie.lieu.ville.idVille} " >
                      				<option value="${ville.idVille}" selected="selected">${ville.nom}</option>
                      			</c:when>
-                     		</c:choose>
-                     		<c:otherwise>
-                     			<option value="${ville.idVille}">${ville.nom}</option>
-                  			</c:otherwise>
+                     		
+	                     		<c:otherwise>
+	                     			<option value="${ville.idVille}">${ville.nom}</option>
+	                  			</c:otherwise>
+                  			</c:choose>
                      	</c:forEach>
                      </select>
                 </div>
