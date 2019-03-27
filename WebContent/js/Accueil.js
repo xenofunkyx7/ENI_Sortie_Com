@@ -35,14 +35,13 @@ function checkboxExclisif() {
 
 function filtre() {
 	  var inputSortie, filtreSortie, table, tr, td, i, txtValue, selectSite, 
-	  		dateDebut, cloture, ckOrga, ckInscrit, ckNotInscrit, ckPassed, 
+	  		dateDebut, ckOrga, ckInscrit, ckNotInscrit, ckPassed, 
 	  		isSortieGood, isSiteGood, isDateInfGood, isDateSupGood, isOrgaGood, 
 	  		isInscritGood, isNotInscritGood, isPassedGood;
 	  
 	  // index dans le tableau
 	  var iNom = 0;
 	  var iDateDebut = 1;
-	  var iCloture = 2;
 	  var iEtat = 4;
 	  var iX = 5;
 	  var iOrganisateur = 6;
@@ -54,7 +53,6 @@ function filtre() {
 	  selectSite = document.getElementById("Site");
 	  
 	  dateDebut = document.getElementById("DateInf");
-	  cloture = document.getElementById("DateSup");
 	  
 	  ckOrga = document.getElementById("IsOrganisateur");
 	  ckInscrit = document.getElementById("IsInscrit");
@@ -97,21 +95,25 @@ function filtre() {
 		  
 		  // Je suis l'organiasateur
 		  
-		  if ( ckOrga.checked ){
+		  
+		  var isOrga;
+		  
+		  td = ListTd[iOrganisateur];
+		  var user = ListTd[iUtilisateur];
+		  
+		  if (td) {
+			  txtValue = td.textContent || td.innerText;
+			  var txtValue2 = user.textContent || user.innerText;
+			  isOrga = txtValue2 == txtValue;
+		  }else {
+			  isOrga = false;
+		  }
+		  
+		  if ( ckOrga.checked || isOrga){
 			  isInscritGood = true;
 			  isNotInscritGood = true;
 			  
-			  td = ListTd[iOrganisateur];
-			  var user = ListTd[iUtilisateur];
-			  
-			  if (td) {
-				  txtValue = td.textContent || td.innerText;
-				  var txtValue2 = user.textContent || user.innerText;
-				  isOrgaGood = txtValue2 == txtValue;
-			  }else {
-				  isOrgaGood = false;
-			  }
-			  
+			  isOrgaGood = isOrga;
 			  
 		  }else {
 			  td = ListTd[iEtat];
@@ -175,15 +177,13 @@ function filtre() {
 		  
 		  // dateFin
 		  
-		  td = ListTd[iCloture];
-		  
 		  if (td){
 			  txtValue = td.textContent || td.innerText;
 			  var date2 = new Date(txtValue) - 0;
-			  txtValue2 = cloture.value;
+			  txtValue2 = dateDebut.value;
 				 
 			  if(txtValue2 && txtValue2 != ""){
-				  var clotureValue = new Date(cloture.value) - 0; // le -0 est pour mettre en ms
+				  var clotureValue = new Date(dateDebut.value) - 0; // le -0 est pour mettre en ms
 				  
 				  isDateSupGood = date2 > clotureValue;
 				  

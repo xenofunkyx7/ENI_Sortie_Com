@@ -1,3 +1,4 @@
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <jsp:include page="/WEB-INF/entete.jsp"></jsp:include>  
 	<h1>Logo Sortir.com</h1> 
 	<h2>Afficher une sortie</h2> 
@@ -38,15 +39,17 @@
 		</div> 
 	</div> 
 	<h3>Liste des participants inscrits</h3> 
-	<table> 
-		<tr> 
-			<th style="background-color: silver ">Pseudo</th> 
-			<th style="background-color: silver ">Nom</th> 
-		</tr>
-		<c:forEach var="participant" items="${participants}"> 
-			<td>${participant.nom}</td> 
-			<td>${participant.prenom}</td> 
-		</c:forEach>	 
-	</table> 
+	<div class="row">
+		<table class="table col-3 ml-3 table-striped table-hover table-sm"> 
+			<tr> 
+				<th style="background-color: silver ">Pseudo</th> 
+				<th style="background-color: silver ">Nom</th> 
+			</tr>
+			<c:forEach var="participant" items="${requestScope.sortie.participants}"> 
+				<td>${participant.nom} </td> 
+				<td>${participant.prenom}</td> 
+			</c:forEach>	 
+		</table> 
+	</div>
 </body> 
 </html> 
