@@ -11,6 +11,7 @@ import bean.Site;
 import bean.Sortie;
 import bean.Ville;
 import dao.DaoProfil;
+import dao.DaoSortie;
 import bean.Sortie.Etats;
 
 public class Mappage {
@@ -128,8 +129,41 @@ public class Mappage {
 			int etats_no_etat = rs.getInt("etats_no_etat") - 1;
 			Etats etat = Etats.values()[etats_no_etat];
 			
-			//List<Participant> participants = new ArrayList<>(); // TODO
 			List<Participant> participants = DaoProfil.getParticipantsBySortie(id);
+			
+			// le changement c'est mainentatgna
+			
+			Date now = new Date(new java.util.Date().getTime() );
+			Date moisProchain = new Date (dateDebut.getTime() + 31l*24l*60l*60l*1000l );
+			Date fini = new Date (dateDebut.getTime() + ((long) duree) *60l*1000l );
+			
+			System.out.println(nom + ": ds 1 mois: " + moisProchain + ", now: " + now + ", fini: " + fini
+					+ ", debut: " + dateDebut + ", cloture: " + dateCloture);
+			
+			if ((etat == Etats.PASSEE || etat == Etats.ACTIVITE_EN_COURS 
+					|| etat == Etats.CLOTUREE || etat == Etats.OUVERTE)
+					&& now.after(moisProchain )) {
+				DaoSortie.setArchive(id);
+				nom += " [ARCHIVE]";
+				etat = Etats.PASSEE;
+			}else {
+				if((etat == Etats.ACTIVITE_EN_COURS || etat == Etats.CLOTUREE 
+						|| etat == Etats.OUVERTE) && now.after(fini )) {
+					DaoSortie.setPassee(id);
+					etat = Etats.PASSEE;
+				}else {
+					if( (etat == Etats.CLOTUREE || etat == Etats.OUVERTE ) && now.after(dateDebut )) {
+						DaoSortie.setEnCours(id);
+						etat = Etats.ACTIVITE_EN_COURS;
+					}else {
+						if( etat == Etats.OUVERTE && now.after(dateCloture )) {
+							DaoSortie.setCloture(id);
+							etat = Etats.CLOTUREE;
+						}
+					}
+				}
+			}
+			System.out.println();
 			
 			sortie = new Sortie(id, nom, dateDebut, duree, dateCloture, nbInscription, 
 					descriptionInfos, etat, organisateur, participants, lieu, siteSortie, urlPhoto);

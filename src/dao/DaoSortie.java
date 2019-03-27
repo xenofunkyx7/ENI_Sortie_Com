@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bean.Sortie;
+import bean.Sortie.Etats;
 import bll.Mappage;
 
 public class DaoSortie {
@@ -39,9 +40,9 @@ public class DaoSortie {
 			 "		inner join PARTICIPANTS on organisateur = PARTICIPANTS.no_participant " + 
 			 "		inner join SITES siteOrga on PARTICIPANTS.sites_no_site = siteOrga.no_site" +
 			 
-			 " where no_sortie = ? ;"; 
-	 
-	 private static final String GET_SORTIES = 
+			 " where no_sortie = ? ;", 
+			 
+			 		GET_SORTIES = 
 			 "select " + 
 			 "	no_sortie, Sorties.nom as 'nom_sortie', datedebut, duree, datecloture, " + 
 			 "	nbinscriptionsmax, descriptioninfos, urlPhoto, organisateur, etats_no_etat, " + 
@@ -62,7 +63,19 @@ public class DaoSortie {
 			 "		inner join VILLES on lieux.villes_no_ville = villes.no_ville " + 
 			 "		inner join SITES siteSortie on sites_no_site = siteSortie.no_site " + 
 			 "		inner join PARTICIPANTS on organisateur = PARTICIPANTS.no_participant " + 
-			 "		inner join SITES siteOrga on PARTICIPANTS.sites_no_site = siteOrga.no_site;"; 
+			 "		inner join SITES siteOrga on PARTICIPANTS.sites_no_site = siteOrga.no_site;",
+			 
+			 		MODIFY_SORTIE = "update SORTIES set nom = ?, datedebut = ?, duree = ?, "
+			 				+ "datecloture = ?,  nbinscriptionsmax = ?, descriptioninfos = ?,"
+			 				+ " lieux_no_lieu = ?, etats_no_etat = ?, sites_no_site = ?"
+			 				+ " where no_sortie = ?;",
+			 				
+	 				CHANGE_ETAT = "update SORTIES etats_no_etat = ? where no_sortie = ?;",
+			 		
+			 		DELETE_SORTIE = "delete from sorties where no_sortie = ?"
+			 ; 
+	 
+	 
 	
 	
 	 /**
@@ -112,7 +125,28 @@ public class DaoSortie {
 	 * @param sortie
 	 */
 	 public static void modifySortie(Sortie sortie) {
-		 
+		 String sql = MODIFY_SORTIE;
+			
+			DbConnexion dbConnexion = new DbConnexion();
+			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+					
+				pStat.setString(1, sortie.getNom() );
+				pStat.setDate(2, sortie.getDateHeureDebut() );
+				pStat.setInt(3, sortie.getDuree() );
+				pStat.setDate(4, sortie.getDateLimiteInscription() );
+				pStat.setInt(5, sortie.getNbInscriptionMax() );
+				
+				pStat.setString(6, sortie.getInfoSortie() );
+				pStat.setInt(7, sortie.getLieu().getId() );
+				pStat.setInt(8, sortie.getEtat().ordinal() + 1 );
+				pStat.setInt(9, sortie.getSite().getIdSite());
+				pStat.setInt(10, sortie.getId() );
+				
+				pStat.executeUpdate() ;
+					
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		 
 	 }
 
@@ -121,8 +155,18 @@ public class DaoSortie {
 	 * @param sortie
 	 */
 	 public static void deleteSortie(Sortie sortie) {
-		 
-		 
+			String sql = DELETE_SORTIE;
+			
+			DbConnexion dbConnexion = new DbConnexion();
+			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+					
+				pStat.setInt(1, sortie.getId() );
+				
+				pStat.executeUpdate() ;
+					
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	 }
 		 
 	 /**
@@ -198,6 +242,39 @@ public class DaoSortie {
 		}
 		
 		return sorties;
+	}
+	
+	public static void setArchive (int idSortie) {
+		//TODO archivage
+		System.out.println("Debug: Il faut l'archiver ! " + idSortie);
+	}
+	
+	public static void setPassee (int idSortie) {
+		changeEtat(idSortie, Etats.PASSEE.ordinal() ); 
+	}
+	
+	public static void setCloture (int idSortie) {
+		changeEtat(idSortie, Etats.CLOTUREE.ordinal() ); 
+	}
+	
+	public static void setEnCours (int idSortie) {
+		changeEtat(idSortie, Etats.ACTIVITE_EN_COURS.ordinal() ); 
+	}
+	
+	public static void changeEtat (int idSortie, int idEtat) {
+		 String sql = CHANGE_ETAT;
+			
+			DbConnexion dbConnexion = new DbConnexion();
+			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+				
+				pStat.setInt(1, idEtat + 1 );
+				pStat.setInt(2, idSortie );
+				
+				pStat.executeUpdate() ;
+					
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 	}
 	
 }
