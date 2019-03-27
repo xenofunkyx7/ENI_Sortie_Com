@@ -273,6 +273,10 @@ public class DaoSortie {
 		
 	}
 	
+	public static void setPublier (int idSortie) {
+		changeEtat(idSortie, Etats.OUVERTE.ordinal() ); 
+	}
+	
 	public static void setAnnulation (int idSortie) {
 		changeEtat(idSortie, Etats.ANNULEE.ordinal() ); 
 	}

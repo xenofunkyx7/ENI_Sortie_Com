@@ -38,7 +38,7 @@ public class Mappage {
 		
 		return lieu;
 	}
-	
+	 
 	public static Participant mappageParticipant(ResultSet rs) {
 		
 		Participant participant = null;
