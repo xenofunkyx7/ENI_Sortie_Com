@@ -154,7 +154,7 @@
                     <div class="row">
                         <button type="submit" class=" form-control col-3" value="enregistrer" name="etat">Enregistrer</button>
                         <button type="submit" class="form-control col-3" value="publier" name="etat">Publier la sortie</button>
-                        <a class="form-control  col-3" href="${pageContext.request.contextPath}/membre/annulerSortie">Supprimer la sortie</a>
+                        <a class="form-control  col-3" href="${pageContext.request.contextPath}/membre/annulerSortie?id=${sortie.id}">Supprimer la sortie</a>
                         <a class="form-control  col-3" href="${pageContext.request.contextPath}/membre/accueil">Annuler</a>
                     </div>
                 </c:when>

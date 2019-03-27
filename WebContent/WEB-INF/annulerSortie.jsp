@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/entete.jsp"></jsp:include> 
 	
 	<h2 class="text-align">Annuler une sortie</h2>
-	<form class="form-horizontal" action="${pageContext.request.contextPath}/membre/annulerSortie/?id= ${sortie.id}" method="POST">
+	<form class="form-horizontal" action="${pageContext.request.contextPath}/membre/annulerSortie?id=${sortie.id}" method="POST">
 		<div class="d-flex p-2">
 			<div class="container">
 				<div class="row">

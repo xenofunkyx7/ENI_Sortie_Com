@@ -17,6 +17,7 @@ import bean.Participant;
 import bean.Site;
 import bean.Sortie;
 import dao.DaoInscription;
+import dao.DaoProfil;
 import dao.DaoSite;
 import dao.DaoSortie;
 
@@ -72,39 +73,53 @@ public class Accueil extends HttpServlet {
 		switch (btn) {
 		case "S'inscrire":
 			inscription(request, response);
+			
 			break;
 		case "Se désister":
 			seDesiste(request, response);
+			if (erreurs.length() > 0) {request.setAttribute("erreurs", erreurs);}
+			doGet(request, response);
 			break;
 		case "Publier":
 			publier(request, response);
+			if (erreurs.length() > 0) {request.setAttribute("erreurs", erreurs);}
+			doGet(request, response);
 			break;
 		default:
+			doGet(request, response);
 			break;
 		}
 		
-		if (erreurs.length() > 0) {
-			request.setAttribute("erreurs", erreurs);
-		}
+		
 		
 		doGet(request, response);
 		
 	}
 	
-	private void inscription (HttpServletRequest request, HttpServletResponse response) {
+	private void inscription (HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession(true);
 		Participant user = (Participant) session.getAttribute("utilisateur");
 		int idSortie = Integer.parseInt( request.getParameter("idSortie") );
 		Date date = new Date(new java.util.Date().getTime() );
 		
+		Sortie sortie = null;
+		List<Participant> participants = null;
+		try {
+			sortie = DaoSortie.getSortie(idSortie);
+			participants = DaoProfil.getParticipantsBySortie(idSortie);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 		String type = request.getParameter("type");
 		
-		if (type.equals("Ouverte") ) {
+		if (type.equals("Ouverte") && sortie != null && participants != null && participants.size() < sortie.getNbInscriptionMax() ) {
 			DaoInscription.addInscription(date, idSortie, user.getIdParticipant());
 		}else {
 			erreurs += "Impossible de s'inscrire: la sortie séléctionnée ne semble pas ouverte... ";
 		}
-		
+		if (erreurs.length() > 0) {request.setAttribute("erreurs", erreurs);}
+		response.sendRedirect("detailSortie");
 		
 	}
 	
@@ -124,8 +139,8 @@ public class Accueil extends HttpServlet {
 	}
 
 	private void publier (HttpServletRequest request, HttpServletResponse response) {
-		// changer l'attribut de la sortie
-		
+		int idSortie = Integer.parseInt( request.getParameter("idSortie") );
+		DaoSortie.setPublier(idSortie);
 	}
 
 }
