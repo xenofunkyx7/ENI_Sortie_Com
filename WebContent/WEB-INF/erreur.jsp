@@ -23,7 +23,13 @@
 		<p>${requestScope.exception[1].methodName}</p>
 		<p>${requestScope.exception[1].fileName}</p>
 		<p>${requestScope.exception[1].lineNumber}</p>
+		
+		<c:if test="${! empty sessionScope.erreur }">
+			<p>${sessionScope.erreur }</p>
+		</c:if>
 	</section>
+	
+	
 </section>
 </body>
 </html>
