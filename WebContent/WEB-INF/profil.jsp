@@ -5,11 +5,11 @@
 
 	<div class="text-center">
 		<fieldset>
-	    <legend><h3>${membre.pseudo }</h3></legend>
+	    <legend>${membre.pseudo }</legend>
 	    <section class="container ">
 	    <div class="row">
 	        <div class="col-4">
-	            <img src="${membre.image }" class="img-rounded" alt="Andre le nain">
+	            <img src="../image/${membre.image }" class="img-fluid rounded" alt="Avatar">
 	        </div>
 	        <div class="col-8 text-left"> 
 	            <p>Prénom : 				${membre.prenom }</p>

@@ -24,7 +24,7 @@ public class ManagementFile {
 		
 	    for (String cd : part.getHeader("content-disposition").split(";")) {
 	        if (cd.trim().startsWith("filename")) {
-	            return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");
+	             return cd.substring(cd.indexOf('=') + 1).trim().replace("\"", "");	             
 	        }
 	    }
 	    return null;
@@ -111,11 +111,13 @@ public class ManagementFile {
 	
 	public static String uniqueName(String name, int id) {
 		//Séparation du nom en deux partit séparé par l'exetension
-		String definitiveName = null;
+		String definitiveName = null;		
 		String extension = name.substring(name.lastIndexOf("."));
 		String pureName = name.substring(0, name.lastIndexOf("."));		
 		
+		System.out.println("dans le uniqueName ");
 		definitiveName = pureName +"_"+id + extension;
+		definitiveName = definitiveName.replaceAll("\\s", "_");
 		
 		return definitiveName;	
 	}

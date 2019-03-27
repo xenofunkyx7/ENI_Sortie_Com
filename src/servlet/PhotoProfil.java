@@ -50,6 +50,7 @@ public class PhotoProfil extends HttpServlet {
 		// Récupération du chemin d'inscription du fichier
 		String path =  getServletConfig().getInitParameter("location"); 
 		System.out.println("le path" +path);
+		
 		//Inscription du fichier dans le dossier correspondant. 
 		ManagementFile.writeFile(fileImage, imageName, path);
 		 
