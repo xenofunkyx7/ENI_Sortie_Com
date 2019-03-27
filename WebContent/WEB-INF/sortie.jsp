@@ -8,10 +8,18 @@
 	
 	<div class="text-align">
 		<c:forEach items="${erreurs}" var="erreur" >
-			<p class="text-danger">${erreur}</p>
+			<p class="text-danger">${erreur.value}</p>
 		</c:forEach>
 	</div>
-    <form class="form-horizontal" action="#" method="POST">
+    <c:choose>
+    	<c:when test="${!empty requestScope.sortie}">
+    		<form class="form-horizontal" action="${pageContext.request.contextPath}/membre/ModifierSortie/?id= ${sortie.id}" method="POST">
+    	</c:when>
+    	<c:otherwise>
+    		<form class="form-horizontal" action="#" method="POST">
+    	</c:otherwise>
+    </c:choose>
+    
         <div class="d-flex p-2">
             <div class="container">
                 <div class="row">
@@ -142,15 +150,15 @@
                     <div class="row">
                         <button type="submit" class=" form-control col-3" value="enregistrer" name="etat">Enregistrer</button>
                         <button type="submit" class="form-control col-3" value="publier" name="etat">Publier la sortie</button>
-                        <a class="form-control  col-3" href="#">Supprimer la sortie</a>
-                        <a class="form-control  col-3" href="#">Annuler</a>
+                        <a class="form-control  col-3" href="${pageContext.request.contextPath}/membre/annulerSortie">Supprimer la sortie</a>
+                        <a class="form-control  col-3" href="${pageContext.request.contextPath}/membre/accueil">Annuler</a>
                     </div>
                 </c:when>
                 <c:otherwise>
                     <div class="row">
                         <button type="submit" class=" form-control col-4" value="enregistrer" name="etat">Enregistrer</button>
                         <button type="submit" class="form-control col-4" value="publier" name="etat">Publier la sortie</button>
-                        <a class="form-control  col-4" href="#">Annuler</a>
+                        <a class="form-control  col-4" href="${pageContext.request.contextPath}/membre/accueil">Annuler</a>
                     </div>
                 </c:otherwise>
             </c:choose>

@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -60,9 +61,27 @@ public class AnnulerSortie extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		HttpSession session = request.getSession();
+		
+		String motif = request.getParameter("motif");
+		Participant user = (Participant) session.getAttribute("utilisateur");
+		int idSortie = Integer.parseInt(request.getParameter("id"));
+		
+		Date dateEtHeureActuel = new Date(new java.util.Date().getTime());
 		
 		
-		
+		/**
+		 * Par sécurité : re-verification que l'utilisateur soit bien l'organisateur de la sortie
+		 */
+		if ( idSortie != user.getIdParticipant() ) 
+		{
+			//TODO renvois vers page acces non autorisé
+		}else
+		{
+			DaoSortie.setAnnulation(idSortie);
+			DaoAnnulation.addAnnulation(idSortie, motif, dateEtHeureActuel);
+			response.sendRedirect(/ENI_Sortie_Com/membre/accueil);
+		}
 		
 		
 	}

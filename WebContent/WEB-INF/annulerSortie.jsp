@@ -4,7 +4,7 @@
 <jsp:include page="/WEB-INF/entete.jsp"></jsp:include> 
 	
 	<h2 class="text-align">Annuler une sortie</h2>
-	<form class="form-horizontal" action="#" method="POST">
+	<form class="form-horizontal" action="${pageContext.request.contextPath}/membre/annulerSortie/?id= ${sortie.id}" method="POST">
 		<div class="d-flex p-2">
 			<div class="container">
 				<div class="row">
@@ -20,13 +20,13 @@
                        <p>${sortie.dateHeureDebut}</p>  
                        <p>${sortie.lieu.ville.nom}</p>
                        <p>${sortie.lieu.nom}</p>
-                       <textarea id="idMotif" name="motif" class="form-control" required> test</textarea>
+                       <textarea id="idMotif" name="motif" class="form-control" required></textarea>
 					</div>
 				</div>
 			</div>
 		</div>
 	<button type="submit" class=" form-control col-3" value="enregistrer" name="etat">Enregistrer</button>
-	<a class="form-control  col-3" href="#">Annuler</a>
+	<a class="form-control  col-3" href="${pageContext.request.contextPath}/membre/accueil">Annuler</a>
 		
 	</form>
 

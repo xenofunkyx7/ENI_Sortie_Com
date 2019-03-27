@@ -16,6 +16,7 @@ public class DaoSortie {
 			"INSERT INTO SORTIES "
 			+ "VALUES ( ?,?,?,?,?, ?,?,?,?,?, ? )";
 	
+	
 	 private static final String GET_SORTIE = "SELECT * FROM SORTIES "
 				+ " WHERE no_sortie = ? "; 
 	 
@@ -88,10 +89,10 @@ public class DaoSortie {
 	 /**
 	 * M�thode permettant de modifier un sortie via un objet sortie en param�tre.
 	 * @param sortie
+	 * @return 
 	 */
 	 public static void modifySortie(Sortie sortie) {
-		 
-		 
+
 	 }
 
 	 /**
