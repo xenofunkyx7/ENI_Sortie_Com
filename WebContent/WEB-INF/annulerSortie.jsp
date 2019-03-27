@@ -1,10 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page 	language="java" 	
+			contentType="text/html; charset=UTF-8"
+    		pageEncoding="UTF-8"
+    		errorPage="/WEB-INF/erreur.jsp"
+    		isErrorPage="false"
+%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>  
 <jsp:include page="/WEB-INF/entete.jsp"></jsp:include> 
 	
 	<h2 class="text-align">Annuler une sortie</h2>
-	<form class="form-horizontal" action="${pageContext.request.contextPath}/membre/annulerSortie/?id= ${sortie.id}" method="POST">
+	<form class="form-horizontal" action="${pageContext.request.contextPath}/membre/annulerSortie?id=${sortie.id}" method="POST">
 		<div class="d-flex p-2">
 			<div class="container">
 				<div class="row">
