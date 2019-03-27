@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import bean.Participant;
 import bean.Sortie;
 import bean.Sortie.Etats;
+import dao.DaoAnnulation;
 import dao.DaoSortie;
 
 /**
@@ -80,7 +81,7 @@ public class AnnulerSortie extends HttpServlet {
 		{
 			DaoSortie.setAnnulation(idSortie);
 			DaoAnnulation.addAnnulation(idSortie, motif, dateEtHeureActuel);
-			response.sendRedirect(/ENI_Sortie_Com/membre/accueil);
+			response.sendRedirect("/ENI_Sortie_Com/membre/accueil");
 		}
 		
 		
