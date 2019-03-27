@@ -70,9 +70,14 @@ public class DaoSortie {
 			 				+ " lieux_no_lieu = ?, etats_no_etat = ?, sites_no_site = ?"
 			 				+ " where no_sortie = ?;",
 			 				
-	 				CHANGE_ETAT = "update SORTIES etats_no_etat = ? where no_sortie = ?;",
+	 				CHANGE_ETAT = "update SORTIES set etats_no_etat = ? where no_sortie = ?;",
 			 		
-			 		DELETE_SORTIE = "delete from sorties where no_sortie = ?"
+			 		DELETE_SORTIE = "delete from sorties where no_sortie = ?",
+			 		
+			 		ARCHIVE_SORTIE = 
+			 				"INSERT INTO SORTIES_ARCHIVE " + 
+			 				" SELECT * FROM SORTIES " + 
+			 				" WHERE SORTIES.no_sortie = ?; ";
 			 ; 
 	 
 	 
@@ -155,12 +160,16 @@ public class DaoSortie {
 	 * @param sortie
 	 */
 	 public static void deleteSortie(Sortie sortie) {
+		 deleteSortie(sortie.getId());
+	 }
+	 
+	 public static void deleteSortie(int idSortie) {
 			String sql = DELETE_SORTIE;
 			
 			DbConnexion dbConnexion = new DbConnexion();
 			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
 					
-				pStat.setInt(1, sortie.getId() );
+				pStat.setInt(1, idSortie );
 				
 				pStat.executeUpdate() ;
 					
@@ -195,7 +204,7 @@ public class DaoSortie {
 				sortie = Mappage.mappageSortie(rs);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace(); //TODO 
+			e.printStackTrace();
 		}
 		
 		return sortie;
@@ -245,8 +254,26 @@ public class DaoSortie {
 	}
 	
 	public static void setArchive (int idSortie) {
-		//TODO archivage
-		System.out.println("Debug: Il faut l'archiver ! " + idSortie);
+		String sql = ARCHIVE_SORTIE;
+		
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			pStat.setInt(1, idSortie );
+			pStat.executeUpdate() ;
+			
+			deleteSortie(idSortie);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+	}
+	
+	public static void setAnnulation (int idSortie) {
+		changeEtat(idSortie, Etats.ANNULEE.ordinal() ); 
 	}
 	
 	public static void setPassee (int idSortie) {

@@ -137,9 +137,6 @@ public class Mappage {
 			Date moisProchain = new Date (dateDebut.getTime() + 31l*24l*60l*60l*1000l );
 			Date fini = new Date (dateDebut.getTime() + ((long) duree) *60l*1000l );
 			
-			System.out.println(nom + ": ds 1 mois: " + moisProchain + ", now: " + now + ", fini: " + fini
-					+ ", debut: " + dateDebut + ", cloture: " + dateCloture);
-			
 			if ((etat == Etats.PASSEE || etat == Etats.ACTIVITE_EN_COURS 
 					|| etat == Etats.CLOTUREE || etat == Etats.OUVERTE)
 					&& now.after(moisProchain )) {
@@ -163,7 +160,6 @@ public class Mappage {
 					}
 				}
 			}
-			System.out.println();
 			
 			sortie = new Sortie(id, nom, dateDebut, duree, dateCloture, nbInscription, 
 					descriptionInfos, etat, organisateur, participants, lieu, siteSortie, urlPhoto);
