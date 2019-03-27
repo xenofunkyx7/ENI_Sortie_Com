@@ -92,11 +92,11 @@
                      	<c:forEach var="ville" items="${villes}">
                      		<c:choose>
                      			<c:when test="${sortie != null && ville.idVille == sortie.lieu.ville.idVille} " >
-                     				<option value="${ville.idVille}" selected="selected">${ville.nom}</option>
+                     				<option id="idVille${ville.idVille}" value="${ville.idVille}" selected="selected">${ville.nom}</option>
                      			</c:when>
                      		
 	                     		<c:otherwise>
-	                     			<option value="${ville.idVille}">${ville.nom}</option>
+	                     			<option id="idVille${ville.idVille}" value="${ville.idVille}">${ville.nom}</option>
 	                  			</c:otherwise>
                   			</c:choose>
                      	</c:forEach>
@@ -109,7 +109,7 @@
                     <div class="col">
                         <select class="form-control" id="idLieu" name="idLieu"   >
                             <c:forEach var="lieu" items="${lieux}">
-                                <option value="${lieu.id}">${lieu.nom}</option>
+                                <option id="idVilleLieu${lieu.ville.idVille}" value="${lieu.id}">${lieu.nom}</option>
                             </c:forEach>
                         </select>
                     </div>
