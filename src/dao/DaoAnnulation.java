@@ -12,22 +12,18 @@ public class DaoAnnulation {
 			"INSERT INTO Annulations " + 
 			" VALUES ( ?,?,? ) " ;
 			
-	public static void addAnnulation (int id, String motif, Date date) {
+	public static void addAnnulation (int id, String motif, Date date) throws SQLException {
 		
 		String sql = ADD_ANNULATION;
 				
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setInt(1, id );
 			pStat.setString(2, motif );
 			pStat.setDate(3, date );
 			
 			pStat.executeUpdate() ;
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 		
 	}
 }

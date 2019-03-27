@@ -53,25 +53,20 @@ public class DaoProfil {
 		 return INSTANCE; 
      }
 	 
-	 public static void modifyAvatar(String photoFileName , int id_participant) {
+	 public static void modifyAvatar(String photoFileName , int id_participant) throws SQLException {
 		 
 		 String sql = MODIFY_AVATAR;
 		 System.out.println(photoFileName);
 		 
 		 DbConnexion dbConnexion = new DbConnexion();
 		 
-	        try ( Connection connection = dbConnexion.getConnection() ;
-	    		PreparedStatement pStat = connection.prepareStatement(sql) ){
+	       	Connection connection = dbConnexion.getConnection() ;
+	    	PreparedStatement pStat = connection.prepareStatement(sql);
 	        	
 	            pStat.setString(1, photoFileName);
 	            pStat.setInt(2, id_participant );	        	
 	        	
 	            pStat.executeUpdate(); 
-	            
-	        } catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 	 }
 	 
 	 
@@ -80,18 +75,15 @@ public class DaoProfil {
      * Méthode permettant de modifier un article via un objet article en paramétre.
      * @param article
      */
-    public static int modifyParticipant(Participant participant) {
+    public static int modifyParticipant(Participant participant) throws SQLException {
 
         String sql = MODIFY_PARTICIPANT;
         int resultModif = 0;
         
         DbConnexion dbConnexion = new DbConnexion();
-        
-        
 
-        try ( Connection connection = dbConnexion.getConnection() ;
-    		PreparedStatement pStat = connection.prepareStatement(sql) ){
-
+        Connection connection = dbConnexion.getConnection() ;
+    	PreparedStatement pStat = connection.prepareStatement(sql);
 
             pStat.setString(1, participant.getPseudo() );
             pStat.setString(2, participant.getNom() );
@@ -103,66 +95,49 @@ public class DaoProfil {
             pStat.setInt(7, participant.getIdParticipant() );
 
             return resultModif = pStat.executeUpdate() ;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            
-            return resultModif;
-        }
     }
     
     //Modification du mdp
-    public static  int modifyParticipantMDP( String mdp, int no_partcipant) {
+    public static  int modifyParticipantMDP( String mdp, int no_partcipant) throws SQLException {
     	
     	int resultModif = 0;
     	String sql = MODIFY_PARTICIPANTMDP; 
     	
     	DbConnexion dbConnexion = new DbConnexion();
     	
-    	try ( Connection connection = dbConnexion.getConnection() ;
-        		PreparedStatement pStat = connection.prepareStatement(sql)){
+    	Connection connection = dbConnexion.getConnection() ;
+        PreparedStatement pStat = connection.prepareStatement(sql);
         		
     		pStat.setString(1, mdp);
     		pStat.setInt(2, no_partcipant);
     		
     		return resultModif = pStat.executeUpdate();
-    		
-    		
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-			return resultModif;
-			
-		}
     }
 
 
 	/**
 	 * Méthode permettant de supprimer un Participant via un objet Participant en paramétre.
 	 * @param participant
+	 * @throws SQLException 
 	 */
-	public static void deleteParticipant(Participant participant) {
+	public static void deleteParticipant(Participant participant) throws SQLException {
 		deleteParticipant(participant.getIdParticipant());
 	}
 	
 	/**
 	 * Surcharge de méthode permettant de supprimer un Participant via l'id du Participant en paramétre.
 	 * @param idParticipant
+	 * @throws SQLException 
 	 */
-	public static void deleteParticipant(int idParticipant) {
+	public static void deleteParticipant(int idParticipant) throws SQLException {
 		String sql = DELETE_PARTICIPANT;
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection() ;
+		PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setInt(1, idParticipant );
 			
-			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+			pStat.executeUpdate() ;	
 	}
 	
     
@@ -182,19 +157,16 @@ public class DaoProfil {
 		
 		Participant participant = null;
 		
-		try( Connection connection = dbConnexion.getConnection() ;
-	    		PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection();
+	    PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setString(1, pseudo);
 			
 			rs = pStat.executeQuery();
 			
 			if( rs != null && rs.next()) {
-				
 				participant = Mappage.mappageParticipant(rs);
-			}
-		}
-		
+			}		
 		return participant;
 	}
 	
@@ -207,8 +179,8 @@ public class DaoProfil {
 		
 		Participant participant = null;
 		
-		try( Connection connection = dbConnexion.getConnection() ;
-	    		PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection();
+	    PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setInt(1, id);
 			
@@ -217,9 +189,7 @@ public class DaoProfil {
 			if( rs != null && rs.next() ) {
 				
 				participant = Mappage.mappageParticipant(rs);
-			}
-		}
-		
+			}		
 		return participant;
 	}
 	
@@ -241,7 +211,8 @@ public class DaoProfil {
 		
 		String sql = GET_ALL_PARTICIPANT ;
 		
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setString(1, "%"+nom+"%" );
 			pStat.setString(2, "%"+prenom+"%" );
@@ -250,23 +221,15 @@ public class DaoProfil {
 			rs = pStat.executeQuery();
 				
 			if (rs != null) {
-				
 				while (rs.next()) {
 					Participant participant = Mappage.mappageParticipant(rs);
 					participants.add(participant);
 				}
-				
 			}
-			
-		}catch ( Exception exception )  {
-			throw new RuntimeException( exception );
-		}
-		
-		
 		return participants;
 	}
 	
-	public static List<Participant> getParticipantsBySortie (int idSortie)
+	public static List<Participant> getParticipantsBySortie (int idSortie) throws SQLException
 	{
 		ResultSet rs = null;
 		
@@ -275,8 +238,8 @@ public class DaoProfil {
 		
 		DbConnexion dbConnexion = new DbConnexion();
 		
-			try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) )
-			{
+			Connection connection = dbConnexion.getConnection();
+			PreparedStatement pStat = connection.prepareStatement(sql);
 				pStat.setInt(1, idSortie );
 		
 				rs = pStat.executeQuery();
@@ -288,10 +251,6 @@ public class DaoProfil {
 						participants.add(participant);
 					}
 				}
-			}catch ( Exception exception )  {
-				throw new RuntimeException( exception );
-			}		
-			
 			return participants;
 	}
 }

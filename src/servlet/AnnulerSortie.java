@@ -37,12 +37,14 @@ public class AnnulerSortie extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		
 		//On récupère la sorti correspondante 
-		try { sortie = DaoSortie.getSortie(id);} catch (SQLException e) {
-			//TODO Redirection page erreurs
-			System.out.println("erreur dao sortie dans annulerSortie GET");
+		try { 
+			sortie = DaoSortie.getSortie(id);
+		} catch (SQLException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
 		}
 		
-		if (user.getIdParticipant() 		== 	sortie.getOrganisateur().getIdParticipant() 
+		if (	user.getIdParticipant() 	== 	sortie.getOrganisateur().getIdParticipant() 
 			&&( sortie.getEtat() 			== 	Etats.CREEE
 			|| 	sortie.getEtat() 			== 	Etats.OUVERTE))
 		{
@@ -51,8 +53,8 @@ public class AnnulerSortie extends HttpServlet {
 		}
 		else
 		{
-			//TODO envoyer vers page erreur acces interdit.
-			System.out.println("acces interdit annulerSortie");
+			request.setAttribute("erreur", "Accès Interdit (Annulation Sortie");
+			request.getRequestDispatcher("/erreur").forward(request, response);
 		}
 	}
 
@@ -67,8 +69,18 @@ public class AnnulerSortie extends HttpServlet {
 		Date dateEtHeureActuel = new Date(new java.util.Date().getTime());
 		
 		
-		DaoSortie.setAnnulation(idSortie);
-		DaoAnnulation.addAnnulation(idSortie, motif, dateEtHeureActuel);
+		try {
+			DaoSortie.setAnnulation(idSortie);
+		} catch (SQLException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
+		}
+		try {
+			DaoAnnulation.addAnnulation(idSortie, motif, dateEtHeureActuel);
+		} catch (SQLException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
+		}
 		response.sendRedirect("/ENI_Sortie_Com/membre/accueil");
 		
 		

@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -55,7 +56,12 @@ public class PhotoProfil extends HttpServlet {
 		ManagementFile.writeFile(fileImage, imageName, path);
 		 
 		//modification du nom de la photo de profil dans la BDD
-		DaoProfil.modifyAvatar(imageName, id_participant);
+		try {
+			DaoProfil.modifyAvatar(imageName, id_participant);
+		} catch (SQLException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
+		}
 		utilisateur.setImage(imageName);   
 
 	    response.sendRedirect("/ENI_Sortie_Com/membre/monProfil");

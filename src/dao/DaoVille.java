@@ -30,16 +30,6 @@ public class DaoVille {
 			+ " where nom_ville like ?";
 	
 	
-	// Singkleton !
-	
-	 private DaoVille() {} 
-	 
-	 private static DaoVille INSTANCE = new DaoVille();
-	 
-	 public static DaoVille getInstance() {   
-		 return INSTANCE;
-	 }
-		 
 	//===================
 	// Add
 	//===================
@@ -47,22 +37,20 @@ public class DaoVille {
 	/**
 	 * Méthode permettant de rajouter une Ville via un objet Ville en paramétre.
 	 * @param ville
+	 * @throws SQLException 
 	 */
-	public static void addVille (Ville ville) {
+	public static void addVille (Ville ville) throws SQLException {
 		
 		String sql = ADD_VILLE;
 		
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
 				
 			pStat.setString(1, ville.getNom() );
 			pStat.setString(2, ville.getCodePostal() );
 			
 			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} 
     }
 
 	//===================
@@ -72,23 +60,20 @@ public class DaoVille {
 	/**
 	 * Méthode permettant de modifier un article via un objet article en paramétre.
 	 * @param article
+	 * @throws SQLException 
 	 */
-	public static void modifyVille(Ville ville) {
+	public static void modifyVille(Ville ville) throws SQLException {
 		String sql = MODIFY_VILLE;
 
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
 				
 			pStat.setString(1, ville.getNom() );
 			pStat.setString(2, ville.getCodePostal() );
 			pStat.setInt(3, ville.getIdVille() );
 			
-			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+			pStat.executeUpdate() ;	
 	}
 
 	
@@ -99,19 +84,17 @@ public class DaoVille {
 	/**
 	 * Méthode permettant de supprimer une Ville via un objet Ville en paramétre.
 	 * @param ville
+	 * @throws SQLException 
 	 */
-	public static void deleteVille(Ville ville) {
+	public static void deleteVille(Ville ville) throws SQLException {
 		String sql = DELETE_VILLE;
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setInt(1, ville.getIdVille() );
 			
 			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
 	}
 	
 	
@@ -134,7 +117,10 @@ public class DaoVille {
 		String sql = GET_VILLE;
 		
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
+				
 			
 			pStat.setString(1, "%"+nom+"%" );
 			
@@ -147,12 +133,7 @@ public class DaoVille {
 					villes.add(ville);
 				}
 				
-			}
-			
-		}catch ( Exception exception )  {
-			throw new RuntimeException( exception );
-		}
-		
+			}		
 		return villes;
 	}
 	

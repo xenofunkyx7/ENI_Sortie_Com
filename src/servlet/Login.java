@@ -1,6 +1,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 
 import javax.servlet.ServletException;
@@ -22,13 +23,6 @@ import dao.DaoProfil;
 public class Login extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Login() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
@@ -75,20 +69,30 @@ public class Login extends HttpServlet {
 		}
 		
 		
-		if (DaoHelper.verifMdp(DaoHelper.hash(password), identifiant) ) {
-			try {
-				Participant user = DaoProfil.getParticipant(identifiant);
-				session.setAttribute("utilisateur", user);
-			} catch (SQLException e) {
-				e.printStackTrace();
+		try {
+			if (DaoHelper.verifMdp(DaoHelper.hash(password), identifiant) ) {
+				try {
+					Participant user = DaoProfil.getParticipant(identifiant);
+					session.setAttribute("utilisateur", user);
+				} catch (SQLException e) {
+					request.setAttribute("exception", e);
+					request.getRequestDispatcher("/erreur").forward(request, response);
+				}
+				session.setAttribute("erreur", false);
+				response.sendRedirect("/ENI_Sortie_Com/membre/accueil");
+				//request.getRequestDispatcher("/membre/accueil").forward(request, response);
+			}else {
+				session.setAttribute("erreur", true);
+				request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
 			}
-			session.setAttribute("erreur", false);
-			response.sendRedirect("/ENI_Sortie_Com/membre/accueil");
-			//request.getRequestDispatcher("/membre/accueil").forward(request, response);
-		}else {
-			session.setAttribute("erreur", true);
-			request.getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+		} catch (NoSuchAlgorithmException | SQLException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
 		}
+		
+		
+		
+		
 	}
 	
 	private static void setCookie( HttpServletResponse response, String nom, String valeur, int maxAge )

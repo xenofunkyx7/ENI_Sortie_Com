@@ -43,9 +43,13 @@ public class ModifierSortie extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("id"));
 		
 		//On récupère la sorti correspondante 
-		try { sortie = DaoSortie.getSortie(id);} catch (SQLException e) {
-			//TODO Redirection page erreurs
-			System.out.println("erreur dao sortie dans annulerSortie GET");
+		try { 
+			sortie = DaoSortie.getSortie(id);
+		} 
+		catch (SQLException e) 
+		{
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur");
 		}
 		
 		if (	participant.getIdParticipant() 	== 	sortie.getOrganisateur().getIdParticipant()
@@ -57,9 +61,8 @@ public class ModifierSortie extends HttpServlet {
 		}
 		else
 		{
-			//TODO envoyer vers page erreur acces interdit.
-			System.out.println("acces interdit ModifierSortie");
-			request.getRequestDispatcher("Sortie").forward(request, response);		
+			request.setAttribute("erreur", "Accès Interdit (Modifier Sortie");
+			request.getRequestDispatcher("/erreur").forward(request, response);	
 		}
 
 
@@ -71,7 +74,6 @@ public class ModifierSortie extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		Sortie newSortie = new Sortie();
 		Lieu lieuChoisi = new Lieu();
 		Participant user = null;
 		
@@ -193,7 +195,12 @@ public class ModifierSortie extends HttpServlet {
 	        /**
 			 * Envoie de la sortie en base de donnée
 			 */
-			DaoSortie.modifySortie(sortie);
+			try {
+				DaoSortie.modifySortie(sortie);
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			response.sendRedirect("/ENI_Sortie_Com/membre/detailSortie?id=" + id );
         }
         else

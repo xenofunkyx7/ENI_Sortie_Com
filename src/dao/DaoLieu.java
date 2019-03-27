@@ -49,13 +49,16 @@ public class DaoLieu {
 	/**
 	 * Méthode permettant de rajouter un Lieu via un objet Lieu en paramétre.
 	 * @param lieu
+	 * @throws SQLException 
 	 */
-	public static void addLieu (Lieu lieu) {
+	public static void addLieu (Lieu lieu) throws SQLException {
 		
 		String sql = ADD_LIEU;
 		
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		
+		Connection connection = dbConnexion.getConnection() ;
+		PreparedStatement pStat = connection.prepareStatement(sql);
 				
 			pStat.setString(1, lieu.getNom() );
 			pStat.setString(2, lieu.getRue() );
@@ -64,10 +67,7 @@ public class DaoLieu {
 			pStat.setInt(5, lieu.getVille().getIdVille() );
 			
 			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
 	}
 	 
 	//===================
@@ -77,13 +77,16 @@ public class DaoLieu {
 	/** 
 	 * Méthode permettant de modifier un article via un objet article en paramétre. 
 	 * @param article 
+	 * @throws SQLException 
 	 */ 
-	public static void modifyLieu(Lieu lieu) { 
+	public static void modifyLieu(Lieu lieu) throws SQLException { 
 		 
 		String sql = MODIFY_LIEU;
 		 
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){ 
+		
+		Connection connection = dbConnexion.getConnection() ;
+		PreparedStatement pStat = connection.prepareStatement(sql); 
 			 
 			pStat.setString(1, lieu.getNom() ); 
 			pStat.setString(2, lieu.getRue() ); 
@@ -93,10 +96,6 @@ public class DaoLieu {
 			pStat.setInt(6, lieu.getId() ); 
 			 
 			pStat.executeUpdate() ; 
-				 
-		} catch (SQLException e) { 
-			e.printStackTrace(); 
-		} 
 	} 
 	 
 	//===================
@@ -106,20 +105,18 @@ public class DaoLieu {
 	/**
 	 * Méthode permettant de supprimer un Lieu via un objet Lieu en paramétre.
 	 * @param lieu
+	 * @throws SQLException 
 	 */
-	public static void deleteLieu(Lieu lieu) {
+	public static void deleteLieu(Lieu lieu) throws SQLException {
 		String sql = DELETE_LIEU;
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		
+		Connection connection = dbConnexion.getConnection() ;
+		PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setInt(1, lieu.getId() );
 			
-			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+			pStat.executeUpdate() ;		
 	}
 	 
 	//===================
@@ -141,7 +138,9 @@ public class DaoLieu {
 		String sql = GET_LIEU;
 		
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		
+		Connection connection = dbConnexion.getConnection() ;
+		PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setString(1, "%"+nom+"%" );
 			
@@ -153,15 +152,11 @@ public class DaoLieu {
 					Lieu lieu = Mappage.mappageLieu(rs);
 					lieux.add(lieu);
 				}
-			}
-		}catch ( Exception exception )  {
-			throw new RuntimeException( exception );
-		}
-		
+			}		
 		return lieux;
 	}
 	
-	public static Lieu getlieu( int id )
+	public static Lieu getlieu( int id ) throws SQLException
 	{
 		ResultSet rs = null;
 		
@@ -170,7 +165,8 @@ public class DaoLieu {
 		
 		DbConnexion dbConnexion = new DbConnexion();
 		
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
 					
 			pStat.setString(1, "" );
 					
@@ -180,11 +176,6 @@ public class DaoLieu {
 			{		
 				lieuChoisis = Mappage.mappageLieu(rs);
 			}
-		} catch ( Exception exception )  
-		{
-			throw new RuntimeException( exception );
-		}
-
 		return lieuChoisis;
 	}
 	

@@ -47,22 +47,20 @@ public class DaoSite {
 	 /**
 	  * 
 	  * @param site
+	 * @throws SQLException 
 	  */
-	public static void addSite (Site site) {
+	public static void addSite (Site site) throws SQLException {
 		
 		String sql = ADD_SITE;
 		
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		
+		Connection connection = dbConnexion.getConnection() ;
+		PreparedStatement pStat = connection.prepareStatement(sql);
 				
 			pStat.setString(1, site.getNom() );
 			
-			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+			pStat.executeUpdate() ;	
 	}
 	
 		
@@ -73,21 +71,20 @@ public class DaoSite {
 	/**
 	 * 
 	 * @param site
+	 * @throws SQLException 
 	 */
-	public static void modifySite(Site site) {
+	public static void modifySite(Site site) throws SQLException {
 		String sql = MODIFY_SITE;
 		
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
 				
 			pStat.setString(1, site.getNom() );
 			pStat.setInt(2, site.getIdSite() );
 			
-			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+			pStat.executeUpdate();
 		
 	}
 	
@@ -99,19 +96,18 @@ public class DaoSite {
 	/**
 	 * 
 	 * @param site
+	 * @throws SQLException 
 	 */
-	public static void deleteSite(Site site) {
+	public static void deleteSite(Site site) throws SQLException {
 		String sql = DELETE_SITE;
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setInt(1, site.getIdSite() );
 			
 			pStat.executeUpdate() ;
-				
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+
 	}
 		
 	 
@@ -134,7 +130,9 @@ public class DaoSite {
 		String sql = GET_SITE;
 		
 		DbConnexion dbConnexion = new DbConnexion();
-		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+		
+		Connection connection = dbConnexion.getConnection();
+		PreparedStatement pStat = connection.prepareStatement(sql);
 			
 			pStat.setString(1, "%"+nom+"%" );
 			
@@ -148,12 +146,7 @@ public class DaoSite {
 				}
 				
 			}
-			
-		}catch ( Exception exception )  {
-			throw new RuntimeException( exception );
-		}
-		
-		
+
 		return sites;
 	}
 }

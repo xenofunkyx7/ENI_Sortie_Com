@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -61,14 +63,40 @@ public class MonProfil extends HttpServlet {
 		System.out.println(idUtilisateur+" Id utilisateur");
 		
 		//Mot de passe vérifié 
-		String mdpa = DaoHelper.hash(request.getParameter("mdpa"));
-		boolean verifMdp = DaoHelper.verifMdp(mdpa, idUtilisateur);
+		String mdpa = null;
+		
+		try {
+			mdpa = DaoHelper.hash(request.getParameter("mdpa"));
+		} catch (NoSuchAlgorithmException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
+		}
+		
+		boolean verifMdp = false;
+		
+		try {
+			verifMdp = DaoHelper.verifMdp(mdpa, idUtilisateur);
+		} catch (SQLException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
+		}
 		
 		//nouveau mdp  verifications + hashage
 		String nmdp = request.getParameter("nmdp");
-		String cmdp = request.getParameter("cmdp");			
-		nmdp = nmdp != null && !nmdp.isEmpty() ? DaoHelper.hash(request.getParameter("nmdp")) : "1" ;
-		cmdp = cmdp != null && !cmdp.isEmpty() ? DaoHelper.hash(request.getParameter("cmdp")) : "2" ;
+		String cmdp = request.getParameter("cmdp");		
+		
+		try {
+			nmdp = nmdp != null && !nmdp.isEmpty() ? DaoHelper.hash(request.getParameter("nmdp")) : "1" ;
+		} catch (NoSuchAlgorithmException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
+		}
+		try {
+			cmdp = cmdp != null && !cmdp.isEmpty() ? DaoHelper.hash(request.getParameter("cmdp")) : "2" ;
+		} catch (NoSuchAlgorithmException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
+		}
 		
 		// récupération des parametres du formulaire
 		String nPseudo = request.getParameter("pseudo");
@@ -100,11 +128,21 @@ public class MonProfil extends HttpServlet {
 			else {bool = false;} ;
 			
 			if(bool) {
-				resultModif = DaoProfil.modifyParticipant(utilisateurModif);				
+				try {
+					resultModif = DaoProfil.modifyParticipant(utilisateurModif);
+				} catch (SQLException e) {
+					request.setAttribute("exception", e);
+					request.getRequestDispatcher("/erreur").forward(request, response);
+				}				
 				//modification du mdp
 				if(nmdp.equals(cmdp) ) {				
 					
-					resultModif = DaoProfil.modifyParticipantMDP(nmdp, idUtilisateur);
+					try {
+						resultModif = DaoProfil.modifyParticipantMDP(nmdp, idUtilisateur);
+					} catch (SQLException e) {
+						request.setAttribute("exception", e);
+						request.getRequestDispatcher("/erreur").forward(request, response);
+					}
 				}
 				session.setAttribute("utilisateur", utilisateurModif);
 			}
