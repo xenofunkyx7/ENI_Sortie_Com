@@ -84,8 +84,7 @@ public class DaoProfil {
      */
     public static int modifyParticipant(Participant participant) throws SQLException {
 
-        String sql = MODIFY_PARTICIPANT;
-        int resultModif = 0;
+        String sql = MODIFY_PARTICIPANT;       
         
         DbConnexion dbConnexion = new DbConnexion();
 
@@ -101,13 +100,13 @@ public class DaoProfil {
 //            pStat.setString(7, participant.getImage());
             pStat.setInt(7, participant.getIdParticipant() );
 
-            return resultModif = pStat.executeUpdate() ;
+            return pStat.executeUpdate() ;
     }
     
     //Modification du mdp
     public static  int modifyParticipantMDP( String mdp, int no_partcipant) throws SQLException {
     	
-    	int resultModif = 0;
+    	
     	String sql = MODIFY_PARTICIPANTMDP; 
     	
     	DbConnexion dbConnexion = new DbConnexion();
@@ -118,7 +117,7 @@ public class DaoProfil {
     		pStat.setString(1, mdp);
     		pStat.setInt(2, no_partcipant);
     		
-    		return resultModif = pStat.executeUpdate();
+    		return pStat.executeUpdate();
     }
 
 
