@@ -16,8 +16,6 @@ function checkboxExclisif() {
 	ckInscrit = document.getElementById("IsInscrit");
 	ckNotInscrit = document.getElementById("IsNotInscrit");
 	
-	// TODO griser les valeurs non valable et afficher message d'erreur
-	
 	 if ( ckOrga.checked ){
 		 ckInscrit.disabled = true;
 		 ckNotInscrit.disabled = true;
