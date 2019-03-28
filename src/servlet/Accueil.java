@@ -21,14 +21,19 @@ import dao.DaoProfil;
 import dao.DaoSite;
 import dao.DaoSortie;
 
+
 /**
- * Servlet implementation class Accueil
+ * Servlet implementation class Accueil.
  */
 @WebServlet("/membre/accueil")
 public class Accueil extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new accueil.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public Accueil() {
@@ -36,9 +41,16 @@ public class Accueil extends HttpServlet {
         // TODO Auto-generated constructor stub
     }
     
+    /** The erreurs. */
     private String erreurs = "" ;
 
 	/**
+	 * Do get.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -64,6 +76,12 @@ public class Accueil extends HttpServlet {
 	}
 
 	/**
+	 * Do post.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -111,6 +129,14 @@ public class Accueil extends HttpServlet {
 		
 	}
 	
+	/**
+	 * Inscription.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 * @throws SQLException the SQL exception
+	 */
 	private void inscription (HttpServletRequest request, HttpServletResponse response) throws IOException, SQLException {
 		HttpSession session = request.getSession(true);
 		Participant user = (Participant) session.getAttribute("utilisateur");
@@ -136,6 +162,13 @@ public class Accueil extends HttpServlet {
 		
 	}
 	
+	/**
+	 * Se desiste.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws SQLException the SQL exception
+	 */
 	private void seDesiste (HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		HttpSession session = request.getSession(true);
 		Participant user = (Participant) session.getAttribute("utilisateur");
@@ -151,6 +184,13 @@ public class Accueil extends HttpServlet {
 		
 	}
 
+	/**
+	 * Publier.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws SQLException the SQL exception
+	 */
 	private void publier (HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		int idSortie = Integer.parseInt( request.getParameter("idSortie") );
 		DaoSortie.setPublier(idSortie);
