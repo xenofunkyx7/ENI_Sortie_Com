@@ -39,7 +39,7 @@
                         <label for="idDateHeureDebut">Date et heure de la sortie :</label>
                     </div>
                     <div class="col">
-                        <input type="datetime-local" class="form-control" id="idDateHeureDebut" name="dateHeureDebut" value="${sortie.dateHeureDebut}" required>
+                        <input type="datetime-local" class="form-control" id="idDateHeureDebut" name="dateHeureDebut" value="${dateDebut}" required>
                     </div>
                 </div>
                 <div class="row">
@@ -47,7 +47,7 @@
                         <label for="idDatetime-local" >Date limite d'inscription :</label>
                     </div>
                     <div class="col">
-                        <input type="datetime-local" class="form-control" id="idDatetime-local" name="dateLimiteInscription" value="${sortie.dateLimiteInscription}" required>
+                        <input type="datetime-local" class="form-control" id="idDatetime-local" name="dateLimiteInscription" value="${dateLimite}" required>
                     </div>
                 </div>
                 <div class="row">

@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,13 +37,20 @@ public class ModifierSortie extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession();
-		Participant participant = (Participant) session.getAttribute("utilisateur");
-		
+		Participant user = (Participant) session.getAttribute("utilisateur");
 		Sortie sortie = null;
 		
 		int id = Integer.parseInt(request.getParameter("id"));
+	
+		/*
+		 * On prépare le formatage pour les dates de la sortie dans la jsp			
+		 */
+		DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		
-		//On récupère la sorti correspondante 
+		
+		/*
+		 * On récupère la sorti correspondante à l'id recu en parametre
+		 */
 		try { 
 			sortie = DaoSortie.getSortie(id);
 		} 
@@ -52,11 +60,20 @@ public class ModifierSortie extends HttpServlet {
 			request.getRequestDispatcher("/erreur");
 		}
 		
-		if (	participant.getIdParticipant() 	== 	sortie.getOrganisateur().getIdParticipant()
-			&&	sortie.getEtat() 				== 	Etats.CREEE
+		String dateDebut = df.format(sortie.getDateHeureDebut());
+		String dateLimite = df.format(sortie.getDateLimiteInscription());
+		
+		
+		/*
+		 * On verifie que l'utilisateur est bien autorisé à modifier la sortie. 
+		 */
+		if (	user.getIdParticipant() 	== 		sortie.getOrganisateur().getIdParticipant()
+			&&	sortie.getEtat() 			== 		Etats.CREEE
 			&& 	sortie != null)
 		{
-			request.setAttribute( "sortie", sortie);		
+			request.setAttribute( "sortie", sortie);
+			request.setAttribute("dateDebut", dateDebut);
+			request.setAttribute("dateLimite", dateLimite);
 			request.getRequestDispatcher("Sortie").forward(request, response);
 		}
 		else
@@ -85,17 +102,23 @@ public class ModifierSortie extends HttpServlet {
 		Date dateLimiteInscription = null;
 		Date dateHeureDebut = null;
 		
-		//Création d'une hashmap de message d'erreur Si le formulaire préente des erreurs
+		/*
+		 * Création d'une hashmap de message d'erreur Si le formulaire préente des erreurs
+		 */
 		Map<String, String> erreurs = new HashMap<String, String>();
 		
-		//Récupération des données du formulaire / session sauf dates et Int
+		/*
+		 * Récupération des données du formulaire / session sauf dates et Int
+		 */
 		String nom = request.getParameter("nom");
 		String infoSortie = request.getParameter("infoSortie");
 		int idLieu = Integer.parseInt(request.getParameter("idLieu"));
 		user = (Participant)session.getAttribute("utilisateur");
 		String etat = request.getParameter("etat");
 		
-		//date du jour instant T pour vérification
+		/*
+		 * date du jour instant T pour vérification
+		 */
 		Date dateEtHeureActuel = new Date(new java.util.Date().getTime());
 		
 		/**

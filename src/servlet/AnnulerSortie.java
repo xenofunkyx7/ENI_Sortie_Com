@@ -44,9 +44,8 @@ public class AnnulerSortie extends HttpServlet {
 			request.getRequestDispatcher("/erreur").forward(request, response);
 		}
 		
-		if (	user.getIdParticipant() 	== 	sortie.getOrganisateur().getIdParticipant() 
-			&&( sortie.getEtat() 			== 	Etats.CREEE
-			|| 	sortie.getEtat() 			== 	Etats.OUVERTE))
+		if (	( user.getIdParticipant() 	== 	sortie.getOrganisateur().getIdParticipant() || user.isAdministrateur() )
+			&&	( sortie.getEtat() 			== 	Etats.CREEE									|| 	sortie.getEtat() 		== 	Etats.OUVERTE) )
 		{
 			request.setAttribute( "sortie", sortie);		
 			request.getRequestDispatcher("/WEB-INF/annulerSortie.jsp").forward(request, response);
