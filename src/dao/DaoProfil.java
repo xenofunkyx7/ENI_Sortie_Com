@@ -11,49 +11,77 @@ import bean.Participant;
 import bll.Mappage;
 
 
+
+/**
+ * The Class DaoProfil.
+ */
 public class DaoProfil {
 	
 	// false pour l'admin, on ne peut pas créer un membre qui soit directement admin)
 //	 private static final String ADD_PARTICIPANT = "INSERT INTO participants VALUES (?,?, ?,?,?, ?,'false',?,?)";
 	 
-	 private static final String MODIFY_PARTICIPANT =  "UPDATE PARTICIPANTS "			 
+	 /** The Constant MODIFY_PARTICIPANT. */
+	private static final String MODIFY_PARTICIPANT =  "UPDATE PARTICIPANTS "			 
 	 		+ " SET pseudo=?, nom=?, prenom=?, telephone=?, mail=?,  sites_no_site=? " 
 			+ " WHERE no_participant=? ";
 	 
-	 private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants SET mot_de_passe=? WHERE no_participant=? ";
+	 /** The Constant MODIFY_PARTICIPANTMDP. */
+ 	private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants SET mot_de_passe=? WHERE no_participant=? ";
 	 
-	 private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE id=? ";
+	 /** The Constant DELETE_PARTICIPANT. */
+ 	private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE id=? ";
 	 
-	 private static final String GET_PARTICIPANT = "SELECT * FROM PARTICIPANTS inner join SITES on no_site = sites_no_site "
+	 /** The Constant GET_PARTICIPANT. */
+ 	private static final String GET_PARTICIPANT = "SELECT * FROM PARTICIPANTS inner join SITES on no_site = sites_no_site "
 				+ " WHERE pseudo = ? "; 
 	 
-	 private static final String GET_PARTICIPANT_BY_ID = "SELECT * FROM PARTICIPANTS inner join SITES on no_site = sites_no_site  "
+	 /** The Constant GET_PARTICIPANT_BY_ID. */
+ 	private static final String GET_PARTICIPANT_BY_ID = "SELECT * FROM PARTICIPANTS inner join SITES on no_site = sites_no_site  "
 				+ " WHERE no_participant = ? "; 
 	 
 	 
-	 private static final String GET_ALL_PARTICIPANT = "SELECT * FROM participants inner join SITES on no_site = sites_no_site " ;
+	 /** The Constant GET_ALL_PARTICIPANT. */
+ 	private static final String GET_ALL_PARTICIPANT = "SELECT * FROM participants inner join SITES on no_site = sites_no_site " ;
 	
-	 private static final String GET_ALL_PARTICIPANT_BY_IDSORTIE = "SELECT * FROM INSCRIPTIONS " + 
+	 /** The Constant GET_ALL_PARTICIPANT_BY_IDSORTIE. */
+ 	private static final String GET_ALL_PARTICIPANT_BY_IDSORTIE = "SELECT * FROM INSCRIPTIONS " + 
 	 		"inner join PARTICIPANTS on participants_no_participant = no_participant " + 
 	 		"inner join SITES on sites_no_site = no_site " + 
 	 		"WHERE sorties_no_sortie = ? ";
 	 
-	 private static final String MODIFY_AVATAR = "UPDATE participants SET urlAvatar= ? WHERE no_participant= ? ";
+	 /** The Constant MODIFY_AVATAR. */
+ 	private static final String MODIFY_AVATAR = "UPDATE participants SET urlAvatar= ? WHERE no_participant= ? ";
 	
 	
 	// Singkleton !
 	
-	 private DaoProfil() {} 
+	 /**
+	 * Instantiates a new dao profil.
+	 */
+	private DaoProfil() {} 
 	 
-	 private static DaoProfil INSTANCE = new DaoProfil();
+	 /** The instance. */
+ 	private static DaoProfil INSTANCE = new DaoProfil();
 	 
 
 	 
-	 public static DaoProfil getInstance() {   
+	 /**
+ 	 * Gets the single instance of DaoProfil.
+ 	 *
+ 	 * @return single instance of DaoProfil
+ 	 */
+ 	public static DaoProfil getInstance() {   
 		 return INSTANCE; 
      }
 	 
-	 public static void modifyAvatar(String photoFileName , int id_participant) throws SQLException {
+	 /**
+ 	 * Modify avatar.
+ 	 *
+ 	 * @param photoFileName the photo file name
+ 	 * @param id_participant the id participant
+ 	 * @throws SQLException the SQL exception
+ 	 */
+ 	public static void modifyAvatar(String photoFileName , int id_participant) throws SQLException {
 		 
 		 String sql = MODIFY_AVATAR;
 		 System.out.println(photoFileName);
@@ -71,7 +99,14 @@ public class DaoProfil {
 	 
 	 
 		 
-	 /*
+	 /**
+ 	 * Modify participant.
+ 	 *
+ 	 * @param participant the participant
+ 	 * @return the int
+ 	 * @throws SQLException the SQL exception
+ 	 */
+ 	/*
      * Méthode permettant de modifier un article via un objet article en paramétre.
      * @param article
      */
@@ -97,6 +132,14 @@ public class DaoProfil {
             return resultModif = pStat.executeUpdate() ;
     }
     
+    /**
+     * Modify participant MDP.
+     *
+     * @param mdp the mdp
+     * @param no_partcipant the no partcipant
+     * @return the int
+     * @throws SQLException the SQL exception
+     */
     //Modification du mdp
     public static  int modifyParticipantMDP( String mdp, int no_partcipant) throws SQLException {
     	
@@ -117,8 +160,9 @@ public class DaoProfil {
 
 	/**
 	 * Méthode permettant de supprimer un Participant via un objet Participant en paramétre.
-	 * @param participant
-	 * @throws SQLException 
+	 *
+	 * @param participant the participant
+	 * @throws SQLException the SQL exception
 	 */
 	public static void deleteParticipant(Participant participant) throws SQLException {
 		deleteParticipant(participant.getIdParticipant());
@@ -126,8 +170,9 @@ public class DaoProfil {
 	
 	/**
 	 * Surcharge de méthode permettant de supprimer un Participant via l'id du Participant en paramétre.
-	 * @param idParticipant
-	 * @throws SQLException 
+	 *
+	 * @param idParticipant the id participant
+	 * @throws SQLException the SQL exception
 	 */
 	public static void deleteParticipant(int idParticipant) throws SQLException {
 		String sql = DELETE_PARTICIPANT;
@@ -143,11 +188,12 @@ public class DaoProfil {
     
     
 	/**
-	* M�thode permettant de faire des recherches en fonction du pseudo
-	* @param pseudo
-	* @return Participant
-	* @throws SQLException
-	*/
+	 * M�thode permettant de faire des recherches en fonction du pseudo.
+	 *
+	 * @param pseudo the pseudo
+	 * @return Participant
+	 * @throws SQLException the SQL exception
+	 */
 	public static Participant getParticipant (String pseudo) throws SQLException {
 		
 		ResultSet rs = null;
@@ -170,6 +216,13 @@ public class DaoProfil {
 		return participant;
 	}
 	
+	/**
+	 * Gets the participant by id.
+	 *
+	 * @param id the id
+	 * @return the participant by id
+	 * @throws SQLException the SQL exception
+	 */
 	public static Participant getParticipantById (int id) throws SQLException {
 		
 		ResultSet rs = null;
@@ -198,11 +251,14 @@ public class DaoProfil {
 
 	 
 	/**
-	* M�thode permettant de faire des recherches en fonction d'un id de sortie
-	* @param idSortie
-	* @return liste de Participant
-	* @throws SQLException
-	*/
+	 * M�thode permettant de faire des recherches en fonction d'un id de sortie.
+	 *
+	 * @param nom the nom
+	 * @param prenom the prenom
+	 * @param pseudo the pseudo
+	 * @return liste de Participant
+	 * @throws SQLException the SQL exception
+	 */
 	public static List<Participant> getParticipants (String nom, String prenom, String pseudo) throws SQLException {
 		ResultSet rs = null;
 		
@@ -229,6 +285,13 @@ public class DaoProfil {
 		return participants;
 	}
 	
+	/**
+	 * Gets the participants by sortie.
+	 *
+	 * @param idSortie the id sortie
+	 * @return the participants by sortie
+	 * @throws SQLException the SQL exception
+	 */
 	public static List<Participant> getParticipantsBySortie (int idSortie) throws SQLException
 	{
 		ResultSet rs = null;

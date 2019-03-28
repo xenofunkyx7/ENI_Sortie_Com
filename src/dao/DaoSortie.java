@@ -11,13 +11,19 @@ import bean.Sortie;
 import bean.Sortie.Etats;
 import bll.Mappage;
 
+
+/**
+ * The Class DaoSortie.
+ */
 public class DaoSortie {
 
+	/** The Constant ADD_SORTIE. */
 	private static final String ADD_SORTIE = 
 			"INSERT INTO SORTIES "
 			+ "VALUES ( ?,?,?,?,?, ?,?,?,?,?, ? )";
 	
-	 private static final String GET_SORTIE = 
+	 /** The Constant ARCHIVE_SORTIE. */
+ 	private static final String GET_SORTIE = 
 			 "select " + 
 			 "	no_sortie, Sorties.nom as 'nom_sortie', datedebut, duree, datecloture, " + 
 			 "	nbinscriptionsmax, descriptioninfos, urlPhoto, organisateur, etats_no_etat, " + 
@@ -84,10 +90,13 @@ public class DaoSortie {
 	
 	
 	 /**
-	 * M�thode permettant de rajouter un sortie via un objet sortie + utilisateur en param�tre.
-	 * @param sortie
-	 * @throws SQLException 
-	 */
+ 	 * M�thode permettant de rajouter un sortie via un objet sortie + utilisateur en param�tre.
+ 	 *
+ 	 * @param sortie the sortie
+ 	 * @param idCreateur the id createur
+ 	 * @return the int
+ 	 * @throws SQLException the SQL exception
+ 	 */
 	 public static int addSortie (Sortie sortie, int idCreateur) throws SQLException {
 		 	
 			String sql = ADD_SORTIE;
@@ -123,11 +132,11 @@ public class DaoSortie {
 	 }
 	 
 	 /**
-	 * M�thode permettant de modifier un sortie via un objet sortie en param�tre.
-	 * @param sortie
-	 * @return 
-	 * @throws SQLException 
-	 */
+ 	 * M�thode permettant de modifier un sortie via un objet sortie en param�tre.
+ 	 *
+ 	 * @param sortie the sortie
+ 	 * @throws SQLException the SQL exception
+ 	 */
 	 public static void modifySortie(Sortie sortie) throws SQLException {
 		 String sql = MODIFY_SORTIE;
 			
@@ -153,15 +162,22 @@ public class DaoSortie {
 	 }
 
 	 /**
-	 * M�thode permettant de supprimer un sortie via un objet sortie en param�tre.
-	 * @param sortie
-	 * @throws SQLException 
-	 */
+ 	 * M�thode permettant de supprimer un sortie via un objet sortie en param�tre.
+ 	 *
+ 	 * @param sortie the sortie
+ 	 * @throws SQLException the SQL exception
+ 	 */
 	 public static void deleteSortie(Sortie sortie) throws SQLException {
 		 deleteSortie(sortie.getId());
 	 }
 	 
-	 public static void deleteSortie(int idSortie) throws SQLException {
+	 /**
+ 	 * Delete sortie.
+ 	 *
+ 	 * @param idSortie the id sortie
+ 	 * @throws SQLException the SQL exception
+ 	 */
+ 	public static void deleteSortie(int idSortie) throws SQLException {
 			String sql = DELETE_SORTIE;
 			
 			DbConnexion dbConnexion = new DbConnexion();
@@ -176,10 +192,12 @@ public class DaoSortie {
 	 }
 		
 	 /**
-	* M�thode permettant de faire des recherches en fonction d'un id de sortie
-	* @return Sortie
-	* @throws SQLException
-	*/
+ 	 * M�thode permettant de faire des recherches en fonction d'un id de sortie.
+ 	 *
+ 	 * @param idSortie the id sortie
+ 	 * @return Sortie
+ 	 * @throws SQLException the SQL exception
+ 	 */
 	
 	public static Sortie getSortie (int idSortie) throws SQLException {
 	
@@ -206,19 +224,11 @@ public class DaoSortie {
 		 
 	
 	/**
-	* M�thode permettant de faire des recherches en fonction de plusieurs param
-	* @param nom
-	 * @param site
-	 * @param dateDebut
-	 * @param dateFin
-	 * @param participant
-	 * @param isOrganisateur
-	 * @param isInscrit
-	 * @param notInscrit
-	 * @param isPasse
-	* @return liste de Sortie
-	* @throws SQLException
-	*/
+	 * M�thode permettant de faire des recherches en fonction de plusieurs param.
+	 *
+	 * @return liste de Sortie
+	 * @throws SQLException the SQL exception
+	 */
 	public static List<Sortie> getSorties () throws SQLException {
 		ResultSet rs = null;
 		
@@ -244,6 +254,12 @@ public class DaoSortie {
 		return sorties;
 	}
 	
+	/**
+	 * Sets the archive.
+	 *
+	 * @param idSortie the new archive
+	 * @throws SQLException the SQL exception
+	 */
 	public static void setArchive (int idSortie) throws SQLException {
 		String sql = ARCHIVE_SORTIE;
 		
@@ -260,26 +276,63 @@ public class DaoSortie {
 		
 	}
 	
+	/**
+	 * Sets the publier.
+	 *
+	 * @param idSortie the new publier
+	 * @throws SQLException the SQL exception
+	 */
 	public static void setPublier (int idSortie) throws SQLException {
 		changeEtat(idSortie, Etats.OUVERTE.ordinal() ); 
 	}
 	
+	/**
+	 * Sets the annulation.
+	 *
+	 * @param idSortie the new annulation
+	 * @throws SQLException the SQL exception
+	 */
 	public static void setAnnulation (int idSortie) throws SQLException {
 		changeEtat(idSortie, Etats.ANNULEE.ordinal() ); 
 	}
 	
+	/**
+	 * Sets the passee.
+	 *
+	 * @param idSortie the new passee
+	 * @throws SQLException the SQL exception
+	 */
 	public static void setPassee (int idSortie) throws SQLException {
 		changeEtat(idSortie, Etats.PASSEE.ordinal() ); 
 	}
 	
+	/**
+	 * Sets the cloture.
+	 *
+	 * @param idSortie the new cloture
+	 * @throws SQLException the SQL exception
+	 */
 	public static void setCloture (int idSortie) throws SQLException {
 		changeEtat(idSortie, Etats.CLOTUREE.ordinal() ); 
 	}
 	
+	/**
+	 * Sets the en cours.
+	 *
+	 * @param idSortie the new en cours
+	 * @throws SQLException the SQL exception
+	 */
 	public static void setEnCours (int idSortie) throws SQLException {
 		changeEtat(idSortie, Etats.ACTIVITE_EN_COURS.ordinal() ); 
 	}
 	
+	/**
+	 * Change etat.
+	 *
+	 * @param idSortie the id sortie
+	 * @param idEtat the id etat
+	 * @throws SQLException the SQL exception
+	 */
 	public static void changeEtat (int idSortie, int idEtat) throws SQLException {
 		 String sql = CHANGE_ETAT;
 			
