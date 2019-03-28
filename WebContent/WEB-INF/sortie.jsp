@@ -95,7 +95,7 @@
                      <select class="form-control" id="idVille" name="idVille" onchange="select();" >
                      	<c:forEach var="ville" items="${villes}">
                      		<c:choose>
-                     			<c:when test="${sortie != null && ville.idVille == sortie.lieu.ville.idVille} " >
+                     			<c:when test="${requestScope.sortie != null && ville.idVille == requestScope.sortie.lieu.ville.idVille}" >
                      				<option id="${ville.idVille}" value="${ville.idVille}" selected="selected">${ville.nom}</option>
                      			</c:when>
                      		

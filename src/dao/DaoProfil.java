@@ -22,7 +22,7 @@ public class DaoProfil {
 	 
 	 private static final String MODIFY_PARTICIPANTMDP = "UPDATE participants SET mot_de_passe=? WHERE no_participant=? ";
 	 
-	 private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE id=? ";
+	 private static final String DELETE_PARTICIPANT = "DELETE FROM participants WHERE no_participant =? ";
 	 
 	 private static final String GET_PARTICIPANT = "SELECT * FROM PARTICIPANTS inner join SITES on no_site = sites_no_site "
 				+ " WHERE pseudo = ? "; 
@@ -40,6 +40,13 @@ public class DaoProfil {
 	 
 	 private static final String MODIFY_AVATAR = "UPDATE participants SET urlAvatar= ? WHERE no_participant= ? ";
 	
+	 private static final String ADD_PARTICIPANT =  "insert into PARTICIPANTS " +
+	 		" (pseudo, nom, prenom, telephone, mail, mot_de_passe, " +
+	 		" administrateur, actif, sites_no_site) " +
+	 		" VALUES (?, ?, ? ,? ,? ,? ,0 ,0 , ?)"	;
+	 
+	 private static final String SET_ADMIN = "UPDATE participants SET administrateur = ? WHERE no_participant= ? ";
+		
 	
 	// Singkleton !
 	
@@ -233,7 +240,7 @@ public class DaoProfil {
 	* @return liste de Participant
 	* @throws SQLException
 	*/
-	public static List<Participant> getParticipants (String nom, String prenom, String pseudo) throws SQLException {
+	public static List<Participant> getParticipants () throws SQLException {
 		ResultSet rs = null;
 		
 		List<Participant> participants = new ArrayList<>();
@@ -242,10 +249,6 @@ public class DaoProfil {
 		String sql = GET_ALL_PARTICIPANT ;
 		
 		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
-			
-			pStat.setString(1, "%"+nom+"%" );
-			pStat.setString(2, "%"+prenom+"%" );
-			pStat.setString(3, "%"+pseudo+"%" );
 			
 			rs = pStat.executeQuery();
 				
@@ -293,5 +296,53 @@ public class DaoProfil {
 			}		
 			
 			return participants;
+	}
+
+	public static void addParticipant(Participant participant, String mdp) {
+		String sql = ADD_PARTICIPANT;
+		
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			pStat.setString(1, participant.getPseudo() );
+			pStat.setString(2, participant.getNom() );
+			pStat.setString(3, participant.getPrenom() );
+			
+			String tel = participant.getTelephone();
+			if (tel.equals("")) {
+				pStat.setNull(4, java.sql.Types.VARCHAR);
+			} else {
+				pStat.setString(4, tel );
+			}
+			
+			pStat.setString(5, participant.getMail() );
+			pStat.setString(6, mdp );
+			pStat.setInt(7, participant.getSite().getIdSite() );
+			
+			pStat.executeUpdate() ;
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void changeAdmin(Participant participant) {
+		String sql = SET_ADMIN;
+		
+		DbConnexion dbConnexion = new DbConnexion();
+		try ( Connection connection = dbConnexion.getConnection() ; PreparedStatement pStat = connection.prepareStatement(sql) ){
+			
+			pStat.setBoolean(1, participant.isAdministrateur() );
+			pStat.setInt(2, participant.getIdParticipant() );
+			
+			pStat.executeUpdate() ;
+				
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		
 	}
 }

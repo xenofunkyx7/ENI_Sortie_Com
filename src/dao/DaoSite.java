@@ -17,12 +17,12 @@ public class DaoSite {
 	private static final String ADD_SITE = 
 			"INSERT INTO SITES "
 			+ "( nom_site ) "
-			+ "VALUES ( ? )";
+			+ " VALUES ( ? )";
 	
 	private static final String MODIFY_SITE = 
-			"UPDATE SITES " + 
-			"SET nom_site = ?" +
-			"WHERE no_site = ?";
+			" UPDATE SITES " + 
+			" SET nom_site = ? " +
+			" WHERE no_site = ? ";
 	
 	private static final String DELETE_SITE  = "DELETE FROM SITES " + 
 			"WHERE no_site = ?";
