@@ -56,6 +56,12 @@
 				<td>${participant.prenom}</td> 
 			</c:forEach>	 
 		</table> 
+		<c:if test="${requestScope.motif != null}">
+			<div class="col-8 border border-danger">
+				<h3 class="text-danger">Motif d'annulation:</h3>
+				<p> ${requestScope.motif} </p>
+			</div>
+		</c:if>
 	</div>
 </body> 
 </html> 

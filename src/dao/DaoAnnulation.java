@@ -3,6 +3,7 @@ package dao;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
@@ -15,7 +16,9 @@ public class DaoAnnulation {
 	private static final String 
 	ADD_ANNULATION = 
 			"INSERT INTO Annulations " + 
-			" VALUES ( ?,?,? ) " ;
+			" VALUES ( ?,?,? ) " , 
+	GET_MOTIF_ANNULATION = 
+		"select * from Annulations where sorties_no_sortie = ?" ;
 			
 	/**
 	 * Adds the annulation.
@@ -41,4 +44,26 @@ public class DaoAnnulation {
 			pStat.executeUpdate() ;
 		
 	}
+	
+	public static String getMotif(int id) throws SQLException {
+		ResultSet rs = null;
+		String sql = GET_MOTIF_ANNULATION;
+		String ret = "";
+		
+		DbConnexion dbConnexion = new DbConnexion();
+		
+		Connection connection = dbConnexion.getConnection();
+	    PreparedStatement pStat = connection.prepareStatement(sql);
+			
+			pStat.setInt(1, id);
+			
+			rs = pStat.executeQuery();
+			
+			if( rs != null && rs.next()) {
+				ret = rs.getString("motif");
+			}
+		
+		return ret;
+	}
+	
 }

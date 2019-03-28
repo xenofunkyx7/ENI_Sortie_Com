@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import bean.Sortie;
+import bean.Sortie.Etats;
+import dao.DaoAnnulation;
 import dao.DaoSortie;
 
 
@@ -36,16 +38,23 @@ public class DetailSortie extends HttpServlet {
 
 		
 		Sortie sortie = null;
+		String motif = null;
 		
 		int id = Integer.parseInt(request.getParameter("id"));
 		
 		//get sortie by id
 		try {
 			sortie = DaoSortie.getSortie(id);
+			if (sortie != null && sortie.getEtat() == Etats.ANNULEE) {
+				motif = DaoAnnulation.getMotif(id);
+				request.setAttribute( "motif", motif);
+			}
 		} catch (SQLException e) {
 			request.setAttribute("exception", e);
 			request.getRequestDispatcher("/erreur").forward(request, response);
 		}
+		
+		System.out.println(motif);
 		
 		request.setAttribute( "sortie", sortie);		
 		request.getRequestDispatcher("/WEB-INF/detailSortie.jsp").forward(request, response);	
