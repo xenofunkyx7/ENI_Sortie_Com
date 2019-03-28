@@ -69,24 +69,19 @@ public class ManagementFile {
 		            out.write( tampon, 0, longueur );
 		      }
 		        
-		    } finally {
-		        try {
-		        	if(out != null) {
-		        		out.close();
-		        	}
-		        	
-		        } catch ( IOException e ) {
-		        	e.getMessage();
-		        }
-		        try {
-		        	if(in != null) {
-		        		in.close();
-		        	}
-		        			        } catch ( IOException e ) {
-		        	e.getMessage();
-		        }
-		    }
+		  } finally {
+		        
+	        	if(out != null) {
+	        		out.close();
+	        	}     
+	        
+	        	if(in != null) {
+	        		in.close();
+	        	}
+		        			         
+		  }
 	}
+	
 	
 	
 	/**
@@ -97,20 +92,12 @@ public class ManagementFile {
 	 * @param source the source La source du fichier à enreghistrer
 	 * @param destination the destination. La destination du fichier à enrtegistrer
 	 * @return true, if successful
+	 * @throws IOException 
 	 */
-	public static boolean copyFile(Path source, Path destination) {
-		
-		try {			
-				
+	public static boolean copyFile(Path source, Path destination) throws IOException {
+	
 			Files.copy(source, destination);
-			
-		}catch(IOException e) {
-			e.printStackTrace(); 
-	        return false; 
-		}
-		
-		return true;
-		
+			return true;
 	}
 	
 	/**
@@ -119,9 +106,10 @@ public class ManagementFile {
 	 *
 	 * @param propertiesName the properties name
 	 * @return the string
+	 * @throws IOException 
 	 */
 	//lecture fichier
-	public  String readProperties(String propertiesName) {
+	public  String readProperties(String propertiesName) throws IOException {
 		
 		Properties prop = new Properties();
 		InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties");
@@ -130,21 +118,11 @@ public class ManagementFile {
 		
 		if(input != null)
 		{
-			try {
-				
-				prop.load(input);
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
+			prop.load(input);
 			propriete = prop.getProperty(propertiesName);			
 		}
 		
-		return propriete;
-	
-		
+		return propriete;	
 	}
 	
 	/**

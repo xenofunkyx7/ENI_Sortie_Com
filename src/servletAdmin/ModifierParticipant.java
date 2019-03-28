@@ -17,14 +17,19 @@ import bean.Site;
 import dao.DaoProfil;
 import dao.DaoSite;
 
+// TODO: Auto-generated Javadoc
 /**
- * Servlet implementation class GererParticipants
+ * Servlet implementation class GererParticipants.
  */
 @WebServlet("/admin/modifierParticipant")
 public class ModifierParticipant extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
     /**
+     * Instantiates a new modifier participant.
+     *
      * @see HttpServlet#HttpServlet()
      */
     public ModifierParticipant() {
@@ -33,6 +38,12 @@ public class ModifierParticipant extends HttpServlet {
     }
 
 	/**
+	 * Do get.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -56,6 +67,12 @@ public class ModifierParticipant extends HttpServlet {
 	}
 
 	/**
+	 * Do post.
+	 *
+	 * @param request the request
+	 * @param response the response
+	 * @throws ServletException the servlet exception
+	 * @throws IOException Signals that an I/O exception has occurred.
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
