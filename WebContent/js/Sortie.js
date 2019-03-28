@@ -46,14 +46,14 @@ $(document).ready(function(e) {
 
 function select(){
 	
-	var selectSites = document.getElementById("idVille");
+	var selectVilles = document.getElementById("idVille");
 	var selectLieux = document.getElementById("idLieu");
 	
 	while (selectLieux.firstChild) {
 		selectLieux.removeChild(selectLieux.firstChild);
 	}
 	
-	var idVille = selectSites.options[selectSites.selectedIndex].id;
+	var idVille = selectVilles.options[selectVilles.selectedIndex].id;
 	
 	for (i = 0; i < lieux[idVille].length; i++) {
 		var idLieu = lieux[idVille][i].id;
@@ -80,9 +80,7 @@ function setText(){
 	var txtLongitude = document.getElementById("txtLongitude");
 	
 	var selectLieux = document.getElementById("idLieu");
-	var selectSites = document.getElementById("idVille");
-	
-	var idVille = selectSites.options[selectSites.selectedIndex].id;
+
 	var idlieu = selectLieux.options[selectLieux.selectedIndex].value;
 	
 	var lieu = lieuxNonTrie[idlieu];
