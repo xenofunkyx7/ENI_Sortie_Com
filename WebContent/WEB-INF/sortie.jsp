@@ -92,15 +92,15 @@
                     <!-- ============================================== -->
                     <!-- ================combobox villes=============== -->
                     <!-- ============================================== -->
-                     <select class="form-control" id="idVille" name="idVille" >
+                     <select class="form-control" id="idVille" name="idVille" onchange="select();" >
                      	<c:forEach var="ville" items="${villes}">
                      		<c:choose>
-                     			<c:when test="${sortie != null && ville.idVille == sortie.lieu.ville.idVille} " >
-                     				<option id="idVille${ville.idVille}" value="${ville.idVille}" selected="selected">${ville.nom}</option>
+                     			<c:when test="${requestScope.sortie != null && ville.idVille == requestScope.sortie.lieu.ville.idVille}" >
+                     				<option id="${ville.idVille}" value="${ville.idVille}" selected="selected">${ville.nom}</option>
                      			</c:when>
                      		
 	                     		<c:otherwise>
-	                     			<option id="idVille${ville.idVille}" value="${ville.idVille}">${ville.nom}</option>
+	                     			<option id="${ville.idVille}" value="${ville.idVille}">${ville.nom}</option>
 	                  			</c:otherwise>
                   			</c:choose>
                      	</c:forEach>
@@ -111,9 +111,10 @@
                         <label for="idLieu" >Lieu :</label>
                     </div>
                     <div class="col">
-                        <select class="form-control" id="idLieu" name="idLieu"   >
+                        <select class="form-control" id="idLieu" name="idLieu" onchange="setText();"  >
                             <c:forEach var="lieu" items="${lieux}">
-                                <option id="idVilleLieu${lieu.ville.idVille}" value="${lieu.id}">${lieu.nom}</option>
+                                <option id="idVilleLieu${lieu.ville.idVille}" value="${lieu.id}" 
+                                >${lieu.nom}®ªšÐ${lieu.rue}®ªšÐ${lieu.ville.codePostal}®ªšÐ${lieu.latitude}®ªšÐ${lieu.longitude}</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -123,7 +124,7 @@
                         <p>Rue :</p>
                     </div>
                     <div class="col">
-                        <p>PLACEHOLDER</p>
+                        <p id="txtRue">PLACEHOLDER</p>
                     </div>
                 </div>
                 <div class="row">
@@ -131,7 +132,7 @@
                         <p>Code postal :</p>
                     </div>
                     <div class="col">
-                        <p>PLACEHOLDER</p>
+                        <p id="txtCodePostal">PLACEHOLDER</p>
                     </div>
                 </div>
                 <div class="row">
@@ -139,7 +140,7 @@
                         <p>Latitude :</p>
                     </div>
                     <div class="col">
-                        <p>PLACEHOLDER</p>
+                        <p id="txtLatitude">PLACEHOLDER</p>
                     </div>
                 </div>
                 <div class="row">
@@ -147,7 +148,7 @@
                         <p>Longitude : </p>
                     </div>
                     <div class="col">
-                        <p>PLACEHOLDER</p>
+                        <p id="txtLongitude">PLACEHOLDER</p>
                     </div>
                 </div>
             </div>
@@ -172,5 +173,8 @@
             </c:choose>
         </div>
     </form>
+    
+    <script type="text/javascript" src="../js/jquery/jquery-3.3.1.min.js"></script>
+	<script type="text/javascript" src="../js/Sortie.js"></script>
     </body>
 </html>

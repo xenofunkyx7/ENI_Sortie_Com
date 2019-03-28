@@ -162,14 +162,14 @@
 								</c:if>
 								
 									
-								<c:if test="${sortie.organisateur.pseudo == sessionScope.utilisateur.pseudo }"> <!-- est l'orga -->
+								<c:if test="${sortie.organisateur.pseudo == sessionScope.utilisateur.pseudo || sessionScope.utilisateur.administrateur == true}"> <!-- est l'orga -->
 									
-										<c:if test='${sortie.etat.name == "Créée" }'>
+										<c:if test='${sortie.etat.name == "Créée" && sortie.organisateur.pseudo == sessionScope.utilisateur.pseudo}'>
 											<a href="/ENI_Sortie_Com/membre/ModifierSortie?id=${sortie.id }" class="btn btn-link">Modifier</a> <br/>
 											<input type="submit" name="btnAction" value="Publier" class="btn btn-link"> <br/>
 										</c:if>
 										
-										<c:if test='${sortie.etat.name == "Ouverte" }'>
+										<c:if test='${sortie.etat.name == "Ouverte" || sessionScope.utilisateur.administrateur == true}'>
 											<a href="/ENI_Sortie_Com/membre/annulerSortie?id=${sortie.id }" class="btn btn-link">Annuler</a> <br/>
 										</c:if>
 									
