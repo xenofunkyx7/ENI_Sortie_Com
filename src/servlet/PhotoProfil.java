@@ -17,8 +17,9 @@ import bean.Participant;
 import bll.ManagementFile;
 import dao.DaoProfil;
 
+
 /**
- * Servlet implementation class PhotoProfil
+ * Servlet implementation class PhotoProfil.
  */
 
 @MultipartConfig(location="c:/image", fileSizeThreshold = 1024 * 1024,
@@ -27,16 +28,24 @@ maxRequestSize = 1024 * 1024 * 5 * 5)
 @WebServlet(name = "uploadAvatar", urlPatterns = "/membre/avatar", 
 initParams = @WebInitParam(name = "location", value="c:/image/"))
 public class PhotoProfil extends HttpServlet {
+	
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
        
 
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 	
 
+	/* (non-Javadoc)
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//Récupération de l'utilisateur en  session

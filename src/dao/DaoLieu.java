@@ -10,35 +10,52 @@ import java.util.List;
 import bean.Lieu;
 import bll.Mappage;
 
+
+/**
+ * The Class DaoLieu.
+ */
 public class DaoLieu {
 	
 	// constantes de requetes sql
 	
+	/** The Constant ADD_LIEU. */
 	private static final String ADD_LIEU = 
 			"INSERT INTO LIEUX "
 			+ "( nom_lieu, rue, latitude, longitude, villes_no_ville ) "
 			+ "VALUES ( ?,? , ?,?,? )";
 	
+	/** The Constant MODIFY_LIEU. */
 	private static final String MODIFY_LIEU = 
 			"UPDATE LIEUX " + 
 			"SET nom_lieu = ?, rue = ?, latitude = ?, " +
 			"longitude = ?, villes_no_ville = ? " + 
 			"WHERE no_lieu = ?";
 	
+	/** The Constant DELETE_LIEU. */
 	private static final String DELETE_LIEU = "DELETE FROM LIEUX " + 
 			"WHERE no_lieu = ?";
 	
+	/** The Constant GET_LIEU. */
 	private static final String GET_LIEU = "select * FROM LIEUX"
 			+ " inner join VILLES on villes_no_ville = no_ville "
 			+ " where nom_ville like ?";
 	
 	// Singkleton !
 	
-	 private DaoLieu() {} 
+	 /**
+	 * Instantiates a new dao lieu.
+	 */
+	private DaoLieu() {} 
 	 
-	 private static DaoLieu INSTANCE = new DaoLieu();
+	 /** The instance. */
+ 	private static DaoLieu INSTANCE = new DaoLieu();
 	 
-	 public static DaoLieu getInstance() {   
+	 /**
+ 	 * Gets the single instance of DaoLieu.
+ 	 *
+ 	 * @return single instance of DaoLieu
+ 	 */
+ 	public static DaoLieu getInstance() {   
 		 return INSTANCE;
     }
 
@@ -48,8 +65,9 @@ public class DaoLieu {
 	 
 	/**
 	 * Méthode permettant de rajouter un Lieu via un objet Lieu en paramétre.
-	 * @param lieu
-	 * @throws SQLException 
+	 *
+	 * @param lieu the lieu
+	 * @throws SQLException the SQL exception
 	 */
 	public static void addLieu (Lieu lieu) throws SQLException {
 		
@@ -74,10 +92,12 @@ public class DaoLieu {
 	// Update
 	//===================
 	
-	/** 
+	/**
+	 *  
 	 * Méthode permettant de modifier un article via un objet article en paramétre. 
-	 * @param article 
-	 * @throws SQLException 
+	 *
+	 * @param lieu the lieu
+	 * @throws SQLException the SQL exception
 	 */ 
 	public static void modifyLieu(Lieu lieu) throws SQLException { 
 		 
@@ -104,8 +124,9 @@ public class DaoLieu {
 	
 	/**
 	 * Méthode permettant de supprimer un Lieu via un objet Lieu en paramétre.
-	 * @param lieu
-	 * @throws SQLException 
+	 *
+	 * @param lieu the lieu
+	 * @throws SQLException the SQL exception
 	 */
 	public static void deleteLieu(Lieu lieu) throws SQLException {
 		String sql = DELETE_LIEU;
@@ -124,10 +145,11 @@ public class DaoLieu {
 	//===================
 	
 	/**
-	 * Méthode permettant de faire des recherches en fonction du nom rentré dans la barre de recherche
-	 * @param nom
+	 * Méthode permettant de faire des recherches en fonction du nom rentré dans la barre de recherche.
+	 *
+	 * @param nom the nom
 	 * @return liste de lieu
-	 * @throws SQLException
+	 * @throws SQLException the SQL exception
 	 */
 	public static List<Lieu> getLieux (String nom) throws SQLException {
 		
@@ -156,6 +178,13 @@ public class DaoLieu {
 		return lieux;
 	}
 	
+	/**
+	 * Gets the lieu.
+	 *
+	 * @param id the id
+	 * @return the lieu
+	 * @throws SQLException the SQL exception
+	 */
 	public static Lieu getlieu( int id ) throws SQLException
 	{
 		ResultSet rs = null;

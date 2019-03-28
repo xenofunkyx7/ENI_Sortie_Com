@@ -10,33 +10,50 @@ import java.util.List;
 import bean.Site;
 import bll.Mappage;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DaoSite.
+ */
 public class DaoSite {
 
 	// constantes de requetes sql
 	
+	/** The Constant ADD_SITE. */
 	private static final String ADD_SITE = 
 			"INSERT INTO SITES "
 			+ "( nom_site ) "
 			+ " VALUES ( ? )";
 	
+	/** The Constant MODIFY_SITE. */
 	private static final String MODIFY_SITE = 
 			" UPDATE SITES " + 
 			" SET nom_site = ? " +
 			" WHERE no_site = ? ";
 	
+	/** The Constant DELETE_SITE. */
 	private static final String DELETE_SITE  = "DELETE FROM SITES " + 
 			"WHERE no_site = ?";
 	
+	/** The Constant GET_SITE. */
 	private static final String GET_SITE = "select * FROM SITES "
 			+ " where nom_site like ?";
 	
 	// Singkleton !
 	
-	 private DaoSite() {} 
+	 /**
+	 * Instantiates a new dao site.
+	 */
+	private DaoSite() {} 
 	 
-	 private static DaoSite INSTANCE = new DaoSite();
+	 /** The instance. */
+ 	private static DaoSite INSTANCE = new DaoSite();
 	 
-	 public static DaoSite getInstance() {   
+	 /**
+ 	 * Gets the single instance of DaoSite.
+ 	 *
+ 	 * @return single instance of DaoSite
+ 	 */
+ 	public static DaoSite getInstance() {   
 		 return INSTANCE;
     }
 	 
@@ -45,10 +62,11 @@ public class DaoSite {
 	//===================
 	 
 	 /**
-	  * 
-	  * @param site
-	 * @throws SQLException 
-	  */
+	 * Adds the site.
+	 *
+	 * @param site the site
+	 * @throws SQLException the SQL exception
+	 */
 	public static void addSite (Site site) throws SQLException {
 		
 		String sql = ADD_SITE;
@@ -69,9 +87,10 @@ public class DaoSite {
 	//===================
 	 
 	/**
-	 * 
-	 * @param site
-	 * @throws SQLException 
+	 * Modify site.
+	 *
+	 * @param site the site
+	 * @throws SQLException the SQL exception
 	 */
 	public static void modifySite(Site site) throws SQLException {
 		String sql = MODIFY_SITE;
@@ -94,9 +113,10 @@ public class DaoSite {
 	//===================
 	 
 	/**
-	 * 
-	 * @param site
-	 * @throws SQLException 
+	 * Delete site.
+	 *
+	 * @param site the site
+	 * @throws SQLException the SQL exception
 	 */
 	public static void deleteSite(Site site) throws SQLException {
 		String sql = DELETE_SITE;
@@ -116,10 +136,11 @@ public class DaoSite {
 	//===================
 		
 	/**
-	 * 
-	 * @param nom
-	 * @return
-	 * @throws SQLException
+	 * Gets the sites.
+	 *
+	 * @param nom the nom
+	 * @return the sites
+	 * @throws SQLException the SQL exception
 	 */
 	public static List<Site> getSites (String nom) throws SQLException {
 		
