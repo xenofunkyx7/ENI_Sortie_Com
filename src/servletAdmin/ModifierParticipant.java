@@ -72,7 +72,12 @@ public class ModifierParticipant extends HttpServlet {
 		
 		Participant participant = new Participant(id, pseudo, nom, prenom, telephone, mail, isAdmin, true, site, "");
 		
-		DaoProfil.modifyParticipant(participant);
+		try {
+			DaoProfil.modifyParticipant(participant);
+		} catch (SQLException e) {
+			request.setAttribute("exception", e);
+			request.getRequestDispatcher("/erreur").forward(request, response);
+		}
 		DaoProfil.changeAdmin(participant);
 		
 		doGet(request, response);

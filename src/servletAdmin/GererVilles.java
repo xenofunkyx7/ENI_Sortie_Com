@@ -68,13 +68,28 @@ public class GererVilles extends HttpServlet {
 		
 		switch (btn) {
 		case "Ajouter":
-			DaoVille.addVille(ville);
+			try {
+				DaoVille.addVille(ville);
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			break;
 		case "Modifier":
-			DaoVille.modifyVille(ville);
+			try {
+				DaoVille.modifyVille(ville);
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			break;
 		case "Supprimer":
-			DaoVille.deleteVille(ville);
+			try {
+				DaoVille.deleteVille(ville);
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			break;
 		default:
 			break;

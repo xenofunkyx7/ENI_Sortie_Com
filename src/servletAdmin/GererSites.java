@@ -66,13 +66,28 @@ public class GererSites extends HttpServlet {
 		
 		switch (btn) {
 		case "Ajouter":
-			DaoSite.addSite(site);
+			try {
+				DaoSite.addSite(site);
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			break;
 		case "Modifier":
-			DaoSite.modifySite(site);
+			try {
+				DaoSite.modifySite(site);
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			break;
 		case "Supprimer":
-			DaoSite.deleteSite(site);
+			try {
+				DaoSite.deleteSite(site);
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			break;
 		default:
 			break;

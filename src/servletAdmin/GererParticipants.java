@@ -1,6 +1,7 @@
 package servletAdmin;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +62,20 @@ public class GererParticipants extends HttpServlet {
 		
 		switch (btn) {
 		case "Supprimer":
-			supprimer(request, response);
+			try {
+				supprimer(request, response);
+			} catch (SQLException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			break;
 		case "Ajouter":
-			ajouter(request, response);
+			try {
+				ajouter(request, response);
+			} catch (NoSuchAlgorithmException e) {
+				request.setAttribute("exception", e);
+				request.getRequestDispatcher("/erreur").forward(request, response);
+			}
 			break;
 		default:
 			break;
@@ -74,7 +85,7 @@ public class GererParticipants extends HttpServlet {
 		doGet(request, response);
 	}
 
-	private void ajouter(HttpServletRequest request, HttpServletResponse response) {
+	private void ajouter(HttpServletRequest request, HttpServletResponse response) throws NoSuchAlgorithmException {
 		String pseudo = request.getParameter("pseudo");
 		String nom = request.getParameter("nom");
 		String prenom = request.getParameter("prenom");
@@ -90,7 +101,7 @@ public class GererParticipants extends HttpServlet {
 		DaoProfil.addParticipant (participant, DaoHelper.hash(mdp));
 	}
 
-	private void supprimer(HttpServletRequest request, HttpServletResponse response) {
+	private void supprimer(HttpServletRequest request, HttpServletResponse response) throws SQLException {
 		int id = Integer.parseInt(request.getParameter("id"));
 		DaoProfil.deleteParticipant(id);
 	}
