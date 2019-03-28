@@ -12,6 +12,7 @@ import bll.Mappage;
 
 
 
+// TODO: Auto-generated Javadoc
 /**
  * The Class DaoProfil.
  */
@@ -52,12 +53,14 @@ public class DaoProfil {
 	 /** The Constant MODIFY_AVATAR. */
  	private static final String MODIFY_AVATAR = "UPDATE participants SET urlAvatar= ? WHERE no_participant= ? ";
 	
-	 private static final String ADD_PARTICIPANT =  "insert into PARTICIPANTS " +
+	 /** The Constant ADD_PARTICIPANT. */
+ 	private static final String ADD_PARTICIPANT =  "insert into PARTICIPANTS " +
 	 		" (pseudo, nom, prenom, telephone, mail, mot_de_passe, " +
 	 		" administrateur, actif, sites_no_site) " +
 	 		" VALUES (?, ?, ? ,? ,? ,? ,0 ,0 , ?)"	;
 	 
-	 private static final String SET_ADMIN = "UPDATE participants SET administrateur = ? WHERE no_participant= ? ";
+	 /** The Constant SET_ADMIN. */
+ 	private static final String SET_ADMIN = "UPDATE participants SET administrateur = ? WHERE no_participant= ? ";
 		
 	
 	// Singkleton !
@@ -259,9 +262,6 @@ public class DaoProfil {
 	/**
 	 * M�thode permettant de faire des recherches en fonction d'un id de sortie.
 	 *
-	 * @param nom the nom
-	 * @param prenom the prenom
-	 * @param pseudo the pseudo
 	 * @return liste de Participant
 	 * @throws SQLException the SQL exception
 	 */
@@ -319,6 +319,12 @@ public class DaoProfil {
 			return participants;
 	}
 
+	/**
+	 * Adds the participant.
+	 *
+	 * @param participant the participant
+	 * @param mdp the mdp
+	 */
 	public static void addParticipant(Participant participant, String mdp) {
 		String sql = ADD_PARTICIPANT;
 		
@@ -347,6 +353,11 @@ public class DaoProfil {
 		}
 	}
 	
+	/**
+	 * Change admin.
+	 *
+	 * @param participant the participant
+	 */
 	public static void changeAdmin(Participant participant) {
 		String sql = SET_ADMIN;
 		

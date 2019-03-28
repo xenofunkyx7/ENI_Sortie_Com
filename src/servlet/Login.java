@@ -20,7 +20,7 @@ import dao.DaoProfil;
 /**
  * Servlet implementation class Login.
  */
-@WebServlet("/login")
+@WebServlet( urlPatterns="/login", name="login")
 public class Login extends HttpServlet {
 	
 	/** The Constant serialVersionUID. */
