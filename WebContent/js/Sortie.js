@@ -40,7 +40,6 @@ $(document).ready(function(e) {
 		lieux[id].push(lieu);
 		lieuxNonTrie[idLieu] = lieu;
 	}
-	console.log(lieuxNonTrie);
 	select();
     }
 );

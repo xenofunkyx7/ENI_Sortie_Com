@@ -18,7 +18,7 @@ function filtre() {
 		  
 		  if (td) {
 			  	txtValue = td.textContent || td.innerText;
-			  		isGood = txtValue.toUpperCase().indexOf(filtre) > -1;
+			  	isGood = txtValue.toUpperCase().indexOf(filtre) > -1;
 		  }else {
 			  isGood = false;
 		  }
